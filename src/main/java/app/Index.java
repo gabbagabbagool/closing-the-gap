@@ -25,45 +25,42 @@ public class Index implements Handler {
         String html = "<html>";
 
         // Add some Header information
-        html = html + "<head>" + 
+        html += "<head>" + 
                "<title>Homepage</title>";
 
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
+        html += "<link rel='stylesheet' type='text/css' href='common.css' />";
 
         // Add the body
-        html = html + "<body>";
+        html += "<body>";
 
         // Add HTML for the logo.png image
-        html = html + "<img src='logo.png' height='100px'/>";
+        html += "<img src='logo.png' height='100px'/>";
 
-        html = html + "<div class='topnav'>";
-        html = html +   "<a href='/'>Homepage</a>";
-        html = html +   "<a href='page1.html'>Mission Statement</a>";
-        html = html +   "<a href='page2.html'>LGA Data</a>";
-        html = html +   "<a href='page3.html'>State Data</a>";
-        html = html +   "<a href='page4.html'>The Gap</a>";
-        html = html +   "<a href='page5.html'>Deep Dive</a>";
-        html = html + "</div>";
+        html += "<div class='topnav'>";
+        html +=   "<a href='/'>Homepage</a>";
+        html +=   "<a href='page1.html'>Mission Statement</a>";
+        html +=   "<a href='page2.html'>LGA Data</a>";
+        html +=   "<a href='page3.html'>State Data</a>";
+        html +=   "<a href='page4.html'>The Gap</a>";
+        html +=   "<a href='page5.html'>Deep Dive</a>";
+        html += "</div>";
 
         // Add HTML for the list of pages
-        html = html + "<h1>Homepage</h1>" +
+        html += "<h1>Homepage</h1>" +
                "<p>Links to sub-pages</p>" +
                "<ul>";
 
         // Link for each page
-        html = html + "<li> <a href='page1.html'>Page 1</a> </li>";
-        html = html + "<li> <a href='page2.html'>Page 2</a> </li>";
-        html = html + "<li> <a href='page3.html'>Page 3</a> </li>";
-        html = html + "<li> <a href='page4.html'>Page 4</a> </li>";
-        html = html + "<li> <a href='page5.html'>Page 5</a> </li>";
-        html = html + "<li> <a href='page6.html'>Page 6</a> </li>";
+        html += "<li> <a href='page1.html'>Page 1</a> </li>";
+        html += "<li> <a href='page2.html'>Page 2</a> </li>";
+        html += "<li> <a href='page3.html'>Page 3</a> </li>";
+        html += "<li> <a href='page4.html'>Page 4</a> </li>";
+        html += "<li> <a href='page5.html'>Page 5</a> </li>";
+        html += "<li> <a href='page6.html'>Page 6</a> </li>";
 
         // Finish the List HTML
-        html = html + "</ul>";
-
-        // Finish the HTML webpage
-        html = html + "</body>" + "</html>";
+        html += "</ul>";
 
 
         // DO NOT MODIFY THIS
