@@ -39,6 +39,40 @@ public class Page1 implements Handler {
         // Add the body
         html += "<body>";
 
+        // Bootstraps Navbar
+        html += "<nav class='navbar navbar-expand-lg navbar-light bg-light'>";
+        html +=     "<div class='container-fluid'>";
+        html +=         "<a class='navbar-brand' href='/'>";
+        html +=             "<img src='logo.png' alt='' height='24' class='d-inline-block align-text-top mx-2'>";
+        html +=         "</a>";
+        html +=         "<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>";
+        html +=             "<span class='navbar-toggler-icon'></span>";
+        html +=         "</button>";
+        html +=         "<div class='collapse navbar-collapse' id='navbarNav'>";
+        html +=             "<ul class='navbar-nav'>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/'>Home</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link active' aria-current='page' href='/page1.html'>Mission Statement</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page2.html'>Page 2</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page3.html'>Page 3</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page4.html'>Page 4</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page5.html'>Page 5</a>";
+        html +=              "</li>";
+        html +=            "</ul>";
+        html +=         "</div>";
+        html +=    "</div>";
+        html += "</nav>";
+
         // Add HTML for link back to the homepage
         html += "<h1>Mission Statement</h1>";
         html += "<p>Return to Homepage: ";
