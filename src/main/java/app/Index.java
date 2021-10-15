@@ -37,33 +37,47 @@ public class Index implements Handler {
         // Add the body
         html += "<body>";
 
-        // Add HTML for the logo.png image
-        html += "<img src='logo.png' height='100px'/>";
 
-        html += "<div class='topnav'>";
-        html +=   "<a href='/'>Homepage</a>";
-        html +=   "<a href='page1.html'>Mission Statement</a>";
-        html +=   "<a href='page2.html'>LGA Data</a>";
-        html +=   "<a href='page3.html'>State Data</a>";
-        html +=   "<a href='page4.html'>The Gap</a>";
-        html +=   "<a href='page5.html'>Deep Dive</a>";
-        html += "</div>";
+        // Bootstraps Navbar
+        html += "<nav class='navbar navbar-expand-lg navbar-light bg-light'>";
+        html +=     "<div class='container-fluid'>";
+        html +=         "<a class='navbar-brand' href='/'>";
+        html +=             "<img src='logo.png' alt='' height='24' class='d-inline-block align-text-top mx-2'>";
+        html +=         "</a>";
+        html +=         "<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>";
+        html +=             "<span class='navbar-toggler-icon'></span>";
+        html +=         "</button>";
+        html +=         "<div class='collapse navbar-collapse' id='navbarNav'>";
+        html +=             "<ul class='navbar-nav'>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link active' aria-current='page' href='/'>Home</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page1.html'>Mission Statement</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page2.html'>Page 2</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page3.html'>Page 3</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page4.html'>Page 4</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page5.html'>Page 5</a>";
+        html +=              "</li>";
+        html +=            "</ul>";
+        html +=         "</div>";
+        html +=    "</div>";
+        html += "</nav>";
 
-        // Add HTML for the list of pages
-        html += "<h1>Homepage</h1>" +
-               "<p>Links to sub-pages</p>" +
-               "<ul>";
+        // Add HTML for the important facts
+        html += "<h1>Important facts</h1>";
 
-        // Link for each page
-        html += "<li> <a href='page1.html'>Page 1</a> </li>";
-        html += "<li> <a href='page2.html'>Page 2</a> </li>";
-        html += "<li> <a href='page3.html'>Page 3</a> </li>";
-        html += "<li> <a href='page4.html'>Page 4</a> </li>";
-        html += "<li> <a href='page5.html'>Page 5</a> </li>";
-        html += "<li> <a href='page6.html'>Page 6</a> </li>";
-
-        // Finish the List HTML
-        html += "</ul>";
+        // Link for each fact image
+        html += "<img src='Important_fact_1.jpg' height='200px'/>";
+        
 
         // Finish the HTML webpage, import Bootstraps scripts
         html += "</body>";
