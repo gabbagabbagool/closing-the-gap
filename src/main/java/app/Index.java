@@ -35,7 +35,16 @@ public class Index implements Handler {
         html = html + "<body>";
 
         // Add HTML for the logo.png image
-        html = html + "<img src='logo.png' height='200px'/>";
+        html = html + "<img src='logo.png' height='100px'/>";
+
+        html = html + "<div class='topnav'>";
+        html = html +   "<a href='/'>Homepage</a>";
+        html = html +   "<a href='page1.html'>Mission Statement</a>";
+        html = html +   "<a href='page2.html'>LGA Data</a>";
+        html = html +   "<a href='page3.html'>State Data</a>";
+        html = html +   "<a href='page4.html'>The Gap</a>";
+        html = html +   "<a href='page5.html'>Deep Dive</a>";
+        html = html + "</div>";
 
         // Add HTML for the list of pages
         html = html + "<h1>Homepage</h1>" +
