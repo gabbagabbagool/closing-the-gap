@@ -27,20 +27,20 @@ public class Page2 implements Handler {
         String html = "<html>";
 
         // Add some Header information
-        html = html + "<head>" + 
+        html += "<head>" + 
                "<title>Movies</title>";
 
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
+        html += "<link rel='stylesheet' type='text/css' href='common.css' />";
 
         // Add the body
-        html = html + "<body>";
+        html += "<body>";
 
         // Add HTML for link back to the homepage
-        html = html + "<h1>Page 2</h1>";
-        html = html + "<p>Return to Homepage: ";
-        html = html + "<a href='/'>Link to Homepage</a>";
-        html = html + "</p>";
+        html += "<h1>Page 2</h1>";
+        html += "<p>Return to Homepage: ";
+        html += "<a href='/'>Link to Homepage</a>";
+        html += "</p>";
 
         // Look up some information from JDBC
         // First we need to use your JDBCConnection class
@@ -50,18 +50,18 @@ public class Page2 implements Handler {
         ArrayList<String> movies = jdbc.getMovies();
 
         // Add HTML for the movies list
-        html = html + "<h1>Movies</h1>" + "<ul>";
+        html += "<h1>Movies</h1>" + "<ul>";
 
         // Finally we can print out all of the movies
         for (String movie : movies) {
-            html = html + "<li>" + movie + "</li>";
+            html += "<li>" + movie + "</li>";
         }
 
         // Finish the List HTML
-        html = html + "</ul>";
+        html += "</ul>";
 
         // Finish the HTML webpage
-        html = html + "</body>" + "</html>";
+        html += "</body>" + "</html>";
 
 
         // DO NOT MODIFY THIS
