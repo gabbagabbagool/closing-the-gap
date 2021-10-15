@@ -25,46 +25,50 @@ public class Index implements Handler {
         String html = "<html>";
 
         // Add some Header information
-        html = html + "<head>" + 
+        html += "<head>" + 
                "<title>Homepage</title>";
 
+        // Bootstrap's CSS
+        html += "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3' crossorigin='anonymous'>";
+        
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
+        html += "<link rel='stylesheet' type='text/css' href='common.css' />";
 
         // Add the body
-        html = html + "<body>";
+        html += "<body>";
 
         // Add HTML for the logo.png image
-        html = html + "<img src='logo.png' height='100px'/>";
+        html += "<img src='logo.png' height='100px'/>";
 
-        html = html + "<div class='topnav'>";
-        html = html +   "<a href='/'>Homepage</a>";
-        html = html +   "<a href='page1.html'>Mission Statement</a>";
-        html = html +   "<a href='page2.html'>LGA Data</a>";
-        html = html +   "<a href='page3.html'>State Data</a>";
-        html = html +   "<a href='page4.html'>The Gap</a>";
-        html = html +   "<a href='page5.html'>Deep Dive</a>";
-        html = html + "</div>";
+        html += "<div class='topnav'>";
+        html +=   "<a href='/'>Homepage</a>";
+        html +=   "<a href='page1.html'>Mission Statement</a>";
+        html +=   "<a href='page2.html'>LGA Data</a>";
+        html +=   "<a href='page3.html'>State Data</a>";
+        html +=   "<a href='page4.html'>The Gap</a>";
+        html +=   "<a href='page5.html'>Deep Dive</a>";
+        html += "</div>";
 
         // Add HTML for the list of pages
-        html = html + "<h1>Homepage</h1>" +
+        html += "<h1>Homepage</h1>" +
                "<p>Links to sub-pages</p>" +
                "<ul>";
 
         // Link for each page
-        html = html + "<li> <a href='page1.html'>Page 1</a> </li>";
-        html = html + "<li> <a href='page2.html'>Page 2</a> </li>";
-        html = html + "<li> <a href='page3.html'>Page 3</a> </li>";
-        html = html + "<li> <a href='page4.html'>Page 4</a> </li>";
-        html = html + "<li> <a href='page5.html'>Page 5</a> </li>";
-        html = html + "<li> <a href='page6.html'>Page 6</a> </li>";
+        html += "<li> <a href='page1.html'>Page 1</a> </li>";
+        html += "<li> <a href='page2.html'>Page 2</a> </li>";
+        html += "<li> <a href='page3.html'>Page 3</a> </li>";
+        html += "<li> <a href='page4.html'>Page 4</a> </li>";
+        html += "<li> <a href='page5.html'>Page 5</a> </li>";
+        html += "<li> <a href='page6.html'>Page 6</a> </li>";
 
         // Finish the List HTML
-        html = html + "</ul>";
+        html += "</ul>";
 
-        // Finish the HTML webpage
-        html = html + "</body>" + "</html>";
-
+        // Finish the HTML webpage, import Bootstraps scripts
+        html += "</body>";
+        html += "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p' crossorigin='anonymous'></script>";
+        html += "</html>";
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
