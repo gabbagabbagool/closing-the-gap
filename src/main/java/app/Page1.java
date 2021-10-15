@@ -75,15 +75,16 @@ public class Page1 implements Handler {
 
         // Add HTML for link back to the homepage
         html += "<h1>Mission Statement</h1>";
-        html += "<p>Return to Homepage: ";
-        html += "<a href='/'>Link to Homepage</a>";
-        html += "</p>";
-
-        html += "<h2>Social Challenge</h2>";
-        html += "<p>To address the social challenge, we will provide a platform to data which indicates the progress of the government's initiative to close the gap.";
-        html += "This will be done by providing easy access to simple and clear representations of the data for users of all skill levels. With this access to information, users will be able to make their own informed decisions on the current progress."; 
-        html += "By empowering casual access to information regarding the Closing the Gap national agreement we seek to provide greater accountability to the Australian Federal Government.";
-        html += "</p>";
+        // To-Do Turn this into a jumbotron
+        html += "<div class=\"jumbotron jumbotron-fluid\">";
+        html +=     "<div class='container'>";
+        html +=         "<h2 class='lead'>Social Challenge</h2>";
+        html +=         "<p>To address the social challenge, we will provide a platform to data which indicates the progress of the government's initiative to close the gap.";
+        html +=         "This will be done by providing easy access to simple and clear representations of the data for users of all skill levels. With this access to information, users will be able to make their own informed decisions on the current progress."; 
+        html +=         "By empowering casual access to information regarding the Closing the Gap national agreement we seek to provide greater accountability to the Australian Federal Government.";
+        html +=     "</div>";
+        html +=     "</p>";
+        html += "</div>";
 
         html += "<h2>Target Demographic</h2>";
         html += "<p>In our research we have identified personas which are leading our design choices. Their commonality is an interest in information on the issues surrounding First Nations Peoples in Australia. However, the personas do have differing interests in how the information is provided to them, this data will need to be presented in infographics, deep-dive analysis, and in a way that provides conversational talking points.";
