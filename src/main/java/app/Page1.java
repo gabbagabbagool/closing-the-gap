@@ -28,7 +28,7 @@ public class Page1 implements Handler {
 
         // Add some Header information
         html += "<head>" + 
-               "<title>Movies</title>";
+               "<title>Mission Statement</title>";
 
         // Add Bootsrap's CSS
         html += "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3' crossorigin='anonymous'>";
@@ -73,36 +73,53 @@ public class Page1 implements Handler {
         html +=    "</div>";
         html += "</nav>";
 
-        // Add HTML for link back to the homepage
-        html += "<h1>Mission Statement</h1>";
+        // Add HTML Mission statement heading
+        html += "<div class='container'>";
+        html +=     "<h1 class=\"display-4\">Mission Statement</h1>";
+        html += "</div>";
         // To-Do Turn this into a jumbotron
         html += "<div class=\"jumbotron jumbotron-fluid\">";
         html +=     "<div class='container'>";
         html +=         "<h2 class='lead'>Social Challenge</h2>";
-        html +=         "<p>To address the social challenge, we will provide a platform to data which indicates the progress of the government's initiative to close the gap.";
+        html +=         "<p class='text-center'>To address the social challenge, we will provide a platform to data which indicates the progress of the government's initiative to close the gap.";
         html +=         "This will be done by providing easy access to simple and clear representations of the data for users of all skill levels. With this access to information, users will be able to make their own informed decisions on the current progress."; 
         html +=         "By empowering casual access to information regarding the Closing the Gap national agreement we seek to provide greater accountability to the Australian Federal Government.";
         html +=     "</div>";
         html +=     "</p>";
         html += "</div>";
 
-        html += "<h2>Target Demographic</h2>";
-        html += "<p>In our research we have identified personas which are leading our design choices. Their commonality is an interest in information on the issues surrounding First Nations Peoples in Australia. However, the personas do have differing interests in how the information is provided to them, this data will need to be presented in infographics, deep-dive analysis, and in a way that provides conversational talking points.";
-        html += "</p>";
+        html += "<div class=\"jumbotron jumbotron-fluid\">";
+        html +=     "<div class='container'>";
+        html +=         "<h2 class='lead'>Target Demographic</h2>";
+        html +=         "<p class='text-center'>In our research we have identified personas which are leading our design choices. Their commonality is an interest in information on the issues surrounding First Nations Peoples in Australia. However, the personas do have differing interests in how the information is provided to them, this data will need to be presented in infographics, deep-dive analysis, and in a way that provides conversational talking points.";
+        html +=         "</p>";
+        html +=     "</div>";
+        html += "</div>";
 
-        html += "<h2>Site Guide</h2>";
-        html += "<p>A user will browse through our landing page, presented with an option to scroll down and view the mission statement and other information provided in this subtask. The pages linked to in the navbar will be providing data on the Closing the Gap outcomes by Local Government Area in a table, which is able to be manipulated by the user. These options for manipulation will change from page to page, as a consideration of the user’s needs. For users who require a shallower understanding of this information, we will provide tables which are sortable by outcome, and will also provide options to hide or display these four outcomes. For users who require more detailed analysis we will provide advanced filters.";
-        html += "</p>";
+        html += "<div class=\"jumbotron jumbotron-fluid\">";
+        html +=     "<div class='container'>";
+        html +=         "<h2 class='lead'>Site Guide</h2>";
+        html +=         "<p class='text-center'>A user will browse through our landing page, presented with an option to scroll down and view the mission statement and other information provided in this subtask. The pages linked to in the navbar will be providing data on the Closing the Gap outcomes by Local Government Area in a table, which is able to be manipulated by the user. These options for manipulation will change from page to page, as a consideration of the user’s needs. For users who require a shallower understanding of this information, we will provide tables which are sortable by outcome, and will also provide options to hide or display these four outcomes. For users who require more detailed analysis we will provide advanced filters.";
+        html +=         "</p>";
+        html +=     "</div>";
+        html += "</div>";
 
-        html += "<h2>Contributors</h2>";
-        html += "<p>Thomas Monaghan - s3541313</p>";
-        html += "<p>Jacob Hill - s3870682";
-        html += "</p>";
+        html += "<div class=\"jumbotron jumbotron-fluid\">";
+        html +=     "<div class='container'>";
+        html +=         "<h2 class='w-100 text-center lead'>Contributors</h2>";
+        html +=             "<p class='w-100 text-center'>Thomas Monaghan - s3541313";
+        html +=             "</p>";
+        html +=             "<p class='w-100 text-center'>Jacob Hill - s3870682";
+        html +=             "</p>";
+        html +=     "</div>";
+        html += "</div>";
 
-        // Add HTML for link to the data
-        html += "<p>";
-        html += "<a href='page2.html'>Search Data</a>";
-        html += "</p>";
+        // Add HTML for link for button to the data
+        html +=  "<div class='container'>";
+        html +=     "<p>";
+        html +=     "<a href='page2.html' class='btn btn-outline-primary' role='button'>Search Data</a>";
+        html +=     "</p>";
+        html +=  "</div>";
 
         // Finish the HTML webpage, import Bootstraps scripts
         html += "</body>";

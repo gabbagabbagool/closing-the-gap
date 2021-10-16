@@ -10,3 +10,24 @@ Base styles
 	background-color: #ffffff;
 	font: 1em/1.2 "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
 } */
+
+#carouselExampleIndicators {
+    width: 800px;
+  }
+
+  /* .carousel-inner {
+    width: 900px;
+  } */
+
+  .container {
+      padding: 10;
+      align-content: center;
+      justify-content: center;
+      
+  }
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    
+  }
