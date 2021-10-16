@@ -73,10 +73,48 @@ public class Index implements Handler {
         html += "</nav>";
 
         // Add HTML for the important facts
-        html += "<h1>Important facts</h1>";
+        html += "<div class=\"jumbotron jumbotron-fluid\">";
+        html +=     "<div class='container'>";
+        html +=         "<h1 class='display-4'>Important facts</h1>";
+        html +=     "</div>";
+        html += "</div>";
 
-        // Link for each fact image
-        html += "<img src='Important_fact_1.jpg' height='200px'/>";
+        // Carousel of important facts
+        html +=     "<div class='container'>";
+        html +=  "<div id='carouselExampleIndicators' class='carousel slide' data-bs-ride='carousel'>";
+        html +=  "<div class='carousel-indicators'>";
+        html +=    "<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' class='active' aria-current='true' aria-label='Slide 1'></button>";
+        html +=    "<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='1' aria-label='Slide 2'></button>";
+        html +=    "<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='2' aria-label='Slide 3'></button>";
+        html +=  "</div>";
+        html +=  "<div class='carousel-inner'>";
+        html +=    "<div class='carousel-item active'>";
+        html +=      "<img src='Important_fact_1.jpg' class='d-block w-100' alt='Important fact 1'>";
+        html +=    "</div>";
+        html +=    "<div class='carousel-item'>";
+        html +=      "<img src='Important_fact_2.jpg' class='d-block w-100' alt='Important fact 2'>";
+        html +=    "</div>";
+        html +=    "<div class='carousel-item'>";
+        html +=      "<img src='Important_fact_3.jpg' class='d-block w-100' alt='Important fact 3'>";
+        html +=    "</div>";
+        html +=  "</div>";
+        html +=  "<button class='carousel-control-prev' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev'>";
+        html +=    "<span class='carousel-control-prev-icon' aria-hidden='true'></span>";
+        html +=    "<span class='visually-hidden'>Previous</span>";
+        html +=  "</button>";
+        html +=  "<button class='carousel-control-next' type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next'>";
+        html +=    "<span class='carousel-control-next-icon' aria-hidden='true'></span>";
+        html +=    "<span class='visually-hidden'>Next</span>";
+        html +=  "</button>";
+        html += "</div>";
+        html += "</div>";
+
+        // Add HTML for link for button to the Mission statement
+        html +=  "<div class='container'>";
+        html +=     "<p>";
+        html +=     "<a href='page1.html' class='btn btn-outline-primary' role='button'>Mission Statement</a>";
+        html +=     "</p>";
+        html +=  "</div>";
         
 
         // Finish the HTML webpage, import Bootstraps scripts
