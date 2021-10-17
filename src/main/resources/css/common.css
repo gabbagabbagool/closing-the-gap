@@ -29,5 +29,11 @@ Base styles
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-    
   }
+
+  .table-responsive {
+    position: relative;
+    height: 400px;
+    overflow: auto;
+    display: block;
+    }
