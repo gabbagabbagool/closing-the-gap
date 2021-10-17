@@ -1,0 +1,57 @@
+Information about the lga_labour_force_by_indigenous_status_by_sex_census_2016.xlsx data set.
+
+LGA based data for Selected Labour Force demographics by Indigenous Status by Sex, 2016 Census.
+
+Count of persons aged 15 years and over. The data is by LGA 2016 boundaries. Periodicity: 5-Yearly. 
+
+Note: There are small random adjustments made to all cell values to protect the confidentiality of data.
+For more information visit the data source: http://www.abs.gov.au/census.
+
+Copyright Australian Bureau of Statistics (ABS)
+Creative Commons Attribution 2.5 Australia (CC BY 2.5 AU)
+
+----
+
+This data set was originally prepared and made available by the Australian Bureau of Statistics (ABS) as part of the data of the 2016 Australian census. The original data  has been sourced from the Aurin data portal. The has been modified for use in COSC2803 (Programming Studio 1) in the School of Computing Technologies at RMIT University.
+
+Columns of the data set is described below.
+
+----
+lga_code16
+
+Contains the LGA code for the 2016 calendar year.
+
+See the lgas16.xsls data set for more information.
+
+----
+lga_name16
+
+The name of the LGA for the 2016 calendar year. Where LGAs in different States or territories have the same name, the State or Territory is included in brackets after the LGA name.
+
+See the lgas16.xsls data set for more information.
+
+----
+Demographic statistics columns
+The demographics statistics columns record the number of people within each LGA whom were counted with in the given demographic bracket.
+Note: There are small random adjustments made to all cell values to protect the confidentiality of data.
+
+The column name encodes the demographic information, as follows:
+_<category>_<status>_<sex>
+
+Labour force demographics are categorised as:
+- In the labour force, Employed (in_lf_emp)
+- In the labour force, Unemployed (in_lf_unemp)
+- Industry sector Government (indsec_gov)
+- Industry sector Private (indsec_priv)
+- Self Employed (self_employed)
+- Not in the labour force (n_the_lf)
+
+Status is categorised and encoded as:
+- Indigenous (indig)
+- Non-indigenous (non_indig)
+- Indigenous status was not specified (indig_stat_notstated)
+
+Sex is categorised and encoded as:
+ - Female (f)
+ - Male (m)
+

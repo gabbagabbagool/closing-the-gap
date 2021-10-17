@@ -1,0 +1,61 @@
+Information about the lgas16.xlsx data set.
+
+This data set records the Local Government Areas (LGAs) across Australia for the 2016 calendar year, as used in the 2016 Australian Census.
+
+Local Government Area (LGAs) are designated by a unique code. Note that these codes do not necessarily correspond to suburbs or council areas. Each LGA is constrained within a single State or Territory. Simple maps of each LGA are found in the 'lga_figures' folder, listed by LGA code.
+
+Each column of the data set is described below.
+
+----
+lga_code16
+
+Contains the LGA code for the 2016 calendar year.
+
+The *first digit* of the LGA code provides the State or Territory that the LGA is located within. These codes are:
+1 - NSW
+2 - Victoria
+3 - QLD
+4 - South Australia
+5 - Western Australia
+6 - Tasmania
+7 - Northern Territory
+8 - ACT
+9 - Other Australian Territories, including Offshore Island Territories, Jervis Bay Territory, and Australian Antarctic Territory.
+
+
+----
+lga_name16
+
+The name of the LGA for the 2016 calendar year. Where LGAs in different States or territories have the same name, the State or Territory is included in brackets after the LGA name.
+
+Each state and territory contains additional LGA's to capture data from regions which do not fall within the bounds of existing LGA's. These include:
+* unincorporated regions which are not governed by a LGA such as small islands or ski resorts.
+* Where a region has no usual address.
+* Where data is captured in relation to locations not residing within a physical LGA including migratory, offshore, and shipping.
+
+----
+lga_type16
+
+The type of the LGA. LGA types are determined by each State or Territory, therefore codes may not directly match between States and Territories. The LGA types for each State and Territory are given below.
+
+New South Wales: Cities (C) and Areas (A) 
+Victoria: Cities (C), Rural Cities (RC), Boroughs (B) and Shires (S) 
+Queensland: Cities (C), Shires (S), Towns (T) and Regional Councils (R) 
+South Australia: Cities (C), Rural Cities (RC), Municipalities/Municipal Councils (M), District Councils (DC), Regional Councils (RegC), Towns (T) and Aboriginal Councils (AC) 
+Western Australia: Cities (C), Towns (T) and Shires (S) 
+Tasmania: Cities (C) and Municipalities (M) 
+Northern Territory: Cities (C), Towns (T), Municipalities (M) and Shires (S). 
+
+----
+area_sqkm
+
+Area of the LGA in square kilometres.
+
+LGA's may not cover a geographical region. For such LGA's an area of 0 is provided.
+
+----
+latitude, longitude
+
+Latitude and longitude of the centroid of the LGA geographical bounding box. This is the geometric centre of the LGA bounding box. For LGA's that span multiple regions the centroid is the geometric centre of all combined regions.
+
+LGA's may not cover a geographical region. For such LGA's no latitude or longitude is provided.
