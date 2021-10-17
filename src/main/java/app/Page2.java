@@ -83,7 +83,7 @@ public class Page2 implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
         // Next we will ask this *class* for the movies
-        ArrayList<String> movies = jdbc.getMovies();
+        ArrayList<String> indigY12 = jdbc.getLgaY12Indig();
 
         // Add HTML for the table
         html += "<div class='container'>";
@@ -92,36 +92,28 @@ public class Page2 implements Handler {
         html +=   "<thead>";
         html +=     "<tr>";
         html +=       "<th scope='col'>#</th>";
-        html +=       "<th scope='col'>Movie Name</th>";
+        html +=       "<th scope='col'>LGA</th>";
+        html +=       "<th scope='col'>Indig Year 12</th>";
         html +=     "</tr>";
         html +=   "</thead>";
         html +=   "<tbody>";
 
-        // create a tabel row per line of data
-        for (String movie : movies) {
-            int rowIndex = 1;
+        // create a table row per line of data
+        int rowIndex = 1;
+        for (int i = 0; i < indigY12.size(); i++) {
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
-            html +=         "<td>" + movie + "</td>";
+            html +=         "<td>" + indigY12.get(i) + "</td>";
+            html +=         "<td>" + indigY12.get(i+1) + "</td>";
             html +=     "</tr>";
             rowIndex++;
+            i++;
         }
 
         html +=   "</tbody>";
         html += "</table>";
         html += "</div>";
         html += "</div>";
-
-        // Add HTML for the movies list
-        html += "<h1>Movies</h1>" + "<ul>";
-
-        // Finally we can print out all of the movies
-        for (String movie : movies) {
-            html += "<li>" + movie + "</li>";
-        }
-
-        // Finish the List HTML
-        html += "</ul>";
 
         // Finish the HTML webpage
         html += "</body>" + "</html>";
