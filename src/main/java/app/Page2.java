@@ -84,7 +84,7 @@ public class Page2 implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
         // Next we will ask this *class* for the movies
-        HashMap <String,Integer> indigY12 = jdbc.getLgaY12IndigHashMap();
+        ArrayList<OutcomeTracker> indigY12 = jdbc.outcomeBuilder();
 
         // Add HTML for the table
         html += "<div class='container'>";
@@ -102,13 +102,13 @@ public class Page2 implements Handler {
         html +=   "</thead>";
         html +=   "<tbody>";
 
-        // create a table row for each entry in the hashmap
+        // For each item in the array list, retrieve the pertinent values
         int rowIndex = 1;
-        for (HashMap.Entry<String, Integer> entry : indigY12.entrySet()){
+        for (OutcomeTracker entry : indigY12){
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
-            html +=         "<td>" + entry.getKey() + "</td>";
-            html +=         "<td>" + entry.getValue() + "</td>";
+            html +=         "<td>" + entry.getLgaName() + "</td>";
+            html +=         "<td>" + "TODO" + "</td>";
             html +=     "</tr>";
             rowIndex++;
         }

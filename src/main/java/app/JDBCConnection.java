@@ -209,4 +209,66 @@ public class JDBCConnection {
         // Finally we return all of the movies
         return y12LGA;
     }
+
+    public ArrayList<OutcomeTracker> outcomeBuilder() {
+        ArrayList<OutcomeTracker> y12LGA = new ArrayList<OutcomeTracker>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "SELECT s.lga_code16 AS Code, LGAs.lga_name16 AS Name, SUM(s.count) AS Indig_Y12 " +
+                        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
+                        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
+                        "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            // The "results" variable is similar to an array
+            // We can iterate through all of the database query results
+            while (results.next()) {
+                // Store the results of this query
+                String  lgaName         = results.getString("Name");
+                int lgaCode             = Integer.parseInt(results.getString("Code"));
+                int y12Count            = Integer.parseInt(results.getString("Indig_Y12"));
+
+                // Create a new OutcomeTracker object and set the appropriate values
+                OutcomeTracker myObject = new OutcomeTracker();
+                myObject.setOutcomes("raw", 5, y12Count);
+                myObject.setLga(lgaName, lgaCode);
+
+                // Add this OutcomeTracker object to the methods ArrayList
+                y12LGA.add(myObject);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the movies
+        return y12LGA;
+    }    
 }
