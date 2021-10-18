@@ -94,7 +94,7 @@ public class Page2 implements Handler {
         html +=     "<tr>";
         html +=       "<th scope='col'>#</th>";
         html +=       "<th scope='col'>LGA</th>";
-        html +=       "<th scope='col'>Long & healthy lives</th>";
+        html +=       "<th style='display:none' scope='col'>Long & healthy lives</th>"; // Here is an example of a hidden column
         html +=       "<th scope='col'>Full learning potential</th>";
         html +=       "<th scope='col'>Further education completion</th>";
         html +=       "<th scope='col'>Employment participation</th>";
