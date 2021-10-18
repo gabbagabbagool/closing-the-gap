@@ -83,7 +83,7 @@ public class Page2 implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
         // Next we will ask this *class* for the movies
-        ArrayList<String> indigY12 = jdbc.getLgaY12Indig();
+        HashMap <String,Integer> indigY12 = jdbc.getLgaY12IndigHashMap();
 
         // Add HTML for the table
         html += "<div class='container'>";
@@ -98,16 +98,15 @@ public class Page2 implements Handler {
         html +=   "</thead>";
         html +=   "<tbody>";
 
-        // create a table row per line of data
+        // create a table row for each entry in the hashmap
         int rowIndex = 1;
-        for (int i = 0; i < indigY12.size(); i++) {
+        for (HashMap.Entry<String, Integer> entry : indigY12.entrySet()){
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
-            html +=         "<td>" + indigY12.get(i) + "</td>";
-            html +=         "<td>" + indigY12.get(i+1) + "</td>";
+            html +=         "<td>" + entry.getKey() + "</td>";
+            html +=         "<td>" + entry.getValue() + "</td>";
             html +=     "</tr>";
             rowIndex++;
-            i++;
         }
 
         html +=   "</tbody>";
