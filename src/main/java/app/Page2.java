@@ -51,13 +51,13 @@ public class Page2 implements Handler {
         html +=         "<div class='collapse navbar-collapse' id='navbarNav'>";
         html +=             "<ul class='navbar-nav'>";
         html +=              "<li class='nav-item'>";
-        html +=                "<a class='nav-link active' aria-current='page' href='/'>Home</a>";
+        html +=                "<a class='nav-link' aria-current='page' href='/'>Home</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
         html +=                "<a class='nav-link' href='/page1.html'>Mission Statement</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
-        html +=                "<a class='nav-link' href='/page2.html'>By LGA</a>";
+        html +=                "<a class='nav-link active' href='/page2.html'>By LGA</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
         html +=                "<a class='nav-link' href='/page3.html'>Page 3</a>";
