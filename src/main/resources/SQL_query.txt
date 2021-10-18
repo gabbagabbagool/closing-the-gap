@@ -1,0 +1,6 @@
+-- Qualification
+
+SELECT q.lga_code16 AS Code, LGAs.lga_name16 AS Name, SUM(q.count) AS Indig_Qual
+FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16
+WHERE q.indigenous_status = 'indig'
+GROUP BY q.lga_code16;
