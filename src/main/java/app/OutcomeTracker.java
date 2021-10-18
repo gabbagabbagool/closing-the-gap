@@ -45,6 +45,10 @@ public class OutcomeTracker {
         return this.lgaName;
     }
 
+    public int getLgaCode(){
+        return this.lgaCode;
+    }
+
     public int getOutcomeMetric(String myType, int outcome){
         int myValue;
         if (myType == "raw"){
