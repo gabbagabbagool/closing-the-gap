@@ -83,8 +83,36 @@ public class Page2 implements Handler {
         // First we need to use your JDBCConnection class
         JDBCConnection jdbc = new JDBCConnection();
 
-        // Next we will ask this *class* for the movies
+        // Next we will ask this *class* for the ingig_Y12
         ArrayList<OutcomeTracker> indigY12 = jdbc.outcomeBuilder();
+
+        // Add HTML for outcome checkboxes
+        html += "<div class='container'>";
+        html +=  "<div class='form-check'>";
+        html +=   "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault' checked>";
+        html +=   "<label class='form-check-label' for='flexCheckDefault'>";
+        html +=     "Outcome 1";
+        html +=   "</label>";
+        html += "</div>";
+        html += "<div class='form-check'>";
+        html +=   "<input class='form-check-input' type='checkbox' value='' id='flexCheckChecked' checked>";
+        html +=   "<label class='form-check-label' for='flexCheckChecked'>";
+        html +=     "Outcome 5";
+        html +=   "</label>";
+        html += "</div>";
+        html += "<div class='form-check'>";
+        html +=   "<input class='form-check-input' type='checkbox' value='' id='flexCheckChecked' checked>";
+        html +=   "<label class='form-check-label' for='flexCheckChecked'>";
+        html +=     "Outcome 6";
+        html +=   "</label>";
+        html += "</div>";
+        html += "<div class='form-check'>";
+        html +=   "<input class='form-check-input' type='checkbox' value='' id='flexCheckChecked' checked>";
+        html +=   "<label class='form-check-label' for='flexCheckChecked'>";
+        html +=     "Outcome 8";
+        html +=   "</label>";
+        html += "</div>";
+        html += "</div>";
 
         // Add HTML for the table
         html += "<div class='container'>";
@@ -93,10 +121,10 @@ public class Page2 implements Handler {
         html +=   "<thead>";
         html +=     "<tr>";
         html +=       "<th scope='col'>#</th>";
-        html +=       "<th scope='col'>LGA</th>";
+        html +=       "<th scope='col'>LGA</th>"; // data-sortable="true" 
         html +=       "<th style='display:none' scope='col'>Long & healthy lives</th>"; // Here is an example of a hidden column
         html +=       "<th scope='col'>Full learning potential</th>";
-        html +=       "<th scope='col'>Further education completion</th>";
+        html +=       "<th style='display:none' scope='col'>Further education completion</th>";
         html +=       "<th scope='col'>Employment participation</th>";
         html +=     "</tr>";
         html +=   "</thead>";
