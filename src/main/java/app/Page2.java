@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import java.util.HashMap;
 
 /**
  * Temporary HTML as an example page.
@@ -93,7 +94,10 @@ public class Page2 implements Handler {
         html +=     "<tr>";
         html +=       "<th scope='col'>#</th>";
         html +=       "<th scope='col'>LGA</th>";
-        html +=       "<th scope='col'>Indig Year 12</th>";
+        html +=       "<th scope='col'>Long & healthy lives</th>";
+        html +=       "<th scope='col'>Full learning potential</th>";
+        html +=       "<th scope='col'>Further education completion</th>";
+        html +=       "<th scope='col'>Employment participation</th>";
         html +=     "</tr>";
         html +=   "</thead>";
         html +=   "<tbody>";
