@@ -87,6 +87,7 @@ public class Page2 implements Handler {
         ArrayList<OutcomeTracker> indigY12 = jdbc.outcomeBuilder();
 
         // Add HTML for outcome checkboxes
+        html += "<form action='/Page2.html' method='post'>";
         html += "<div class='container'>";
         html +=  "<div class='form-check'>";
         html +=   "<input class='form-check-input' type='checkbox' value='' id='flexCheckDefault' checked>";
@@ -113,6 +114,54 @@ public class Page2 implements Handler {
         html +=   "</label>";
         html += "</div>";
         html += "</div>";
+        html += "<input type='submit' value='Submit'>";
+        html += "</form>";
+
+        /*
+        boolean outcome1 = false;
+        boolean outcome5 = false;
+        boolean outcome6 = false;
+        boolean outcome8 = false;
+        if(context.method() == "POST"){
+            // Add checkboxes
+            html = html + "<form action='/Page2.html' method='post'>";
+            html = html + "<input type='checkbox' id='outcome1' name='outcome1' value='Outcome1' ";
+            if (context.formParam("outcome1") != null){
+                html = html + "checked";
+                outcome1 = true;
+            }
+            html = html + ">";
+            html = html + "<label for='Outcome1'> Outcome 1</label><br>";
+            html = html + "<input type='checkbox' id='outcome5' name='outcome5' value='Outcome5'";
+            if (context.formParam("outcome5") != null){
+                html = html + "checked";
+                outcome5 = true;
+            }
+            html = html + ">";
+            html = html + "<label for='outcome5'> Outcome 5</label><br>";
+            html = html + "<input type='checkbox' id='outcome6' name='outcome6' value='outcome6'";
+            if (context.formParam("outcome6") != null){
+                html = html + "checked";
+                outcome6 = true;
+            }
+            html = html + ">";
+            html = html + "<label for='outcome6'> Outcome 6</label>";
+            html = html + "<input type='submit' value='Submit'>";
+            html = html + "</form>";
+        }
+        else if(context.method() == "GET"){
+            // Add checkboxes
+            html = html + "<form action='/Page2.html' method='post'>";
+            html = html + "<input type='checkbox' id='outcome1' name='outcome1' value='outcome1' >";
+            html = html + "<label for='outcome1'> Outcome 1</label><br>";
+            html = html + "<input type='checkbox' id='outcome5' name='outcome5' value='Outcome5' >";
+            html = html + "<label for='outcome5'> Outcome 5</label><br>";
+            html = html + "<input type='checkbox' id='outcome6' name='outcome6' value='outcome6' >";
+            html = html + "<label for='outcome6'> Outcome 6</label>";
+            html = html + "<input type='submit' value='Submit'>";
+            html = html + "</form>";
+        }
+        */
 
         // Add HTML for the table
         html += "<div class='container'>";
