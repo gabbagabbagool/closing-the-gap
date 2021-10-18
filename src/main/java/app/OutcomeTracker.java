@@ -44,4 +44,15 @@ public class OutcomeTracker {
     public String getLgaName(){
         return this.lgaName;
     }
+
+    public int getOutcomeMetric(String myType, int outcome){
+        int myValue;
+        if (myType == "raw"){
+            myValue = this.RawOutcomes.get(outcome);
+        }
+        else{
+            myValue = this.ProportionalOutcomes.get(outcome);
+        }
+        return myValue;
+    }
 }

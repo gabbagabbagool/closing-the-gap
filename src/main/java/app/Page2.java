@@ -109,7 +109,7 @@ public class Page2 implements Handler {
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
             html +=         "<td>" + entry.getLgaName() + "</td>";
-            html +=         "<td>" + "TODO" + "</td>";
+            html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
             html +=     "</tr>";
             rowIndex++;
         }
