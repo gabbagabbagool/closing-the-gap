@@ -60,7 +60,7 @@ public class Page1 implements Handler {
         html +=                "<a class='nav-link' href='/page2.html'>By LGA</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
-        html +=                "<a class='nav-link' href='/page3.html'>Page 3</a>";
+        html +=                "<a class='nav-link' href='/page3.html'>By State</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
         html +=                "<a class='nav-link' href='/page4.html'>Page 4</a>";

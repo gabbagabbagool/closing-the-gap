@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import java.util.HashMap;
 
 /**
  * Temporary HTML as an example page.
@@ -28,7 +29,10 @@ public class Page3 implements Handler {
 
         // Add some Header information
         html += "<head>" + 
-               "<title>Movies</title>";
+               "<title>Outcomes by State</title>";
+
+        // Add Bootsrap's CSS
+        html += "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3' crossorigin='anonymous'>";
 
         // Add some CSS (external file)
         html += "<link rel='stylesheet' type='text/css' href='common.css' />";
@@ -36,29 +40,86 @@ public class Page3 implements Handler {
         // Add the body
         html += "<body>";
 
-        // Add HTML for link back to the homepage
-        html += "<h1>Page 3</h1>";
-        html += "<p>Return to Homepage: ";
-        html += "<a href='/'>Link to Homepage</a>";
-        html += "</p>";
+        // Bootstraps Navbar
+        html += "<nav class='navbar navbar-expand-lg navbar-light bg-light'>";
+        html +=     "<div class='container-fluid'>";
+        html +=         "<a class='navbar-brand' href='/'>";
+        html +=             "<img src='logo.png' alt='' height='24' class='d-inline-block align-text-top mx-2'>";
+        html +=         "</a>";
+        html +=         "<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>";
+        html +=             "<span class='navbar-toggler-icon'></span>";
+        html +=         "</button>";
+        html +=         "<div class='collapse navbar-collapse' id='navbarNav'>";
+        html +=             "<ul class='navbar-nav'>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' aria-current='page' href='/'>Home</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page1.html'>Mission Statement</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page2.html'>By LGA</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link active' href='/page3.html'>By State</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page4.html'>Page 4</a>";
+        html +=              "</li>";
+        html +=              "<li class='nav-item'>";
+        html +=                "<a class='nav-link' href='/page5.html'>Page 5</a>";
+        html +=              "</li>";
+        html +=            "</ul>";
+        html +=         "</div>";
+        html +=    "</div>";
+        html += "</nav>";
+
+        // Add HTML Mission statement heading
+        html += "<div class='container'>";
+        html +=     "<h1 class=\"display-4\">Outcomes by LGA</h1>";
+        html += "</div>";
 
         // Look up some information from JDBC
         // First we need to use your JDBCConnection class
         JDBCConnection jdbc = new JDBCConnection();
 
-        // Next we will ask this *class* for the movies
-        ArrayList<String> movies = jdbc.getMovies();
+        // Add HTML for the table
+        html += "<div class='container'>";
+        html += "<div class='table-responsive'>";
+        html += "<table class='table table-bordered table-striped table-sm'>";
+        html +=   "<thead>";
+        html +=     "<tr>";
+        html +=       "<th scope='col'>#</th>";
+        html +=       "<th scope='col'>LGA</th>";
+        html +=       "<th style='display:none' scope='col'>Long & healthy lives</th>"; // Here is an example of a hidden column
+        html +=       "<th scope='col'>Full learning potential</th>";
+        html +=       "<th scope='col'>Further education completion</th>";
+        html +=       "<th scope='col'>Employment participation</th>";
+        html +=     "</tr>";
+        html +=   "</thead>";
+        html +=   "<tbody>";
 
-        // Add HTML for the movies list
-        html += "<h1>Movies</h1>" + "<ul>";
+        String[] states = {"New South Wales", "Victoria", 
+        "Queensland", "South Australia", "Western Australia", 
+        "Tasmania", "Northern Territory", "Australian Capital Territory",
+        "Other Australian Territories"};
 
-        // Finally we can print out all of the movies
-        for (String movie : movies) {
-            html += "<li>" + movie + "</li>";
+
+        int rowIndex = 1;
+        for (int i = 0; i < 9; ++i){
+            
+            html +=     "<tr>";
+            html +=       "<th scope='row'>" + rowIndex + "</th>";
+            html +=         "<td>" + states[i] + "</td>";
+            html +=         "<td>" + jdbc.outcome5State(i + 1) + "</td>";
+            html +=     "</tr>";
+            rowIndex++;
         }
 
-        // Finish the List HTML
-        html += "</ul>";
+        html +=   "</tbody>";
+        html += "</table>";
+        html += "</div>";
+        html += "</div>";
 
         // Finish the HTML webpage
         html += "</body>" + "</html>";
