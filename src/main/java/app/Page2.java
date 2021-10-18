@@ -102,7 +102,8 @@ public class Page2 implements Handler {
         html +=   "</thead>";
         html +=   "<tbody>";
 
-        // For each item in the array list, retrieve the pertinent values
+        /* TODO Before this iterator, we could save the values for raw/proportional 
+           and hand it in to the loop to keep it dynamic */
         int rowIndex = 1;
         for (OutcomeTracker entry : indigY12){
             html +=     "<tr>";

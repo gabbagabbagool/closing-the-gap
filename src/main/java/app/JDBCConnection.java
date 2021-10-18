@@ -210,6 +210,11 @@ public class JDBCConnection {
         return y12LGA;
     }
 
+    /** outcomeBuilder is here to build the ArrayList that will store the OutcomeTracker objects
+     * at the moment it only populates the education metric
+     * this method will need to change if we hardcode/store the metrics for each outcome
+     * However, we could adapt it to read these hardcoded values.
+     * */
     public ArrayList<OutcomeTracker> outcomeBuilder() {
         ArrayList<OutcomeTracker> y12LGA = new ArrayList<OutcomeTracker>();
 

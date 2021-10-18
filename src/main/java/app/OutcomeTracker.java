@@ -15,7 +15,13 @@ public class OutcomeTracker {
     }
 
     /**
-    * Takes type of outcome, outcome number, and outcome value.
+    * Input: 
+    * <p>
+    * type of outcome (raw, proportional) 
+    * <p>
+    * a single outcome number (1,5,6,8)
+    * <p>
+    * outcome value (TODO Should proportion be float 0-1)
     * <p>
     * Sets the value at the location specified
     */
@@ -32,7 +38,9 @@ public class OutcomeTracker {
         this.lgaName = lgaName;
         this.lgaCode = lgaCode;
     }
-
+    /**
+    * Returns the name of the lga stored in this OutcomeTracker object
+    */
     public String getLgaName(){
         return this.lgaName;
     }
