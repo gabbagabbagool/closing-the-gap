@@ -4,3 +4,31 @@ SELECT q.lga_code16 AS Code, LGAs.lga_name16 AS Name, SUM(q.count) AS Indig_Qual
 FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16
 WHERE q.indigenous_status = 'indig'
 GROUP BY q.lga_code16;
+
+-- State table 
+CREATE TABLE IF NOT EXISTS State (
+    stateName TEXT NOT NULL,
+    stateCode INT NOT NULL);
+
+INSERT INTO State (stateName, stateCode)
+VALUES  ('New South Wales', 1),
+        ('Victoria', 2),
+        ('Queensland', 3),
+        ('South Australia', 4),
+        ('Western Australia', 5),
+        ('Tasmania', 6),
+        ('Northern Territory', 7),
+        ('Australian Capital Territory', 8),
+        ('Other Australian Territories', 9);
+
+-- Example query for state queries
+SELECT SUM(count) AS count,
+       stateName
+  FROM PopulationStatistics
+       JOIN
+       State ON substr(lga_code16, 1, 1) = State.stateCode
+ WHERE indigenous_status = 'indig' AND 
+       age = '_0_4'
+ GROUP BY substr(lga_code16, 1, 1);
+
+-- In the code above, we can implement different statewide queries by changing the WHERE clause
