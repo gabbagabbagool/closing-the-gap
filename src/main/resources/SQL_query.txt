@@ -32,3 +32,31 @@ SELECT SUM(count) AS count,
  GROUP BY substr(lga_code16, 1, 1);
 
 -- In the code above, we can implement different statewide queries by changing the WHERE clause
+
+-- Here I am attempting to save the data for outcome 5's metric as a view, then operating on it for the proportion using SQLite
+CREATE VIEW Indig_Y12 AS
+    SELECT ss.lga_code16 AS Code,
+           SUM(ss.count) AS Total
+      FROM SchoolStatistics AS ss
+     WHERE ss.School = 'y12_equiv' AND 
+           ss.indigenous_status = 'indig'
+     GROUP BY ss.lga_code16,
+              ss.School;
+
+CREATE VIEW All_Y12 AS
+    SELECT ss.lga_code16 AS Code,
+           SUM(ss.count) AS Total
+      FROM SchoolStatistics AS ss
+     WHERE ss.School = 'y12_equiv'
+     GROUP BY ss.lga_code16,
+              ss.School;
+
+SELECT a.Code,
+       ROUND (CAST (i.Total AS REAL) / CAST (a.Total AS REAL) * 100, 2) AS Proportion
+  FROM All_Y12 AS a
+       JOIN
+       Indig_Y12 AS i ON a.Code = i.Code;
+
+-- This query will return in hookup format, a proportion of y12 indidgenous students to all y12 students
+
+SELECT a.Code as lgaCode, ROUND (CAST (i.Total AS REAL) / CAST (a.Total AS REAL) * 100, 2) AS value, LGAs.lga_name16 AS lgaName FROM All_Y12 AS a JOIN Indig_Y12 AS i ON a.Code = i.Code JOIN LGAs ON a.code = LGAs.lga_code16;
