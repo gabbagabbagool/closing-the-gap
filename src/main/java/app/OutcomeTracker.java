@@ -2,8 +2,6 @@ package app;
 import java.util.HashMap;
 
 public class OutcomeTracker {
-    private int lgaCode;
-    private String lgaName;
     private HashMap <Integer, Integer> RawOutcomes = new HashMap<Integer, Integer>();
     private HashMap <Integer, Integer> ProportionalOutcomes = new HashMap<Integer, Integer>();
 
@@ -32,21 +30,6 @@ public class OutcomeTracker {
         else{
             this.ProportionalOutcomes.put(outcome, myValue);
         }
-    }
-
-    public void setLga(String lgaName, int lgaCode){
-        this.lgaName = lgaName;
-        this.lgaCode = lgaCode;
-    }
-    /**
-    * Returns the name of the lga stored in this OutcomeTracker object
-    */
-    public String getLgaName(){
-        return this.lgaName;
-    }
-
-    public int getLgaCode(){
-        return this.lgaCode;
     }
 
     public int getOutcomeMetric(String myType, int outcome){

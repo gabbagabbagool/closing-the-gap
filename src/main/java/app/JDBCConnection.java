@@ -156,8 +156,8 @@ public class JDBCConnection {
      * this method will need to change if we hardcode/store the metrics for each outcome
      * However, we could adapt it to read these hardcoded values.
      * */
-    public ArrayList<OutcomeTracker> outcomeBuilder() {
-        ArrayList<OutcomeTracker> y12LGA = new ArrayList<OutcomeTracker>();
+    public ArrayList<lgaOutcomeTracker> outcomeBuilder() {
+        ArrayList<lgaOutcomeTracker> y12LGA = new ArrayList<lgaOutcomeTracker>();
 
         // Setup the variable for the JDBC connection
         Connection connection = null;
@@ -189,7 +189,7 @@ public class JDBCConnection {
                 int y12Count            = Integer.parseInt(results.getString("Indig_Y12"));
 
                 // Create a new OutcomeTracker object and set the appropriate values
-                OutcomeTracker myObject = new OutcomeTracker();
+                lgaOutcomeTracker myObject = new lgaOutcomeTracker();
                 myObject.setOutcomes("raw", 5, y12Count);
                 myObject.setLga(lgaName, lgaCode);
 
@@ -217,70 +217,6 @@ public class JDBCConnection {
         // Finally we return all of the movies
         return y12LGA;
     }    
-    
-
-    /**
-     * 
-     * @param stateInteger
-     *  1 - NSW
-        2 - Victoria
-        3 - QLD
-        4 - South Australia
-        5 - Western Australia
-        6 - Tasmania
-        7 - Northern Territory
-        8 - ACT
-        9 - Other Australian Territories
-     * @return
-     */
-    public int outcome5State(int stateInteger) {
-        int myValue = 0;
-
-        // Setup the variable for the JDBC connection
-        Connection connection = null;
-
-        try {
-            // Connect to JDBC data base
-            connection = DriverManager.getConnection(DATABASE);
-
-            // Prepare a new SQL Query & Set a timeout
-            Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);
-
-            // The Query
-            String query = "SELECT SUM(count) as result FROM SchoolStatistics "
-            +              "WHERE substr(lga_code16 , 1,1) = '" + stateInteger
-            +              "' AND indigenous_status = 'indig' AND School = 'y12_equiv';";
-            
-            // Get Result
-            ResultSet results = statement.executeQuery(query);
-
-            while (results.next()) {
-                myValue = results.getInt("result");
-            }
-
-            // Close the statement because we are done with it
-            statement.close();
-        } catch (SQLException e) {
-            // If there is an error, lets just pring the error
-            System.err.println(e.getMessage());
-        } finally {
-            // Safety code to cleanup
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
-        }
-
-        // Finally we return all of the movies
-        return myValue;
-    }
-
-
 
     public HashMap<String, Integer> outcome6Lga() {
         HashMap<String, Integer> out6LGA = new HashMap<String, Integer>();

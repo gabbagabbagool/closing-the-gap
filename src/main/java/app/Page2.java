@@ -84,7 +84,7 @@ public class Page2 implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
         // Next we will ask this *class* for the ingig_Y12
-        ArrayList<OutcomeTracker> indigY12 = jdbc.outcomeBuilder();
+        ArrayList<lgaOutcomeTracker> indigY12 = jdbc.outcomeBuilder();
 
 
         boolean outcome1 = false;
@@ -151,7 +151,7 @@ public class Page2 implements Handler {
         /* TODO Before this iterator, we could save the values for raw/proportional 
            and hand it in to the loop to keep it dynamic */
         int rowIndex = 1;
-        for (OutcomeTracker entry : indigY12){
+        for (lgaOutcomeTracker entry : indigY12){
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
             html +=         "<td>" + entry.getLgaName() + "</td>";
