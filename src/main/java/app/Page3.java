@@ -106,11 +106,6 @@ public class Page3 implements Handler {
         html +=   "</thead>";
         html +=   "<tbody>";
 
-        String[] states = {"New South Wales", "Victoria", 
-        "Queensland", "South Australia", "Western Australia", 
-        "Tasmania", "Northern Territory", "Australian Capital Territory",
-        "Other Australian Territories"};
-
         // For each LGA record
             // Find the state
                 // Add values to sum for outcome + state
