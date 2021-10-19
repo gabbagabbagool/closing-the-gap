@@ -1,6 +1,14 @@
 package app;
 import java.util.HashMap;
 
+
+/*** 
+ * Base class for lga/state outcome tracking
+ * Provides Hashmaps that will store a key of outcome number (1,5,6,8) 
+ * and a value which is the performance in this outcome.
+ * Also provides setter/getter methods for these hashmaps.
+ */
+
 public class OutcomeTracker {
     private HashMap <Integer, String> RawOutcomes = new HashMap<Integer, String>();
     private HashMap <Integer, String> ProportionalOutcomes = new HashMap<Integer, String>();
@@ -13,15 +21,11 @@ public class OutcomeTracker {
     }
 
     /**
-    * Input: 
+    * @param myType (raw, proportional) Type of outcome <p> TODO Should we change this to "r" and "p"?
     * <p>
-    * type of outcome (raw, proportional) 
+    * @param outcome (1,5,6,8) a single outcome number 
     * <p>
-    * a single outcome number (1,5,6,8)
-    * <p>
-    * outcome value (TODO Should proportion be float 0-1)
-    * <p>
-    * Sets the value at the location specified
+    * @param myValue the value to store for this outcome
     */
     public void setOutcomes(String myType, int outcome, String myValue){
         if(myType == "raw"){
@@ -31,7 +35,12 @@ public class OutcomeTracker {
             this.ProportionalOutcomes.put(outcome, myValue);
         }
     }
-
+    /**
+     * 
+     * @param myType (raw, proportional) Type of outcome
+     * @param outcome (1,5,6,8) a single outcome number 
+     * @return String The value for given outcome, in format provided by myType
+     */
     public String getOutcomeMetric(String myType, int outcome){
         String myValue;
         if (myType == "raw"){

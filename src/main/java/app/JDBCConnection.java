@@ -222,9 +222,11 @@ public class JDBCConnection {
 
     /***
      * @param OutcomeList is the list of lga's with attached outcomes that this method will help build
-     * @param inputQuery is the query to pass to SQL
+     * @param inputQuery 
      * @param outcomeNum (1,5,6 or 8) is the number  of the outcome we are interested in
      * @param outcomeType (raw/proportional)
+     * @see this method requires the SQL columns to be lgaCode, value and lgaName
+     * @return nothing, the arraylist will be modified
      */
     public void theLgaHookUp(ArrayList<lgaOutcomeTracker> OutcomeList, String inputQuery, int outcomeNum, String outcomeType) {
 
@@ -297,6 +299,8 @@ public class JDBCConnection {
      * @param inputQuery is the query to pass to SQL
      * @param outcomeNum (1,5,6 or 8) is the number  of the outcome we are interested in
      * @param outcomeType (raw/proportional)
+     * @see this method requires the SQL columns to be stateCode, value and stateName
+     * @return nothing, the arraylist will be modified
      */
     public void theStateHookUp(ArrayList<stateOutcomeTracker> OutcomeList, String inputQuery, int outcomeNum, String outcomeType) {
 
