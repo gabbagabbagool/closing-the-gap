@@ -39,7 +39,7 @@ public class OutcomeTracker {
      * 
      * @param myType (raw, proportional) Type of outcome
      * @param outcome (1,5,6,8) a single outcome number 
-     * @return The value for given outcome, in format provided by myType
+     * @return String The value for given outcome, in format provided by myType
      */
     public String getOutcomeMetric(String myType, int outcome){
         String myValue;
