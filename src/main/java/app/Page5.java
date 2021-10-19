@@ -42,24 +42,6 @@ public class Page5 implements Handler {
         html += "<a href='/'>Link to Homepage</a>";
         html += "</p>";
 
-        // Look up some information from JDBC
-        // First we need to use your JDBCConnection class
-        JDBCConnection jdbc = new JDBCConnection();
-
-        // Next we will ask this *class* for the movies
-        ArrayList<String> movies = jdbc.getMovies();
-
-        // Add HTML for the movies list
-        html += "<h1>Movies</h1>" + "<ul>";
-
-        // Finally we can print out all of the movies
-        for (String movie : movies) {
-            html += "<li>" + movie + "</li>";
-        }
-
-        // Finish the List HTML
-        html += "</ul>";
-
         // Finish the HTML webpage
         html += "</body>" + "</html>";
 
