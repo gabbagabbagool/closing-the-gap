@@ -76,7 +76,7 @@ public class Page3 implements Handler {
 
         // Add HTML Mission statement heading
         html += "<div class='container'>";
-        html +=     "<h1 class=\"display-4\">Outcomes by LGA</h1>";
+        html +=     "<h1 class=\"display-4\">Outcomes by State</h1>";
         html += "</div>";
 
         // Look up some information from JDBC
@@ -96,8 +96,7 @@ public class Page3 implements Handler {
         html += "<table class='table table-bordered table-striped table-sm'>";
         html +=   "<thead>";
         html +=     "<tr>";
-        html +=       "<th scope='col'>#</th>";
-        html +=       "<th scope='col'>LGA</th>";
+        html +=       "<th scope='col'>State</th>";
         html +=       "<th style='display:none' scope='col'>Long & healthy lives</th>"; // Here is an example of a hidden column
         html +=       "<th scope='col'>Full learning potential</th>";
         html +=       "<th scope='col'>Further education completion</th>";
