@@ -2,13 +2,13 @@ package app;
 import java.util.HashMap;
 
 public class OutcomeTracker {
-    private HashMap <Integer, Integer> RawOutcomes = new HashMap<Integer, Integer>();
-    private HashMap <Integer, Integer> ProportionalOutcomes = new HashMap<Integer, Integer>();
+    private HashMap <Integer, String> RawOutcomes = new HashMap<Integer, String>();
+    private HashMap <Integer, String> ProportionalOutcomes = new HashMap<Integer, String>();
 
     public OutcomeTracker(){
         for(int i = 0; i < 4; ++i){
-            this.RawOutcomes.put(i, 0);
-            this.ProportionalOutcomes.put(i, 0);
+            this.RawOutcomes.put(i, "");
+            this.ProportionalOutcomes.put(i, "");
         }
     }
 
@@ -23,7 +23,7 @@ public class OutcomeTracker {
     * <p>
     * Sets the value at the location specified
     */
-    public void setOutcomes(String myType, int outcome, int myValue){
+    public void setOutcomes(String myType, int outcome, String myValue){
         if(myType == "raw"){
             this.RawOutcomes.put(outcome, myValue);
         }
@@ -32,8 +32,8 @@ public class OutcomeTracker {
         }
     }
 
-    public int getOutcomeMetric(String myType, int outcome){
-        int myValue;
+    public String getOutcomeMetric(String myType, int outcome){
+        String myValue;
         if (myType == "raw"){
             myValue = this.RawOutcomes.get(outcome);
         }

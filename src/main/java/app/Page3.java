@@ -83,6 +83,13 @@ public class Page3 implements Handler {
         // First we need to use your JDBCConnection class
         JDBCConnection jdbc = new JDBCConnection();
 
+
+        ArrayList<lgaOutcomeTracker> page3 = new ArrayList<lgaOutcomeTracker>();
+        String inputQuery = "SELECT LGAs.lga_code16 as lgaCode, Indig_Y12.total as value, LGAs.lga_name16 as lgaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16";
+        int outcomeNum = 5;
+        String outcomeType = "raw";
+        jdbc.theLgaHookUp(page3, inputQuery, outcomeNum, outcomeType);
+
         // Add HTML for the table
         html += "<div class='container'>";
         html += "<div class='table-responsive'>";
@@ -104,17 +111,17 @@ public class Page3 implements Handler {
         "Tasmania", "Northern Territory", "Australian Capital Territory",
         "Other Australian Territories"};
 
-
-        int rowIndex = 1;
-        for (int i = 0; i < 9; ++i){
-            
+        // For each LGA record
+            // Find the state
+                // Add values to sum for outcome + state
+        
+        
+        for (var value: page3){
             html +=     "<tr>";
-            html +=       "<th scope='row'>" + rowIndex + "</th>";
-            html +=         "<td>" + states[i] + "</td>";
-            html +=         "<td>" + jdbc.outcome5State(i + 1) + "</td>";
+            html +=       "<th scope='row'>" + value.getLgaName() + "</th>";
+            html +=         "<td>" + value.getOutcomeMetric("raw", 5) + "</td>";
             html +=     "</tr>";
-            rowIndex++;
-        }
+        } 
 
         html +=   "</tbody>";
         html += "</table>";

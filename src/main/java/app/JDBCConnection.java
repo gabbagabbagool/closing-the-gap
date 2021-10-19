@@ -155,6 +155,8 @@ public class JDBCConnection {
      * at the moment it only populates the education metric
      * this method will need to change if we hardcode/store the metrics for each outcome
      * However, we could adapt it to read these hardcoded values.
+     * 
+     * I think later, this method should be put in main, called once, creating an object that each page can reference?
      * */
     public ArrayList<lgaOutcomeTracker> outcomeBuilder() {
         ArrayList<lgaOutcomeTracker> y12LGA = new ArrayList<lgaOutcomeTracker>();
@@ -186,7 +188,7 @@ public class JDBCConnection {
                 // Store the results of this query
                 String  lgaName         = results.getString("Name");
                 int lgaCode             = Integer.parseInt(results.getString("Code"));
-                int y12Count            = Integer.parseInt(results.getString("Indig_Y12"));
+                String y12Count            = results.getString("Indig_Y12");
 
                 // Create a new OutcomeTracker object and set the appropriate values
                 lgaOutcomeTracker myObject = new lgaOutcomeTracker();
@@ -216,6 +218,150 @@ public class JDBCConnection {
 
         // Finally we return all of the movies
         return y12LGA;
+    }    
+
+    /***
+     * @param OutcomeList is the list of lga's with attached outcomes that this method will help build
+     * @param inputQuery is the query to pass to SQL
+     * @param outcomeNum (1,5,6 or 8) is the number  of the outcome we are interested in
+     * @param outcomeType (raw/proportional)
+     */
+    public void theLgaHookUp(ArrayList<lgaOutcomeTracker> OutcomeList, String inputQuery, int outcomeNum, String outcomeType) {
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // Get Result
+            ResultSet results = statement.executeQuery(inputQuery);
+
+            // Process all of the results
+            // The "results" variable is similar to an array
+            // We can iterate through all of the database query results
+            while (results.next()) {
+
+                // Store the results of this query
+                int    lgaCode = results.getInt("lgaCode");
+                String   value = results.getString("value");
+                String lgaName = results.getString("lgaName");
+                boolean  found = false;
+
+                for (lgaOutcomeTracker entry : OutcomeList) {
+                    if (entry.getLgaCode() == lgaCode){
+                        entry.setOutcomes(outcomeType, outcomeNum, value);
+                        found = true;
+                    }
+                }
+
+                if (found == false){
+                    // Create a new OutcomeTracker object and set the appropriate values
+                    lgaOutcomeTracker myObject = new lgaOutcomeTracker();
+                    myObject.setOutcomes(outcomeType, outcomeNum, value);
+                    myObject.setLga(lgaName, lgaCode);
+                    // Add this OutcomeTracker object to the methods ArrayList
+                    OutcomeList.add(myObject);
+                }
+                
+
+
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+    }    
+
+
+    /***
+     * @param OutcomeList is the list of state's with attached outcomes that this method will help build
+     * @param inputQuery is the query to pass to SQL
+     * @param outcomeNum (1,5,6 or 8) is the number  of the outcome we are interested in
+     * @param outcomeType (raw/proportional)
+     */
+    public void theStateHookUp(ArrayList<stateOutcomeTracker> OutcomeList, String inputQuery, int outcomeNum, String outcomeType) {
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // Get Result
+            ResultSet results = statement.executeQuery(inputQuery);
+
+            // Process all of the results
+            // The "results" variable is similar to an array
+            // We can iterate through all of the database query results
+            while (results.next()) {
+
+                // Store the results of this query
+                int    stateCode = results.getInt("stateCode");
+                String     value = results.getString("value");
+                String stateName = results.getString("stateName");
+                boolean    found = false;
+                
+
+                for (stateOutcomeTracker entry : OutcomeList) {
+                    if (entry.getStateCode() == stateCode){
+                        entry.setOutcomes(outcomeType, outcomeNum, value);
+                        found = true;
+                    }
+                }
+
+                if (found == false){
+                    // Create a new OutcomeTracker object and set the appropriate values
+                    stateOutcomeTracker myObject = new stateOutcomeTracker();
+                    myObject.setOutcomes(outcomeType, outcomeNum, value);
+                    myObject.setState(stateName, stateCode);
+                    // Add this OutcomeTracker object to the methods ArrayList
+                    OutcomeList.add(myObject);
+                }
+                
+
+
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
     }    
 
     public HashMap<String, Integer> outcome6Lga() {
