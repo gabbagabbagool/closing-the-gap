@@ -87,51 +87,88 @@ public class Page2 implements Handler {
         ArrayList<lgaOutcomeTracker> indigY12 = jdbc.outcomeBuilder();
 
 
-        boolean outcome1 = false;
-        boolean outcome5 = false;
-        boolean outcome6 = false;
-        boolean outcome8 = false;
+        boolean outcome1 = true;
+        boolean outcome5 = true;
+        boolean outcome6 = true;
+        boolean outcome8 = true;
         if(context.method() == "POST"){
             // Add checkboxes
-            html = html + "<form action='/page2.html' method='post'>";
-            html = html + "<input type='checkbox' name='outcome1' value='1Select' ";
+            html += "<div class='container'>";
+            html += "<form action='/page2.html' method='post'>";
+            html += "<input type='checkbox' name='outcome1' value='1Select' ";
             if (context.formParam("outcome1") != null){
-                html = html + "checked";
+                html += "checked";
                 outcome1 = true;
+            } else {
+                outcome1 = false;
             }
-            html = html + ">";
-            html = html + "<label for='Outcome1'> Outcome 1</label><br>";
-            html = html + "<input type='checkbox' name='outcome5' value='5Select'";
+            html += ">";
+            html += "<label for='Outcome1'> Outcome 1</label><br>";
+            html += "<input type='checkbox' name='outcome5' value='5Select' ";
             if (context.formParam("outcome5") != null){
-                html = html + "checked";
+                html += "checked";
                 outcome5 = true;
+            }else {
+                outcome5 = false;
             }
-            html = html + ">";
-            html = html + "<label for='outcome5'> Outcome 5</label><br>";
-            html = html + "<input type='checkbox' name='outcome6' value='5Select'";
+            html += ">";
+            html += "<label for='outcome5'> Outcome 5</label><br>";
+            html += "<input type='checkbox' name='outcome6' value='6Select' ";
             if (context.formParam("outcome6") != null){
-                html = html + "checked";
+                html += "checked";
                 outcome6 = true;
+            }else {
+                outcome6 = false;
             }
-            html = html + ">";
-            html = html + "<label for='outcome6'> Outcome 6</label>";
-            html = html + "<input type='submit' value='Submit'>";
-            html = html + "</form>";
+            html += ">";
+            html += "<label for='outcome6'> Outcome 6</label><br>";
+            html += "<input type='checkbox' name='outcome8' value='8Select' ";
+            if (context.formParam("outcome8") != null){
+                html += "checked";
+                outcome8 = true;
+            }else {
+                outcome8 = false;
+            }
+            html += ">";
+            html += "<label for='outcome8'> Outcome 8</label><br>";
+            html += "<input type='submit' value='Update Data'>";
+            html += "</form>";
+            html += "</div>";
         }
         else if(context.method() == "GET"){
             // Add checkboxes
-            html = html + "<form action='/page2.html' method='post'>";
-            html = html + "<input type='checkbox' id='outcome1' name='outcome1' value='outcome1' >";
-            html = html + "<label for='outcome1'> Outcome 1</label><br>";
-            html = html + "<input type='checkbox' id='outcome5' name='outcome5' value='Outcome5' >";
-            html = html + "<label for='outcome5'> Outcome 5</label><br>";
-            html = html + "<input type='checkbox' id='outcome6' name='outcome6' value='outcome6' >";
-            html = html + "<label for='outcome6'> Outcome 6</label>";
-            html = html + "<input type='submit' value='Submit'>";
-            html = html + "</form>";
+            html += "<div class='container'>";
+            html += "<form action='/page2.html' method='post'>";
+            html += "<input type='checkbox' id='outcome1' name='outcome1' value='outcome1' checked>";
+            html += "<label for='outcome1'> Outcome 1</label><br>";
+            html += "<input type='checkbox' id='outcome5' name='outcome5' value='Outcome5' checked>";
+            html += "<label for='outcome5'> Outcome 5</label><br>";
+            html += "<input type='checkbox' id='outcome6' name='outcome6' value='outcome6' checked>";
+            html += "<label for='outcome6'> Outcome 6</label><br>";
+            html += "<input type='checkbox' id='outcome8' name='outcome8' value='outcome8' checked>";
+            html += "<label for='outcome8'> Outcome 8</label><br>";
+            html += "<input type='submit' value='Update Data'>";
+            html += "</form>";
+            html += "</div>";
         }
 
-
+        // set visabliity of table columns for each outcome
+        String visColumn1 = "";
+        String visColumn5 = "";
+        String visColumn6 = "";
+        String visColumn8 = "";
+        if (outcome1 != true){
+            visColumn1 = "style='display:none'";
+        }
+        if (outcome5 != true){
+            visColumn5 = "style='display:none'";
+        }
+        if (outcome6 != true){
+            visColumn6 = "style='display:none'";
+        }
+        if (outcome8 != true){
+            visColumn8 = "style='display:none'";
+        }
         // Add HTML for the table
         html += "<div class='container'>";
         html += "<div class='table-responsive'>";
@@ -139,11 +176,11 @@ public class Page2 implements Handler {
         html +=   "<thead>";
         html +=     "<tr>";
         html +=       "<th scope='col'>#</th>";
-        html +=       "<th scope='col'>LGA</th>"; // data-sortable="true" 
-        html +=       "<th style='display:none' scope='col'>Long & healthy lives</th>"; // Here is an example of a hidden column
-        html +=       "<th scope='col'>Full learning potential</th>";
-        html +=       "<th style='display:none' scope='col'>Further education completion</th>";
-        html +=       "<th scope='col'>Employment participation</th>";
+        html +=       "<th scope='col'>LGA</th>"; 
+        html +=       "<th " + visColumn1 + " scope='col'>Outcome 1</th>"; // Long & healthy lives
+        html +=       "<th " + visColumn5 + " scope='col'>Outcome 5</th>"; // Full learning potential
+        html +=       "<th " + visColumn6 + " scope='col'>Outcome 6</th>"; // Further education completion
+        html +=       "<th " + visColumn8 + " scope='col'>Outcome 8</th>"; // Employment participation
         html +=     "</tr>";
         html +=   "</thead>";
         html +=   "<tbody>";
@@ -155,7 +192,18 @@ public class Page2 implements Handler {
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
             html +=         "<td>" + entry.getLgaName() + "</td>";
-            html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+            if (outcome1 == true){
+                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+            }
+            if (outcome5 == true){
+                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+            }
+            if (outcome6 == true){
+                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+            }
+            if (outcome8 == true){
+                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+            }
             html +=     "</tr>";
             rowIndex++;
         }
