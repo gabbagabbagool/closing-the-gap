@@ -60,3 +60,6 @@ SELECT a.Code,
 -- This query will return in hookup format, a proportion of y12 indidgenous students to all y12 students
 
 SELECT a.Code as lgaCode, ROUND (CAST (i.Total AS REAL) / CAST (a.Total AS REAL) * 100, 2) AS value, LGAs.lga_name16 AS lgaName FROM All_Y12 AS a JOIN Indig_Y12 AS i ON a.Code = i.Code JOIN LGAs ON a.code = LGAs.lga_code16;
+
+-- This query will return in hookup format, a raw value of y12 indigenous students per state
+SELECT substr(LGAs.lga_code16, 1, 1) AS stateCode, SUM(Indig_Y12.total) as value, State.stateName as stateName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)

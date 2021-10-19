@@ -84,11 +84,11 @@ public class Page3 implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
 
-        ArrayList<lgaOutcomeTracker> page3 = new ArrayList<lgaOutcomeTracker>();
-        String inputQuery = "SELECT LGAs.lga_code16 as lgaCode, Indig_Y12.total as value, LGAs.lga_name16 as lgaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16";
+        ArrayList<stateOutcomeTracker> page3 = new ArrayList<stateOutcomeTracker>();
+        String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS stateCode, SUM(Indig_Y12.total) as value, State.stateName as stateName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
         int outcomeNum = 5;
         String outcomeType = "raw";
-        jdbc.theLgaHookUp(page3, inputQuery, outcomeNum, outcomeType);
+        jdbc.theStateHookUp(page3, inputQuery, outcomeNum, outcomeType);
 
         // Add HTML for the table
         html += "<div class='container'>";
@@ -118,7 +118,7 @@ public class Page3 implements Handler {
         
         for (var value: page3){
             html +=     "<tr>";
-            html +=       "<th scope='row'>" + value.getLgaName() + "</th>";
+            html +=       "<th scope='row'>" + value.getStateName() + "</th>";
             html +=         "<td>" + value.getOutcomeMetric("raw", 5) + "</td>";
             html +=     "</tr>";
         } 
