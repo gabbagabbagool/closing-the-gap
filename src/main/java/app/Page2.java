@@ -103,14 +103,71 @@ public class Page2 implements Handler {
         jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
         // Outcome 6 %
-        inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS value " +
-        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS qValue, pop.pValue AS pValue, CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 AS 'value' " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 JOIN " +
+            "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue " +
+            "FROM PopulationStatistics AS p " +
+            "WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' " +
+            "GROUP BY p.lga_code16) AS pop ON q.lga_code16 = pop.lgaCode " +
         "WHERE q.indigenous_status = 'indig' " +
         "GROUP BY q.lga_code16;";
         outcomeNum = 6;
-        outcomeType = "raw";
+        outcomeType = "p";
         jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
+        // Radio button for raw or proportional data
+        boolean rawData = true;
+        if(context.method() == "POST"){
+            html += "<div class='container'>";
+            html += "<form action='/page2.html' method='post'>";
+            html += " <div class='form-check'>";
+            html += "  <input class='form-check-input' type='radio' name='radioRaw' ";
+            
+            html += ">";
+            html += "  <label class='form-check-label' for='radioRaw'>";
+            html += "    Raw";
+            html += "  </label>";
+            html += "</div>";
+            html += "<div class='form-check'>";
+            html += "  <input class='form-check-input' type='radio' name='radioProportion'";
+            
+            html += ">";
+            html += "  <label class='form-check-label' for='radioProportion'>";
+            html += "    Proportional";
+            html += "  </label><br>";
+            html += "<input type='submit' value='Update Data'>";
+            html += "</div>";
+            html += "</form>";
+            html += "</div>";
+
+            if (context.formParam("radioRaw") != null){
+                System.out.println("radioRaw button on");
+                rawData = true;
+            } else {
+                rawData = false;
+                System.out.println("radioProportion button on");
+            }
+        }
+        else if(context.method() == "GET"){
+            System.out.println("get radio button");
+            html += "<div class='container'>";
+            html += "<form action='/page2.html' method='post'>";
+            html += " <div class='form-check'>";
+            html += "  <input class='form-check-input' type='radio' name='radioRaw' checked>";
+            html += "  <label class='form-check-label' for='radioRaw'>";
+            html += "    Count";
+            html += "  </label>";
+            html += "</div>";
+            html += "<div class='form-check'>";
+            html += "  <input class='form-check-input' type='radio' name='radioProportion' >";
+            html += "  <label class='form-check-label' for='flexRadioDefault2'>";
+            html += "    Proportional";
+            html += "  </label><br>";
+            html += "<input type='submit' value='Update Data'>";
+            html += "</div>";
+            html += "</form>";
+            html += "</div>";
+        }
 
         boolean outcome1 = true;
         boolean outcome5 = true;
@@ -212,6 +269,13 @@ public class Page2 implements Handler {
 
         /* TODO Before this iterator, we could save the values for raw/proportional 
            and hand it in to the loop to keep it dynamic */
+           
+        String dataType;
+        if (rawData) {
+            dataType = "raw";
+        } else {
+            dataType = "p"; 
+        }
         int rowIndex = 1;
         for (lgaOutcomeTracker entry : page2){
             html +=     "<tr>";
@@ -221,10 +285,10 @@ public class Page2 implements Handler {
                 html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
             }
             if (outcome5 == true){
-                html +=         "<td>" + entry.getOutcomeMetric("raw", 6) + "</td>";
+                html +=         "<td>" + entry.getOutcomeMetric(dataType, 5) + "</td>";
             }
             if (outcome6 == true){
-                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+                html +=         "<td>" + entry.getOutcomeMetric(dataType, 6) + "</td>";
             }
             if (outcome8 == true){
                 html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
