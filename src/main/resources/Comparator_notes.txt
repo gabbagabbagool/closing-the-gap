@@ -1,0 +1,16 @@
+public Song(){
+  String artist, title;
+  StringBuilder lyrics;
+  int rank;
+}
+
+Comparator<Song> rankOrder =  new Comparator<Song>() {
+        public int compare(Song s1, Song e2) {
+            return s1.rank - s2.rank;
+        }
+    };
+Collections.sort(songs, rankOrder);
+
+
+We would write a comparator for each field we want to sort by
+When we need to sort we then call sort with that comparator before the table builder 
