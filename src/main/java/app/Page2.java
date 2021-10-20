@@ -83,8 +83,33 @@ public class Page2 implements Handler {
         // First we need to use your JDBCConnection class
         JDBCConnection jdbc = new JDBCConnection();
 
-        // Next we will ask this *class* for the ingig_Y12
-        ArrayList<lgaOutcomeTracker> indigY12 = jdbc.outcomeBuilder();
+        // Outcome 5
+        ArrayList<lgaOutcomeTracker> page2 = new ArrayList<lgaOutcomeTracker>();
+        String inputQuery = "SELECT s.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(s.count) AS value " +
+        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
+        "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
+        int outcomeNum = 5;
+        String outcomeType = "raw";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
+
+        // Outcome 6 raw
+        inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS value " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "WHERE q.indigenous_status = 'indig' " +
+        "GROUP BY q.lga_code16;";
+        outcomeNum = 6;
+        outcomeType = "raw";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
+
+        // Outcome 6 %
+        inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS value " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "WHERE q.indigenous_status = 'indig' " +
+        "GROUP BY q.lga_code16;";
+        outcomeNum = 6;
+        outcomeType = "raw";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
 
         boolean outcome1 = true;
@@ -188,7 +213,7 @@ public class Page2 implements Handler {
         /* TODO Before this iterator, we could save the values for raw/proportional 
            and hand it in to the loop to keep it dynamic */
         int rowIndex = 1;
-        for (lgaOutcomeTracker entry : indigY12){
+        for (lgaOutcomeTracker entry : page2){
             html +=     "<tr>";
             html +=       "<th scope='row'>" + rowIndex + "</th>";
             html +=         "<td>" + entry.getLgaName() + "</td>";
@@ -196,7 +221,7 @@ public class Page2 implements Handler {
                 html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
             }
             if (outcome5 == true){
-                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+                html +=         "<td>" + entry.getOutcomeMetric("raw", 6) + "</td>";
             }
             if (outcome6 == true){
                 html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
