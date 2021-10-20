@@ -63,3 +63,20 @@ SELECT a.Code as lgaCode, ROUND (CAST (i.Total AS REAL) / CAST (a.Total AS REAL)
 
 -- This query will return in hookup format, a raw value of y12 indigenous students per state
 SELECT substr(LGAs.lga_code16, 1, 1) AS stateCode, SUM(Indig_Y12.total) as value, State.stateName as stateName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)
+
+
+-- Select all indig above 15 years old per lga
+SELECT p.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(p.count) AS value
+FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16
+WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14'
+GROUP BY p.lga_code16;
+
+-- Select the percentage of qualified indig above 15 years old per lga
+SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS qValue, pop.pValue AS pValue, CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 AS "Percent Qual"
+FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 JOIN 
+    (SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue
+    FROM PopulationStatistics AS p 
+    WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14'
+    GROUP BY p.lga_code16) AS pop ON q.lga_code16 = pop.lgaCode
+WHERE q.indigenous_status = 'indig' 
+GROUP BY q.lga_code16;
