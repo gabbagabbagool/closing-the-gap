@@ -83,14 +83,31 @@ public class Page2 implements Handler {
         // First we need to use your JDBCConnection class
         JDBCConnection jdbc = new JDBCConnection();
 
-        // Outcome 5
+        // Outcome 1 raw
         ArrayList<lgaOutcomeTracker> page2 = new ArrayList<lgaOutcomeTracker>();
         String inputQuery = "SELECT s.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(s.count) AS value " +
         "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
         "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
         "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
-        int outcomeNum = 5;
+        int outcomeNum = 1;
         String outcomeType = "raw";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
+
+        // Outcome 5 raw
+        page2 = new ArrayList<lgaOutcomeTracker>();
+        inputQuery = "SELECT s.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(s.count) AS value " +
+        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
+        "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
+        outcomeNum = 5;
+        outcomeType = "raw";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
+
+        // Outcome 5 %
+        inputQuery = "SELECT Indig_Y12.Code AS lgaCode, LGAs.lga_name16 AS lgaName, Indig_Y12.Total, pop_above_15.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
+        "FROM Indig_Y12 JOIN pop_above_15 ON Indig_Y12.Code = pop_above_15.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+        outcomeNum = 5;
+        outcomeType = "p";
         jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
         // Outcome 6 raw
@@ -102,16 +119,31 @@ public class Page2 implements Handler {
         outcomeType = "raw";
         jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
-        // Outcome 6 %
-        inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS qValue, pop.pValue AS pValue, CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 AS 'value' " +
-        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 JOIN " +
-            "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue " +
-            "FROM PopulationStatistics AS p " +
-            "WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' " +
-            "GROUP BY p.lga_code16) AS pop ON q.lga_code16 = pop.lgaCode " +
+        // Outcome 6 % of qualificaions compared to indig population abouve 15 years.
+        inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS qValue, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "JOIN pop_above_15 AS pop ON q.lga_code16 = pop.lgaCode " +
         "WHERE q.indigenous_status = 'indig' " +
         "GROUP BY q.lga_code16;";
         outcomeNum = 6;
+        outcomeType = "p";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
+
+        // Outcome 8 raw count of in labour force but unemployed
+        inputQuery = "SELECT e.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, e.Labour_force, SUM(e.count) AS value " +
+        "FROM EmploymentStatistics AS e JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +
+        "GROUP BY e.lga_code16;";
+        outcomeNum = 8;
+        outcomeType = "raw";
+        jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
+
+        // Outcome 8 % of in labour force but unemployed compared to indig population abouve 15 years.
+        inputQuery = "SELECT e.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, e.Labour_force, SUM(e.count) AS eValue, round(CAST (SUM(e.count) AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
+        "FROM EmploymentStatistics AS e JOIN pop_above_15 ON e.lga_code16 = pop_above_15.lgaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +
+        "GROUP BY e.lga_code16;";
+        outcomeNum = 8;
         outcomeType = "p";
         jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
@@ -269,7 +301,7 @@ public class Page2 implements Handler {
 
         /* TODO Before this iterator, we could save the values for raw/proportional 
            and hand it in to the loop to keep it dynamic */
-           
+        rawData = false;
         String dataType;
         if (rawData) {
             dataType = "raw";
@@ -291,7 +323,7 @@ public class Page2 implements Handler {
                 html +=         "<td>" + entry.getOutcomeMetric(dataType, 6) + "</td>";
             }
             if (outcome8 == true){
-                html +=         "<td>" + entry.getOutcomeMetric("raw", 5) + "</td>";
+                html +=         "<td>" + entry.getOutcomeMetric(dataType, 8) + "</td>";
             }
             html +=     "</tr>";
             rowIndex++;
