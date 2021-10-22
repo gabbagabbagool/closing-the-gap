@@ -119,7 +119,7 @@ public class Page2 implements Handler {
         outcomeType = "raw";
         jdbc.theLgaHookUp(page2, inputQuery, outcomeNum, outcomeType);
 
-        // Outcome 6 % of qualificaions compared to indig population abouve 15 years.
+        // Outcome 6 % of qualificaions compared to indig population above 15 years.
         inputQuery = "SELECT q.lga_code16 AS lgaCode, LGAs.lga_name16 AS lgaName, SUM(q.count) AS qValue, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
         "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
         "JOIN pop_above_15 AS pop ON q.lga_code16 = pop.lgaCode " +
@@ -149,12 +149,81 @@ public class Page2 implements Handler {
 
         // Radio button for raw or proportional data
         boolean rawData = true;
+        // if(context.method() == "POST"){
+        //     html += "<div class='container'>";
+        //     html += "<form action='/page2.html' method='post'>";
+        //     html += " <div class='form-check'>";
+        //     html += "  <input class='form-check-input' type='radio' name='radioRaw' ";
+        //     if (context.formParam("radioRaw") != null){
+        //         System.out.println("radioRaw button on");
+        //         html += "checked";
+        //         rawData = true;
+        //     } else {
+        //         rawData = false;
+        //         System.out.println("radioProportion button on");
+        //     }
+        // }
+        //     html += ">";
+        //     html += "  <label class='form-check-label' for='radioRaw'>";
+        //     html += "    Raw";
+        //     html += "  </label>";
+        //     html += "</div>";
+        //     html += "<div class='form-check'>";
+        //     html += "  <input class='form-check-input' type='radio' name='radioProportion'";
+        //     if (rawData == false) {
+        //         html += "checked";
+        //     }
+        //     html += ">";
+        //     html += "  <label class='form-check-label' for='radioProportion'>";
+        //     html += "    Proportional";
+        //     html += "  </label><br>";
+        //     html += "<input type='submit' value='Update Data'>";
+        //     html += "</div>";
+        //     html += "</form>";
+        //     html += "</div>";
+
+            
+        
+            
+            // html += "<div class='container'>";
+            // html += "<form action='/page2.html' method='post'>";
+            // html += " <div class='form-check'>";
+            // html += "  <input class='form-check-input' type='radio' name='radioRaw' checked>";
+            // html += "  <label class='form-check-label' for='radioRaw'>";
+            // html += "    Count";
+            // html += "  </label>";
+            // html += "</div>";
+            // html += "<div class='form-check'>";
+            // html += "  <input class='form-check-input' type='radio' name='radioProportion' >";
+            // html += "  <label class='form-check-label' for='flexRadioDefault2'>";
+            // html += "    Proportional";
+            // html += "  </label><br>";
+            // html += "<input type='submit' value='Update Data'>";
+            // html += "</div>";
+            // html += "</form>";
+            // html += "</div>";
+        
+
+        boolean outcome1 = true;
+        boolean outcome5 = true;
+        boolean outcome6 = true;
+        boolean outcome8 = true;
         if(context.method() == "POST"){
+            // Add form
             html += "<div class='container'>";
             html += "<form action='/page2.html' method='post'>";
+            // add radio button
             html += " <div class='form-check'>";
-            html += "  <input class='form-check-input' type='radio' name='radioRaw' ";
-            
+            html += "  <input class='form-check-input' type='radio' id='radio1' name='radioRaw' ";
+            if (context.formParam("radio1") != null){
+                System.out.println("radioRaw button on");
+                html += "checked";
+                rawData = true;
+            } else {
+                rawData = false;
+                System.out.println("radioProportion button on");
+            }
+        
             html += ">";
             html += "  <label class='form-check-label' for='radioRaw'>";
             html += "    Raw";
@@ -162,53 +231,16 @@ public class Page2 implements Handler {
             html += "</div>";
             html += "<div class='form-check'>";
             html += "  <input class='form-check-input' type='radio' name='radioProportion'";
-            
+            if (rawData == false) {
+                html += "checked";
+            }
             html += ">";
             html += "  <label class='form-check-label' for='radioProportion'>";
             html += "    Proportional";
             html += "  </label><br>";
-            html += "<input type='submit' value='Update Data'>";
-            html += "</div>";
-            html += "</form>";
             html += "</div>";
 
-            if (context.formParam("radioRaw") != null){
-                System.out.println("radioRaw button on");
-                rawData = true;
-            } else {
-                rawData = false;
-                System.out.println("radioProportion button on");
-            }
-        }
-        else if(context.method() == "GET"){
-            System.out.println("get radio button");
-            html += "<div class='container'>";
-            html += "<form action='/page2.html' method='post'>";
-            html += " <div class='form-check'>";
-            html += "  <input class='form-check-input' type='radio' name='radioRaw' checked>";
-            html += "  <label class='form-check-label' for='radioRaw'>";
-            html += "    Count";
-            html += "  </label>";
-            html += "</div>";
-            html += "<div class='form-check'>";
-            html += "  <input class='form-check-input' type='radio' name='radioProportion' >";
-            html += "  <label class='form-check-label' for='flexRadioDefault2'>";
-            html += "    Proportional";
-            html += "  </label><br>";
-            html += "<input type='submit' value='Update Data'>";
-            html += "</div>";
-            html += "</form>";
-            html += "</div>";
-        }
-
-        boolean outcome1 = true;
-        boolean outcome5 = true;
-        boolean outcome6 = true;
-        boolean outcome8 = true;
-        if(context.method() == "POST"){
-            // Add checkboxes
-            html += "<div class='container'>";
-            html += "<form action='/page2.html' method='post'>";
+            // add checkboxes
             html += "<input type='checkbox' name='outcome1' value='1Select' ";
             if (context.formParam("outcome1") != null){
                 html += "checked";
@@ -250,9 +282,23 @@ public class Page2 implements Handler {
             html += "</div>";
         }
         else if(context.method() == "GET"){
-            // Add checkboxes
+            // Add radio button
             html += "<div class='container'>";
             html += "<form action='/page2.html' method='post'>";
+            html += " <div class='form-check'>";
+            html += "  <input class='form-check-input' type='radio' name='radioRaw' checked>";
+            html += "  <label class='form-check-label' for='radioRaw'>";
+            html += "    Count";
+            html += "  </label>";
+            html += "</div>";
+            html += "<div class='form-check'>";
+            html += "  <input class='form-check-input' type='radio' name='radioProportion' >";
+            html += "  <label class='form-check-label' for='flexRadioDefault2'>";
+            html += "    Proportional";
+            html += "  </label><br>";
+            html += "</div>";
+            html += "</div>";
+            // Add checkboxes
             html += "<input type='checkbox' id='outcome1' name='outcome1' value='outcome1' checked>";
             html += "<label for='outcome1'> Outcome 1</label><br>";
             html += "<input type='checkbox' id='outcome5' name='outcome5' value='Outcome5' checked>";
@@ -301,7 +347,7 @@ public class Page2 implements Handler {
 
         /* TODO Before this iterator, we could save the values for raw/proportional 
            and hand it in to the loop to keep it dynamic */
-        rawData = false;
+        // rawData = false;
         String dataType;
         if (rawData) {
             dataType = "raw";
@@ -334,8 +380,10 @@ public class Page2 implements Handler {
         html += "</div>";
         html += "</div>";
 
-        // Finish the HTML webpage
-        html += "</body>" + "</html>";
+        // Finish the HTML webpage, import Bootstraps scripts
+        html += "</body>";
+        html += "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p' crossorigin='anonymous'></script>";
+        html += "</html>";
 
 
         // DO NOT MODIFY THIS
