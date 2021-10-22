@@ -29,6 +29,16 @@ public class Page4 implements Handler {
     public void handle(Context context) throws Exception {
 
         Map<String, Object> model = new HashMap<String, Object>();
+    
+        JDBCConnection jdbc = new JDBCConnection();
+
+        ArrayList<thymeleafOutcomes> page4 = new ArrayList<thymeleafOutcomes>();
+        // The query above returns a count for the total indigenous population that has completed year 12 for each LGA
+        String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+        String outcomeNumAndType = "5r";
+        jdbc.thymeleafHookUp(page4, inputQuery, outcomeNumAndType);
+
+        model.put("tableData", page4);
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage

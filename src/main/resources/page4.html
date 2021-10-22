@@ -41,7 +41,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- INSERT TABLE BODY HERE -->
+                    <tr th:each="state : ${tableData}">
+                        <td th:text="${state.areaName}"></td>
+                        <td th:text="${state.outcome1Raw}"></td>
+                        <td th:text="${state.outcome5Raw}"></td>
+                        <td th:text="${state.outcome6Raw}"></td>
+                        <td th:text="${state.outcome8Raw}"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
