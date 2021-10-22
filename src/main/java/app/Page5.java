@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Temporary HTML as an example page.
@@ -21,34 +23,16 @@ public class Page5 implements Handler {
     // URL of this page relative to http://localhost:7000/
     public static final String URL = "/page5.html";
 
+    private static final String TEMPLATE = ("page5.html");
+
     @Override
     public void handle(Context context) throws Exception {
-        // Create a simple HTML webpage in a String
-        String html = "<html>";
 
-        // Add some Header information
-        html += "<head>" + 
-               "<title>Movies</title>";
-
-        // Add some CSS (external file)
-        html += "<link rel='stylesheet' type='text/css' href='common.css' />";
-
-        // Add the body
-        html += "<body>";
-
-        // Add HTML for link back to the homepage
-        html += "<h1>Page 5</h1>";
-        html += "<p>Return to Homepage: ";
-        html += "<a href='/'>Link to Homepage</a>";
-        html += "</p>";
-
-        // Finish the HTML webpage
-        html += "</body>" + "</html>";
-
+        Map<String, Object> model = new HashMap<String, Object>();
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
-        context.html(html);
+        context.render(TEMPLATE, model);
     }
 
 }
