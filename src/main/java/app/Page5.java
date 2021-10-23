@@ -94,6 +94,28 @@ public class Page5 implements Handler {
         outcomeNumAndType = "8p";
         jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
 
+        // radio buttons form link
+        String countRadio1 = context.formParam("customRadio1");
+        String proportionalRadio2 = context.formParam("customRadio2");
+        if (countRadio1 == null && proportionalRadio2 == null) {
+            System.out.println("both null here");
+            // If NULL, nothing to show, therefore we make some "no results"
+            model.put("dataType", new String("noneSelected"));
+        } else if (countRadio1 != null) {
+            model.put("dataType", new String("rawSelected"));
+        } else if (proportionalRadio2 != null) {
+            model.put("dataType", new String("fracSelected"));
+        }
+
+        // outcome checkbox button form link
+        String checkboxOutcome1 = context.formParam("checkboxOutcome1");
+        String checkboxOutcome5 = context.formParam("checkboxOutcome5");
+        String checkboxOutcome6 = context.formParam("checkboxOutcome6");
+        String checkboxOutcome8 = context.formParam("checkboxOutcome8");
+        model.put("checkboxOutcome1", checkboxOutcome1);
+        model.put("checkboxOutcome5", checkboxOutcome5);
+        model.put("checkboxOutcome6", checkboxOutcome6);
+        model.put("checkboxOutcome8", checkboxOutcome8);
 
         model.put("tableData", page5);
 
