@@ -95,23 +95,37 @@ public class Page5 implements Handler {
         jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
 
         // radio buttons form link
-        String countRadio1 = context.formParam("customRadio1");
+        String countRadio1 = context.formParam("customRadio");
         String proportionalRadio2 = context.formParam("customRadio2");
         if (countRadio1 == null && proportionalRadio2 == null) {
-            System.out.println("both null here");
+            System.out.println("null radio selection");
             // If NULL, nothing to show, therefore we make some "no results"
-            model.put("dataType", new String("noneSelected"));
-        } else if (countRadio1 != null) {
             model.put("dataType", new String("rawSelected"));
-        } else if (proportionalRadio2 != null) {
+        } else if (countRadio1.equalsIgnoreCase("raw")) {
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("proportional")) {
             model.put("dataType", new String("fracSelected"));
         }
 
         // outcome checkbox button form link
-        String checkboxOutcome1 = context.formParam("checkboxOutcome1");
-        String checkboxOutcome5 = context.formParam("checkboxOutcome5");
-        String checkboxOutcome6 = context.formParam("checkboxOutcome6");
-        String checkboxOutcome8 = context.formParam("checkboxOutcome8");
+        String checkboxOutcome1;
+        String checkboxOutcome5;
+        String checkboxOutcome6;
+        String checkboxOutcome8;
+        String contextMethod = context.method();
+        System.out.println(contextMethod);
+        if (contextMethod.equalsIgnoreCase("GET")) {
+            checkboxOutcome1 = "startChecked";
+            checkboxOutcome5 = "startChecked";
+            checkboxOutcome6 = "startChecked";
+            checkboxOutcome8 = "startChecked";
+        } else {
+            checkboxOutcome1 = context.formParam("checkboxOutcome1");
+            checkboxOutcome5 = context.formParam("checkboxOutcome5");
+            checkboxOutcome6 = context.formParam("checkboxOutcome6");
+            checkboxOutcome8 = context.formParam("checkboxOutcome8");
+        }
+        
         model.put("checkboxOutcome1", checkboxOutcome1);
         model.put("checkboxOutcome5", checkboxOutcome5);
         model.put("checkboxOutcome6", checkboxOutcome6);

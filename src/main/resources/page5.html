@@ -28,35 +28,61 @@
     <div class="container">
         <h1 class="display-4">Comparing Indigenous and Non-Indigenous</h1>
     </div>
-    <form action='/page5.html' method='post'>
-        <!-- <div class="container"> -->
-            <div class='form-group'>
-                <input type="radio" id="customRadio1" name="customRadio1" class="custom-control-input" value="radio1" >
-                <label class="custom-control-label" for="customRadio1"> Display count</label>
+    <!-- adds radio and checkboxes for display data -->
+    <div class="container">
+        <form action='/page5.html' method='post'>
+            <h5 class="text-muted">Display Data:</h5>
+            <div class='form-check'>
+                <input type="radio" id="customRadio2" name="customRadio" class="form-check-input" value="proportional" >
+                <label class="form-check-label" for="customRadio2"> Proportional</label>
             </div>
-            <div class='form-group'>
-                <input type="radio" id="customRadio2" name="customRadio2" class="custom-control-input" value="radio2" >
-                <label class="custom-control-label" for="customRadio2"> Display proportional</label>
-            </div>
+            <div class='form-check'>
+                <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" checked>
+                <label class="form-check-label" for="customRadio1"> Count</label>
+            </div><br>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="outcome1" >
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="outcome1" checked>
                 <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="outcome5" >
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="outcome5" checked>
                 <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="outcome6" >
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="outcome6" checked>
                 <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="outcome8" >
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="outcome8" checked>
                 <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
-            </div>
+            </div><br>
             <button type="submit" class="btn btn-primary">Submit</button>
-        <!-- </div> -->
-    </form>
+        
+        </form>
+    </div><br>
+    <!-- add filter display -->
+    <form class="form-inline" action='/page5.html' method='post'>
+        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Add Filter</label>
+        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+          <option selected>Choose...</option>
+          <option value="1">Age</option>
+          <option value="2">Gender</option>
+          <option value="3">Other?</option>
+        </select>
+      
+        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+            <option selected>=</option>
+            <option value="=">=</option>
+            <option value="greaterThan">&gt;</option>
+            <option value="lessThan">&lt;</option>
+          </select>
+
+        <label class="sr-only" for="inlineFormInputName2">input</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="50">
+      
+        <button type="submit" class="btn btn-primary my-1">Submit</button>
+      </form>
+    <!-- adds table of data -->
     <div class="container">
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-sm">
@@ -94,7 +120,3 @@
 </body>
 
 </html>
-
-<!-- html += "<div class='container'>";
-    html +=     "<h1 class=\"display-4\">Outcomes by LGA</h1>";
-    html += "</div>"; -->
