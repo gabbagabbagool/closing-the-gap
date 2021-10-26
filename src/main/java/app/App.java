@@ -53,7 +53,7 @@ public class App {
         // app.post(Page3.URL, new Page3());
         // app.post(Page4.URL, new Page4());
         app.post(Page5.URL, new Page5());
-        // app.post(Page6.URL, new Page6());
+        app.post(Page6.URL, new Page6());
     }
 
 }

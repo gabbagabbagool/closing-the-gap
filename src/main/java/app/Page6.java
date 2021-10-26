@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Temporary HTML as an example page.
@@ -21,37 +23,119 @@ public class Page6 implements Handler {
     // URL of this page relative to http://localhost:7000/
     public static final String URL = "/page6.html";
 
+    private static final String TEMPLATE = ("page6.html");
+
     @Override
     public void handle(Context context) throws Exception {
-        // Create a simple HTML webpage in a String
-        String html = "<html>";
 
-        // Add some Header information
-        html += "<head>" + 
-               "<title>Movies</title>";
+        Map<String, Object> model = new HashMap<String, Object>();
+    
+        JDBCConnection jdbc = new JDBCConnection();
 
-        // Add some CSS (external file)
-        html += "<link rel='stylesheet' type='text/css' href='common.css' />";
+        ArrayList<thymeleafOutcomes> page6 = new ArrayList<thymeleafOutcomes>();
+        // Outcome 1 The query below returns a count for the total indigenous population that has completed year 12 for each LGA
+        String inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value " +
+        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
+        "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
+        String outcomeNumAndType = "1r";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
 
-        // Add the body
-        html += "<body>";
+        // Outcome 1 %
+        inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop_above_15.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
+        "FROM Indig_Y12 JOIN pop_above_15 ON Indig_Y12.Code = pop_above_15.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+        outcomeNumAndType = "1p";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
 
-        // Add HTML for link back to the homepage
-        html += "<h1>Page 6</h1>";
-        html += "<p>Return to Homepage: ";
-        html += "<a href='/'>Link to Homepage</a>";
-        html += "</p>";
+        // Outcome 5 raw
+        inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value " +
+        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
+        "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
+        outcomeNumAndType = "5r";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
 
-        // Finish the List HTML
-        html += "</ul>";
+        // Outcome 5 %
+        inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop_above_15.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
+        "FROM Indig_Y12 JOIN pop_above_15 ON Indig_Y12.Code = pop_above_15.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+        outcomeNumAndType = "5p";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
 
-        // Finish the HTML webpage
-        html += "</body>" + "</html>";
+        // Outcome 6 raw
+        inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "WHERE q.indigenous_status = 'indig' " +
+        "GROUP BY q.lga_code16;";
+        outcomeNumAndType = "6r";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
 
+        // Outcome 6 % of qualificaions compared to indig population above 15 years.
+        inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS qValue, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "JOIN pop_above_15 AS pop ON q.lga_code16 = pop.lgaCode " +
+        "WHERE q.indigenous_status = 'indig' " +
+        "GROUP BY q.lga_code16;";
+        outcomeNumAndType = "6p";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
+
+        // Outcome 8 raw count of in labour force but unemployed
+        inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value " +
+        "FROM EmploymentStatistics AS e JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +
+        "GROUP BY e.lga_code16;";
+        outcomeNumAndType = "8r";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
+
+        // Outcome 8 % of in labour force but unemployed compared to indig population abouve 15 years.
+        inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS eValue, round(CAST (SUM(e.count) AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
+        "FROM EmploymentStatistics AS e JOIN pop_above_15 ON e.lga_code16 = pop_above_15.lgaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +
+        "GROUP BY e.lga_code16;";
+        outcomeNumAndType = "8p";
+        jdbc.thymeleafHookUp(page6, inputQuery, outcomeNumAndType);
+
+        // radio buttons form link
+        String countRadio1 = context.formParam("customRadio");
+        String proportionalRadio2 = context.formParam("customRadio2");
+        if (countRadio1 == null && proportionalRadio2 == null) {
+            System.out.println("null radio selection");
+            // If NULL, nothing to show, therefore we make some "no results"
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("raw")) {
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("proportional")) {
+            model.put("dataType", new String("fracSelected"));
+        }
+
+        // outcome checkbox button form link
+        String checkboxOutcome1;
+        String checkboxOutcome5;
+        String checkboxOutcome6;
+        String checkboxOutcome8;
+        String contextMethod = context.method();
+        System.out.println(contextMethod);
+        if (contextMethod.equalsIgnoreCase("GET")) {
+            checkboxOutcome1 = "startChecked";
+            checkboxOutcome5 = "startChecked";
+            checkboxOutcome6 = "startChecked";
+            checkboxOutcome8 = "startChecked";
+        } else {
+            checkboxOutcome1 = context.formParam("checkboxOutcome1");
+            checkboxOutcome5 = context.formParam("checkboxOutcome5");
+            checkboxOutcome6 = context.formParam("checkboxOutcome6");
+            checkboxOutcome8 = context.formParam("checkboxOutcome8");
+        }
+        
+        model.put("checkboxOutcome1", checkboxOutcome1);
+        model.put("checkboxOutcome5", checkboxOutcome5);
+        model.put("checkboxOutcome6", checkboxOutcome6);
+        model.put("checkboxOutcome8", checkboxOutcome8);
+
+        model.put("tableData", page6);
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
-        context.html(html);
+        context.render(TEMPLATE, model);
     }
 
 }
