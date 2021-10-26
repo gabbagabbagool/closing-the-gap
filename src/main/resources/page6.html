@@ -62,7 +62,7 @@
         </form>
     </div><br>
     <!-- add filter display -->
-    <!-- <form class="form-inline" action='/page6.html' method='post'>
+    <form class="form-inline" action='/page6.html' method='post'>
         <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Add Filter</label>
         <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
           <option selected>Choose...</option>
@@ -81,8 +81,8 @@
         <label class="sr-only" for="inlineFormInputName2">input</label>
         <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="50">
       
-        <button type="submit" class="btn btn-primary my-1">Submit</button>
-      </form> -->
+        <!-- <button type="submit" class="btn btn-primary my-1">Submit</button> -->
+      </form>
     <!-- adds table of data -->
     <div class="container">
         <div class="table-responsive">
@@ -90,7 +90,7 @@
                 <thead>
                     <tr>
                         <th scope="col" >LGA</th>
-                        <th scope="col" colspan="3">Overal</th>
+                        <th style="display:none" scope="col" colspan="3">Overal</th>
                         <th th:if="${checkboxOutcome1} != null" scope="col" colspan="3"> Outcome 1</th>
                         <th th:if="${checkboxOutcome5} != null" scope="col" colspan="3"> Outcome 5</th>
                         <th th:if="${checkboxOutcome6} != null" scope="col" colspan="3"> Outcome 6</th>
@@ -98,9 +98,9 @@
                     </tr>
                     <tr>
                         <td >&nbsp;</td>
-                        <td >Indig</td>
+                        <!-- <td >Indig</td>
                         <td >Non</td>
-                        <td >Gap</td>
+                        <td >Gap</td> -->
                         <td th:if="${checkboxOutcome1} != null" >Indig</td>
                         <td th:if="${checkboxOutcome1} != null" >Non</td>
                         <td th:if="${checkboxOutcome1} != null" >Gap</td>
@@ -116,16 +116,24 @@
                     </tr>
                 </thead>
                 <tbody  th:if="${dataType} != fracSelected">
-                    <tr th:each="lga : ${tableData}">
+                    <tr th:each="lga,iter : ${tableDataIndig}">
                         <td th:text="${lga.areaName}"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Raw}"></td>
+                        <td th:if="${checkboxOutcome1} != null" th:with="out1Ingig=${lga.outcome1Raw}" th:text="${out1Ingig}"></td> 
+                        <td th:if="${checkboxOutcome1} != null" th:with="out1Non=${tableDataNon[iter.index].outcome1Raw}" th:text="${out1Non}"></td>
+                        <td th:if="${checkboxOutcome1} != null" th:text="${out1Ingig}"></td>
                         <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Raw}"></td>
+                        <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Raw}"></td>
+                        <td th:if="${checkboxOutcome5} != null" th:text="${x}"></td>
                         <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Raw}"></td>
+                        <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Raw}"></td>
+                        <td th:if="${checkboxOutcome6} != null" th:text="${x}"></td>
                         <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Raw}"></td>
+                        <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Raw}"></td>
+                        <td th:if="${checkboxOutcome8} != null" th:text="${x}"></td>
                     </tr>
                 </tbody>
                 <tbody  th:if="${dataType} == fracSelected">
-                    <tr th:each="lga : ${tableData}">
+                    <tr th:each="lga : ${tableDataIndig}">
                         <td th:text="${lga.areaName}"></td>
                         <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
                         <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
@@ -136,26 +144,6 @@
             </table>
         </div>
     </div>
-    <!-- test table HTML -->
-    <table>
-        <tr>
-          <th rowspan="2">No</th>
-          <th colspan="3">Types</th>
-          <th rowspan="2">Remark</th>
-        </tr>
-        <tr>
-          <td>A</td>
-          <td>B</td>
-          <td>C</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
 </body>
 
 </html>
