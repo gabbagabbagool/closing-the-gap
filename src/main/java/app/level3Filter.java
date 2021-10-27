@@ -39,6 +39,7 @@ public class level3Filter implements Handler {
         String countRadio1 = context.formParam("customRadio");
         if (countRadio1 == null ) {
             // If NULL, choose raw by default
+            countRadio1 = "raw";
             model.put("dataType", new String("rawSelected"));
         } else if (countRadio1.equalsIgnoreCase("raw")) {
             model.put("dataType", new String("rawSelected"));
@@ -251,6 +252,7 @@ public class level3Filter implements Handler {
             outcomeNumAndType = "8p";
             jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
         }
+        
 
 
         model.put("tableDataIndig", page6Indig); 
