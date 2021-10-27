@@ -38,7 +38,7 @@ public class level2LGA implements Handler {
         String countRadio1 = context.formParam("customRadio");
         String proportionalRadio2 = context.formParam("customRadio2");
         if (countRadio1 == null && proportionalRadio2 == null) {
-            System.out.println("null radio selection");
+            
             // If NULL, nothing to show, therefore we make some "no results"
             model.put("dataType", new String("rawSelected"));
         } else if (countRadio1.equalsIgnoreCase("raw")) {
@@ -53,7 +53,7 @@ public class level2LGA implements Handler {
         String checkboxOutcome6;
         String checkboxOutcome8;
         String contextMethod = context.method();
-        System.out.println(contextMethod);
+        
         if (contextMethod.equalsIgnoreCase("GET")) {
             checkboxOutcome1 = "startChecked";
             checkboxOutcome5 = "startChecked";
