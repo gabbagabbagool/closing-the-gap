@@ -18,12 +18,12 @@ import java.util.Map;
  * @author Timothy Wiley, 2021. email: timothy.wiley@rmit.edu.au
  * @author Santha Sumanasekara, 2021. email: santha.sumanasekara@rmit.edu.au
  */
-public class Page5 implements Handler {
+public class level2LGA implements Handler {
 
     // URL of this page relative to http://localhost:7000/
-    public static final String URL = "/page5.html";
+    public static final String URL = "/level2LGA.html";
 
-    private static final String TEMPLATE = ("page5.html");
+    private static final String TEMPLATE = ("level2LGA.html");
 
     @Override
     public void handle(Context context) throws Exception {
@@ -32,14 +32,14 @@ public class Page5 implements Handler {
     
         JDBCConnection jdbc = new JDBCConnection();
 
-        ArrayList<thymeleafOutcomes> page5 = new ArrayList<thymeleafOutcomes>();
+        ArrayList<thymeleafOutcomes> level2LGA = new ArrayList<thymeleafOutcomes>();
         // Outcome 1 raw select indig count of population over 65 years per LGA
         String inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
         "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " +
         "GROUP BY p.lga_code16;";
         String outcomeNumAndType = "1r";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 1 % select indig proportion of population over 65 years comparied to all indig above 15 years per LGA
         inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, pop_above_15.pValue, round(CAST (SUM(p.count) AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
@@ -47,7 +47,7 @@ public class Page5 implements Handler {
         "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " +
         "GROUP BY p.lga_code16;";
         outcomeNumAndType = "1p";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 5 raw select indig count that have completed year 12 per LGA
         inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value " +
@@ -55,13 +55,13 @@ public class Page5 implements Handler {
         "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +
         "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
         outcomeNumAndType = "5r";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 5 % select indig proportion that have completed year 12 compaired to all indig above 15 years per LGA
         inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop_above_15.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
         "FROM Indig_Y12 JOIN pop_above_15 ON Indig_Y12.Code = pop_above_15.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
         outcomeNumAndType = "5p";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 6 raw select indig count that have any qualification per LGA
         inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value " +
@@ -69,7 +69,7 @@ public class Page5 implements Handler {
         "WHERE q.indigenous_status = 'indig' " +
         "GROUP BY q.lga_code16;";
         outcomeNumAndType = "6r";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 6 % select indig proportion that have any qualification compared to indig population above 15 years per LGA.
         inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS qValue, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
@@ -78,7 +78,7 @@ public class Page5 implements Handler {
         "WHERE q.indigenous_status = 'indig' " +
         "GROUP BY q.lga_code16;";
         outcomeNumAndType = "6p";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 8 raw select indig count in labour force but unemployed per LGA
         inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value " +
@@ -86,7 +86,7 @@ public class Page5 implements Handler {
         "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +
         "GROUP BY e.lga_code16;";
         outcomeNumAndType = "8r";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // Outcome 8 % select indig proportion in labour force but unemployed compared to indig population above 15 years per LGA.
         inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS eValue, round(CAST (SUM(e.count) AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
@@ -94,7 +94,7 @@ public class Page5 implements Handler {
         "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +
         "GROUP BY e.lga_code16;";
         outcomeNumAndType = "8p";
-        jdbc.thymeleafHookUp(page5, inputQuery, outcomeNumAndType);
+        jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
         // radio buttons form link
         String countRadio1 = context.formParam("customRadio");
@@ -133,7 +133,7 @@ public class Page5 implements Handler {
         model.put("checkboxOutcome6", checkboxOutcome6);
         model.put("checkboxOutcome8", checkboxOutcome8);
 
-        model.put("tableData", page5);
+        model.put("tableData", level2LGA);
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
