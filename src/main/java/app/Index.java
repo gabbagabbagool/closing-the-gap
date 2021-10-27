@@ -56,7 +56,7 @@ public class Index implements Handler {
         html +=                "<a class='nav-link' href='/page1.html'>Mission Statement</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
-        html +=                "<a class='nav-link' href='/page2.html'>By LGA</a>";
+        html +=                "<a class='nav-link' href='/level2LGA.html'>By LGA</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
         html +=                "<a class='nav-link' href='/page3.html'>By State</a>";
@@ -65,7 +65,7 @@ public class Index implements Handler {
         html +=                "<a class='nav-link' href='/page4.html'>Page 4</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
-        html +=                "<a class='nav-link' href='/page5.html'>Page 5</a>";
+        html +=                "<a class='nav-link' href='/level3Filter.html'>Filter</a>";
         html +=              "</li>";
         html +=            "</ul>";
         html +=         "</div>";

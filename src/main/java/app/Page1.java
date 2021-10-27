@@ -66,7 +66,7 @@ public class Page1 implements Handler {
         html +=                "<a class='nav-link' href='/page4.html'>Page 4</a>";
         html +=              "</li>";
         html +=              "<li class='nav-item'>";
-        html +=                "<a class='nav-link' href='/page5.html'>Page 5</a>";
+        html +=                "<a class='nav-link' href='/level3Filter.html'>Page 5</a>";
         html +=              "</li>";
         html +=            "</ul>";
         html +=         "</div>";
