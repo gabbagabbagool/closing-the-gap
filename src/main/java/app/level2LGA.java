@@ -136,6 +136,7 @@ public class level2LGA implements Handler {
 
 
         model.put("tableData", level2LGA);
+        model.put("currentPage", "level2LGA");
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage

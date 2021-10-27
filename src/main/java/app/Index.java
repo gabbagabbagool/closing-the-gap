@@ -24,6 +24,7 @@ public class Index implements Handler {
     @Override
     public void handle(Context context) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
+        model.put("currentPage", "index");
         
         // Makes Javalin render the webpage
         context.render(TEMPLATE, model);

@@ -88,6 +88,8 @@ public class level3Filter implements Handler {
         filterValue = context.formParam("filterValue");
         System.out.println(filterValue);
 
+        // TODO receiving an error here "Cannot invoke "String.equalsIgnoreCase(String)" because "filterSelect" is null"
+        // Will not load page
         if (filterSelect.equalsIgnoreCase("sex") && (!"Choose...".equals(filterValue))) {
             filterSex1r = "and p.sex = '" + filterValue + "'";
             filterSex1p = "and pop.sex = '" + filterValue + "'";
