@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Timothy Wiley, 2021. email: timothy.wiley@rmit.edu.au
  * @author Santha Sumanasekara, 2021. email: santha.sumanasekara@rmit.edu.au
  */
-public class Page4 implements Handler {
+public class level2State implements Handler {
 
     // URL of this page relative to http://localhost:7000/
     public static final String URL = "/page4.html";
