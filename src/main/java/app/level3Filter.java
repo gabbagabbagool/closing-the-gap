@@ -34,10 +34,72 @@ public class level3Filter implements Handler {
 
         ArrayList<thymeleafOutcomes> page6Indig = new ArrayList<thymeleafOutcomes>();
         ArrayList<thymeleafOutcomes> page6Non = new ArrayList<thymeleafOutcomes>();
+
+        // radio buttons form link
+        String countRadio1 = context.formParam("customRadio");
+        if (countRadio1 == null ) {
+            System.out.println("null radio selection");
+            // If NULL, nothing to show, therefore we make some "no results"
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("raw")) {
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("proportional")) {
+            model.put("dataType", new String("fracSelected"));
+        }
+
+        // outcome checkbox button form link
+        String checkboxOutcome1;
+        String checkboxOutcome5;
+        String checkboxOutcome6;
+        String checkboxOutcome8;
+        String contextMethod = context.method();
+        System.out.println(contextMethod);
+        if (contextMethod.equalsIgnoreCase("GET")) {
+            checkboxOutcome1 = "startChecked";
+            checkboxOutcome5 = "startChecked";
+            checkboxOutcome6 = "startChecked";
+            checkboxOutcome8 = "startChecked";
+        } else {
+            checkboxOutcome1 = context.formParam("checkboxOutcome1");
+            checkboxOutcome5 = context.formParam("checkboxOutcome5");
+            checkboxOutcome6 = context.formParam("checkboxOutcome6");
+            checkboxOutcome8 = context.formParam("checkboxOutcome8");
+        }
+        
+        model.put("checkboxOutcome1", checkboxOutcome1);
+        model.put("checkboxOutcome5", checkboxOutcome5);
+        model.put("checkboxOutcome6", checkboxOutcome6);
+        model.put("checkboxOutcome8", checkboxOutcome8);
+
+        // add filter for sex
+        
+        String filterSelect = "";
+        String filterValue = "";
+
+        String filterSex1r = "";
+        String filterSex1p = "";
+        String filterSex5 = "";
+        String filterSex6 = "";
+        String filterSex8 = "";
+        String filterAge = "";
+
+        filterSelect = context.formParam("filterType");
+        System.out.println(filterSelect);
+        filterValue = context.formParam("filterValue");
+        System.out.println(filterValue);
+
+        if (filterSelect.equalsIgnoreCase("sex") && (!"Choose...".equals(filterValue))) {
+            filterSex1r = "and p.sex = '" + filterValue + "'";
+            filterSex1p = "and pop.sex = '" + filterValue + "'";
+        } else {
+            filterSex1r = "";
+            filterSex1p = "";
+        }
+
         // Outcome 1 raw select indig count of population over 65 years per LGA
         String inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
-        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " +
+        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r +
         "GROUP BY p.lga_code16;";
         String outcomeNumAndType = "1r";
         jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -45,23 +107,23 @@ public class level3Filter implements Handler {
         // Outcome 1 raw select NON-indig count of population over 65 years per LGA
         inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
-        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " +
+        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + 
         "GROUP BY p.lga_code16;";
         outcomeNumAndType = "1r";
         jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
 
         // Outcome 1 % select indig proportion of population over 65 years comparied to all indig above 15 years per LGA
-        inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, pop_above_15.pValue, round(CAST (SUM(p.count) AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
-        "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN pop_above_15 ON p.lga_code16 = pop_above_15.lgaCode " +
-        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " +
+        inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, pop.pValue, round(CAST (SUM(p.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+        "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN pop_above_15 AS pop ON p.lga_code16 = pop.lgaCode " +
+        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r + filterSex1p +
         "GROUP BY p.lga_code16;";
         outcomeNumAndType = "1p";
         jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
         // Outcome 1 % select Non-indig proportion of population over 65 years comparied to all Non-indig above 15 years per LGA
-        inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, Non_indig_pop_above_15.pValue, round(CAST (SUM(p.count) AS FLOAT)/Non_indig_pop_above_15.pValue * 100 , 1) AS 'value' " +
-        "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN Non_indig_pop_above_15 ON p.lga_code16 = Non_indig_pop_above_15.lgaCode " +
-        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " +
+        inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, pop.pValue, round(CAST (SUM(p.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+        "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN Non_indig_pop_above_15 AS pop ON p.lga_code16 = pop.lgaCode " +
+        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + filterSex1p +
         "GROUP BY p.lga_code16;";
         outcomeNumAndType = "1p";
         jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
@@ -89,8 +151,8 @@ public class level3Filter implements Handler {
         jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
         // Outcome 5 % select Non-indig proportion that have completed year 12 compaired to all Non-indig above 15 years per LGA
-        inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, Non_indig_pop_above_15.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/Non_indig_pop_above_15.pValue * 100 , 1) AS 'value' " +
-        "FROM Indig_Y12 JOIN Non_indig_pop_above_15 ON Indig_Y12.Code = Non_indig_pop_above_15.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+        inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+        "FROM Indig_Y12 JOIN Non_indig_pop_above_15 AS pop ON Indig_Y12.Code = pop.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
         outcomeNumAndType = "5p";
         jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
 
@@ -160,42 +222,6 @@ public class level3Filter implements Handler {
         outcomeNumAndType = "8p";
         jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
 
-        // radio buttons form link
-        String countRadio1 = context.formParam("customRadio");
-        String proportionalRadio2 = context.formParam("customRadio2");
-        if (countRadio1 == null && proportionalRadio2 == null) {
-            System.out.println("null radio selection");
-            // If NULL, nothing to show, therefore we make some "no results"
-            model.put("dataType", new String("rawSelected"));
-        } else if (countRadio1.equalsIgnoreCase("raw")) {
-            model.put("dataType", new String("rawSelected"));
-        } else if (countRadio1.equalsIgnoreCase("proportional")) {
-            model.put("dataType", new String("fracSelected"));
-        }
-
-        // outcome checkbox button form link
-        String checkboxOutcome1;
-        String checkboxOutcome5;
-        String checkboxOutcome6;
-        String checkboxOutcome8;
-        String contextMethod = context.method();
-        System.out.println(contextMethod);
-        if (contextMethod.equalsIgnoreCase("GET")) {
-            checkboxOutcome1 = "startChecked";
-            checkboxOutcome5 = "startChecked";
-            checkboxOutcome6 = "startChecked";
-            checkboxOutcome8 = "startChecked";
-        } else {
-            checkboxOutcome1 = context.formParam("checkboxOutcome1");
-            checkboxOutcome5 = context.formParam("checkboxOutcome5");
-            checkboxOutcome6 = context.formParam("checkboxOutcome6");
-            checkboxOutcome8 = context.formParam("checkboxOutcome8");
-        }
-        
-        model.put("checkboxOutcome1", checkboxOutcome1);
-        model.put("checkboxOutcome5", checkboxOutcome5);
-        model.put("checkboxOutcome6", checkboxOutcome6);
-        model.put("checkboxOutcome8", checkboxOutcome8);
 
         model.put("tableDataIndig", page6Indig); 
         model.put("tableDataNon", page6Non);

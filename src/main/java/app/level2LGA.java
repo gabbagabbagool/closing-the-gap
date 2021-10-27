@@ -33,6 +33,44 @@ public class level2LGA implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
         ArrayList<thymeleafOutcomes> level2LGA = new ArrayList<thymeleafOutcomes>();
+
+        // radio buttons form link
+        String countRadio1 = context.formParam("customRadio");
+        String proportionalRadio2 = context.formParam("customRadio2");
+        if (countRadio1 == null && proportionalRadio2 == null) {
+            System.out.println("null radio selection");
+            // If NULL, nothing to show, therefore we make some "no results"
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("raw")) {
+            model.put("dataType", new String("rawSelected"));
+        } else if (countRadio1.equalsIgnoreCase("proportional")) {
+            model.put("dataType", new String("fracSelected"));
+        }
+
+        // outcome checkbox button form link
+        String checkboxOutcome1;
+        String checkboxOutcome5;
+        String checkboxOutcome6;
+        String checkboxOutcome8;
+        String contextMethod = context.method();
+        System.out.println(contextMethod);
+        if (contextMethod.equalsIgnoreCase("GET")) {
+            checkboxOutcome1 = "startChecked";
+            checkboxOutcome5 = "startChecked";
+            checkboxOutcome6 = "startChecked";
+            checkboxOutcome8 = "startChecked";
+        } else {
+            checkboxOutcome1 = context.formParam("checkboxOutcome1");
+            checkboxOutcome5 = context.formParam("checkboxOutcome5");
+            checkboxOutcome6 = context.formParam("checkboxOutcome6");
+            checkboxOutcome8 = context.formParam("checkboxOutcome8");
+        }
+        
+        model.put("checkboxOutcome1", checkboxOutcome1);
+        model.put("checkboxOutcome5", checkboxOutcome5);
+        model.put("checkboxOutcome6", checkboxOutcome6);
+        model.put("checkboxOutcome8", checkboxOutcome8);
+
         // Outcome 1 raw select indig count of population over 65 years per LGA
         String inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
@@ -96,42 +134,6 @@ public class level2LGA implements Handler {
         outcomeNumAndType = "8p";
         jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
-        // radio buttons form link
-        String countRadio1 = context.formParam("customRadio");
-        String proportionalRadio2 = context.formParam("customRadio2");
-        if (countRadio1 == null && proportionalRadio2 == null) {
-            System.out.println("null radio selection");
-            // If NULL, nothing to show, therefore we make some "no results"
-            model.put("dataType", new String("rawSelected"));
-        } else if (countRadio1.equalsIgnoreCase("raw")) {
-            model.put("dataType", new String("rawSelected"));
-        } else if (countRadio1.equalsIgnoreCase("proportional")) {
-            model.put("dataType", new String("fracSelected"));
-        }
-
-        // outcome checkbox button form link
-        String checkboxOutcome1;
-        String checkboxOutcome5;
-        String checkboxOutcome6;
-        String checkboxOutcome8;
-        String contextMethod = context.method();
-        System.out.println(contextMethod);
-        if (contextMethod.equalsIgnoreCase("GET")) {
-            checkboxOutcome1 = "startChecked";
-            checkboxOutcome5 = "startChecked";
-            checkboxOutcome6 = "startChecked";
-            checkboxOutcome8 = "startChecked";
-        } else {
-            checkboxOutcome1 = context.formParam("checkboxOutcome1");
-            checkboxOutcome5 = context.formParam("checkboxOutcome5");
-            checkboxOutcome6 = context.formParam("checkboxOutcome6");
-            checkboxOutcome8 = context.formParam("checkboxOutcome8");
-        }
-        
-        model.put("checkboxOutcome1", checkboxOutcome1);
-        model.put("checkboxOutcome5", checkboxOutcome5);
-        model.put("checkboxOutcome6", checkboxOutcome6);
-        model.put("checkboxOutcome8", checkboxOutcome8);
 
         model.put("tableData", level2LGA);
 
