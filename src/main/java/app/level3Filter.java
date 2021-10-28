@@ -258,6 +258,84 @@ public class level3Filter implements Handler {
         model.put("tableDataIndig", page6Indig); 
         model.put("tableDataNon", page6Non);
 
+        // calulate the gap
+        int tempValue;
+        Double tempFloat;
+
+        ArrayList<String> outcome1rGap = new ArrayList<String>();
+        ArrayList<String> outcome5rGap = new ArrayList<String>();
+        ArrayList<String> outcome6rGap = new ArrayList<String>();
+        ArrayList<String> outcome8rGap = new ArrayList<String>();
+
+        ArrayList<String> outcome1pGap = new ArrayList<String>();
+        ArrayList<String> outcome5pGap = new ArrayList<String>();
+        ArrayList<String> outcome6pGap = new ArrayList<String>();
+        ArrayList<String> outcome8pGap = new ArrayList<String>();
+        
+        for (int i = 0; i < page6Indig.size() ; i++) {
+            if (countRadio1.equalsIgnoreCase("raw")){
+                
+                // outcome 1
+                tempValue = Integer.valueOf(page6Non.get(i).outcome1Raw) - Integer.valueOf(page6Indig.get(i).outcome1Raw);
+                outcome1rGap.add(String.valueOf(tempValue));
+                // outcome 5
+                tempValue = Integer.valueOf(page6Non.get(i).outcome5Raw) - Integer.valueOf(page6Indig.get(i).outcome5Raw);
+                outcome5rGap.add(String.valueOf(tempValue));
+                // outcome 6
+                tempValue = Integer.valueOf(page6Non.get(i).outcome6Raw) - Integer.valueOf(page6Indig.get(i).outcome6Raw);
+                outcome6rGap.add(String.valueOf(tempValue));
+                // outcome 8
+                tempValue = Integer.valueOf(page6Non.get(i).outcome8Raw) - Integer.valueOf(page6Indig.get(i).outcome8Raw);
+                outcome8rGap.add(String.valueOf(tempValue));
+
+            } else {
+                // System.out.println(Double.parseDouble(page6Non.get(i).outcome1Frac) - Double.parseDouble(page6Indig.get(i).outcome1Frac));
+                try {
+                    // outcome 1
+                    tempFloat = Double.parseDouble(page6Non.get(i).outcome1Frac) - Double.parseDouble(page6Indig.get(i).outcome1Frac);
+                    outcome1pGap.add(String.valueOf(String.format("%.1f", tempFloat)));
+                    // outcome1pGap.add(String.valueOf(tempFloat));
+                } catch (Exception e) {
+                    // no population under 65 to calculate proportion
+                    outcome1pGap.add("NA Gap");
+                }
+
+                try {
+                    // outcome 5
+                    tempFloat = Double.parseDouble(page6Non.get(i).outcome5Frac) - Double.parseDouble(page6Indig.get(i).outcome5Frac);
+                    outcome5pGap.add(String.valueOf(String.format("%.1f", tempFloat)));
+                } catch (Exception e) {
+                    outcome5pGap.add("NA Gap");
+                }
+
+                try {
+                    // outcome 6
+                    tempFloat = Double.parseDouble(page6Non.get(i).outcome6Frac) - Double.parseDouble(page6Indig.get(i).outcome6Frac);
+                    outcome6pGap.add(String.valueOf(String.format("%.1f",tempFloat)));
+                } catch (Exception e) {
+                    outcome6pGap.add("NA Gap");
+                }
+                try {
+                    // outcome 8
+                    tempFloat = Double.parseDouble(page6Non.get(i).outcome8Frac) - Double.parseDouble(page6Indig.get(i).outcome8Frac);
+                    outcome8pGap.add(String.valueOf(String.format("%.1f",tempFloat)));
+                } catch (Exception e) {
+                    outcome8pGap.add("NA Gap");
+                }
+                
+            }
+        }
+        
+        model.put("outcome1rGap", outcome1rGap);
+        model.put("outcome5rGap", outcome5rGap);
+        model.put("outcome6rGap", outcome6rGap);
+        model.put("outcome8rGap", outcome8rGap);
+
+        model.put("outcome1pGap", outcome1pGap);
+        model.put("outcome5pGap", outcome5pGap);
+        model.put("outcome6pGap", outcome6pGap);
+        model.put("outcome8pGap", outcome8pGap);
+        
                 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
