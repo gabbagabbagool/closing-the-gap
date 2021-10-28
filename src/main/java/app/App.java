@@ -41,7 +41,6 @@ public class App {
         app.get(Index.URL, new Index());
         app.get(missionStatement.URL, new missionStatement());
         app.get(level2LGA.URL, new level2LGA());
-        app.get(Page3.URL, new Page3());
         app.get(level2State.URL, new level2State());
         app.get(level3Filter.URL, new level3Filter());
         app.get(Page6.URL, new Page6());
@@ -50,7 +49,6 @@ public class App {
         // app.post(Index.URL, new Index());
         // app.post(Page1.URL, new Page1());
         app.post(level2LGA.URL, new level2LGA());
-        app.post(Page3.URL, new Page3());
         app.post(level2State.URL, new level2State());
         app.post(level3Filter.URL, new level3Filter());
         app.post(Page6.URL, new Page6());
