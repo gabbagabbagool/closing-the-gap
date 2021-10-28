@@ -345,6 +345,8 @@ public class level3Filter implements Handler {
                 
             }
         }
+
+        model.put("currentPage", "level3Filter");
         
         model.put("outcome1rGap", outcome1rGap);
         model.put("outcome5rGap", outcome5rGap);
