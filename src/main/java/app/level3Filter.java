@@ -258,6 +258,7 @@ public class level3Filter implements Handler {
         model.put("tableDataIndig", page6Indig); 
         model.put("tableDataNon", page6Non);
 
+                
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
         context.render(TEMPLATE, model);
