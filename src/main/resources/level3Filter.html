@@ -119,18 +119,18 @@
                 <tbody  th:if="${dataType} != fracSelected">
                     <tr th:each="lga,iter : ${tableDataIndig}">
                         <td th:text="${lga.areaName}"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:with="out1Ingig=${lga.outcome1Raw}" th:text="${out1Ingig}"></td> 
-                        <td th:if="${checkboxOutcome1} != null" th:with="out1Non=${tableDataNon[iter.index].outcome1Raw}" th:text="${out1Non}"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${out1Ingig}"></td>
+                        <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Raw}" ></td> 
+                        <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Raw}"></td>
+                        <td th:if="${checkboxOutcome1} != null" th:text="${outcome1rGap[iter.index]}"></td>
                         <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Raw}"></td>
                         <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Raw}"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome5} != null" th:text="${outcome5rGap[iter.index]}"></td>
                         <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Raw}"></td>
                         <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Raw}"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome6} != null" th:text="${outcome6rGap[iter.index]}"></td>
                         <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Raw}"></td>
                         <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Raw}"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome8} != null" th:text="${outcome8rGap[iter.index]}"></td>
                     </tr>
                 </tbody>
                 <tbody  th:if="${dataType} == fracSelected">
@@ -138,16 +138,16 @@
                         <td th:text="${lga.areaName}"></td>
                         <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
                         <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome1} != null" th:text="${outcome1pGap[iter.index]} + '%'"></td>
                         <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
                         <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome5} != null" th:text="${outcome5pGap[iter.index]} + '%'"></td>
                         <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Frac} + '%'"></td>
                         <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome6} != null" th:text="${outcome6pGap[iter.index]} + '%'"></td>
                         <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Frac} + '%'"></td>
                         <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${x}"></td>
+                        <td th:if="${checkboxOutcome8} != null" th:text="${outcome8pGap[iter.index]} + '%'"></td>
                     </tr>
                 </tbody>
             </table>
