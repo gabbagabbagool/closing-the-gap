@@ -44,10 +44,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">State</th>
-                                <th scope="col">Long &amp; healthy lives</th>
-                                <th scope="col">Full learning potential</th>
-                                <th scope="col">Further education completion</th>
-                                <th scope="col">Employment participation</th>
+                                <th th:if="${outcome1}" scope="col">Long &amp; healthy lives</th>
+                                <th th:if="${outcome5}" scope="col">Full learning potential</th>
+                                <th th:if="${outcome6}" scope="col">Further education completion</th>
+                                <th th:if="${outcome8}" scope="col">Employment participation</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,27 +56,27 @@
                                 <!-- If raw is selected, render raw table-->
                                 <tr th:each="state : ${tableData}">
                                     <td th:text="${state.areaName}"></td>
-                                    <td th:text="${state.outcome1Raw}"></td>
-                                    <td th:text="${state.outcome5Raw}"></td>
-                                    <td th:text="${state.outcome6Raw}"></td>
-                                    <td th:text="${state.outcome8Raw}"></td>
+                                    <td th:if="${outcome1}" th:text="${state.outcome1Raw}"></td>
+                                    <td th:if="${outcome5}" th:text="${state.outcome5Raw}"></td>
+                                    <td th:if="${outcome6}" th:text="${state.outcome6Raw}"></td>
+                                    <td th:if="${outcome8}" th:text="${state.outcome8Raw}"></td>
                                 </tr>
                             </div>
                             <div th:if="${radio} == p">
                                 <!-- If proportional is selected, render proportional table-->
                                 <tr th:each="state : ${tableData}">
                                     <td th:text="${state.areaName}"></td>
-                                    <td th:text="${state.outcome1Frac}"></td>
-                                    <td th:text="${state.outcome5Frac}"></td>
-                                    <td th:text="${state.outcome6Frac}"></td>
-                                    <td th:text="${state.outcome8Frac}"></td>
+                                    <td th:if="${outcome1}" th:text="${state.outcome1Frac}"></td>
+                                    <td th:if="${outcome5}" th:text="${state.outcome5Frac}"></td>
+                                    <td th:if="${outcome6}" th:text="${state.outcome6Frac}"></td>
+                                    <td th:if="${outcome8}" th:text="${state.outcome8Frac}"></td>
                                 </tr>
                             </div>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-3">
                 <form action='/level2State.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
