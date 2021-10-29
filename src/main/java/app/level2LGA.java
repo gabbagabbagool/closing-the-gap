@@ -36,8 +36,8 @@ public class level2LGA implements Handler {
 
         // radio buttons form link
         String countRadio1 = context.formParam("customRadio");
-        String proportionalRadio2 = context.formParam("customRadio2");
-        if (countRadio1 == null && proportionalRadio2 == null) {
+        
+        if (countRadio1 == null) {
             
             // If NULL, nothing to show, therefore we make some "no results"
             model.put("dataType", new String("rawSelected"));
@@ -55,10 +55,10 @@ public class level2LGA implements Handler {
         String contextMethod = context.method();
         
         if (contextMethod.equalsIgnoreCase("GET")) {
-            checkboxOutcome1 = "startChecked";
-            checkboxOutcome5 = "startChecked";
-            checkboxOutcome6 = "startChecked";
-            checkboxOutcome8 = "startChecked";
+            checkboxOutcome1 = "checked";
+            checkboxOutcome5 = "checked";
+            checkboxOutcome6 = "checked";
+            checkboxOutcome8 = "checked";
         } else {
             checkboxOutcome1 = context.formParam("checkboxOutcome1");
             checkboxOutcome5 = context.formParam("checkboxOutcome5");
@@ -70,7 +70,7 @@ public class level2LGA implements Handler {
         model.put("checkboxOutcome5", checkboxOutcome5);
         model.put("checkboxOutcome6", checkboxOutcome6);
         model.put("checkboxOutcome8", checkboxOutcome8);
-
+        
         // Outcome 1 raw select indig count of population over 65 years per LGA
         String inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
