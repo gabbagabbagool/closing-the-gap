@@ -52,33 +52,61 @@ public class level2State implements Handler {
             model.put("outcome8", context.formParam("checkboxOutcome8"));
             model.put("radio", context.formParam("radio"));
         }
-
+        String inputQuery;
         // If outcome 1 has been selected
         if (model.get("outcome1") != null){
             // TODO query below must reflect outcome 1
-            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            
+            // If the raw radio is selected
+            if (model.get("radio").equals('r')){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+            }
+            else{
+                inputQuery = "SOME SQL QUERY THAT GETS A PROPORTION";
+            }
             String outcomeNumAndType = "1";
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         // if outcome 5 has been selected
         if (model.get("outcome5") != null){
-            // The query above returns a count for the total indigenous population that has completed year 12 for each LGA
-            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            // If the raw radio is selected
+            if (model.get("radio").equals('r')){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            }
+            else{
+                inputQuery = "SOME SQL QUERY THAT GETS A PROPORTION";
+            }
             String outcomeNumAndType = "5";
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         if (model.get("outcome6") != null){
             // TODO query below must reflect outcome 6
-            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            // If the raw radio is selected
+            if (model.get("radio").equals('r')){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            }
+            else{
+                inputQuery = "SOME SQL QUERY THAT GETS A PROPORTION";
+            }
             String outcomeNumAndType = "6";
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         if (model.get("outcome8") != null){
             // TODO query below must reflect outcome 8
-            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            // If the raw radio is selected
+            if (model.get("radio").equals('r')){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            }
+            else{
+                inputQuery = "SOME SQL QUERY THAT GETS A PROPORTION";
+            }
             String outcomeNumAndType = "8";
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);

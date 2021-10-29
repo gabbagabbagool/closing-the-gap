@@ -97,10 +97,10 @@
                     <div th:if="${radio} == p"> <!-- If proportional is selected, render proportional table-->
                         <tr th:each="state : ${tableData}">
                             <td th:text="${state.areaName}"></td>
-                            <td th:text="${state.outcome1Raw}"></td>
-                            <td th:text="${state.outcome5Raw}"></td>
-                            <td th:text="${state.outcome6Raw}"></td>
-                            <td th:text="${state.outcome8Raw}"></td>
+                            <td th:text="${state.outcome1Frac}"></td>
+                            <td th:text="${state.outcome5Frac}"></td>
+                            <td th:text="${state.outcome6Frac}"></td>
+                            <td th:text="${state.outcome8Frac}"></td>
                         </tr>
                     </div>
                 </tbody>
