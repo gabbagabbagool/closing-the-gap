@@ -34,7 +34,8 @@ Base styles
     /* limit table size and allow scrolling */
   .table-responsive {
     position: relative;
-    height: 500px;
+    height: 600px;
+    width: auto;
     overflow: auto;
     display: block;
     }
