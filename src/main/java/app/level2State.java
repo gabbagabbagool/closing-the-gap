@@ -45,7 +45,7 @@ public class level2State implements Handler {
             model.put("outcome5", true);
             model.put("outcome6", true);
             model.put("outcome8", true);
-            model.put("radio", "true");
+            model.put("radio", "p");
         }
         else{
             model.put("outcome1", context.formParam("checkboxOutcome1"));
