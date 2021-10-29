@@ -33,28 +33,57 @@ public class level2State implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
 
         ArrayList<thymeleafOutcomes> level2State = new ArrayList<thymeleafOutcomes>();
-        // The query above returns a count for the total indigenous population that has completed year 12 for each LGA
-        String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
-        String outcomeNumAndType = "5r";
-        jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
 
-
-
+        // If we visit this page from a GET request, e.g. a navigation from navbar
         if(context.method().equalsIgnoreCase("get")){
-            model.put("outcome1", true);
-            model.put("outcome5", true);
-            model.put("outcome6", true);
-            model.put("outcome8", true);
+            // Populate default selections for checkbox & radio
+            model.put("outcome1", "true");
+            model.put("outcome5", "true");
+            model.put("outcome6", "true");
+            model.put("outcome8", "true");
             model.put("radio", "p");
         }
+        // If we visit this page from a POST request
         else{
+            // Populate chosen selections for checkbox & radio
             model.put("outcome1", context.formParam("checkboxOutcome1"));
             model.put("outcome5", context.formParam("checkboxOutcome5"));
             model.put("outcome6", context.formParam("checkboxOutcome6"));
             model.put("outcome8", context.formParam("checkboxOutcome8"));
             model.put("radio", context.formParam("radio"));
         }
-        System.out.println(context.formParam("radio"));
+
+        // If outcome 1 has been selected
+        if (model.get("outcome1") != null){
+            // TODO query below must reflect outcome 1
+            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            String outcomeNumAndType = "1";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+        // if outcome 5 has been selected
+        if (model.get("outcome5") != null){
+            // The query above returns a count for the total indigenous population that has completed year 12 for each LGA
+            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            String outcomeNumAndType = "5";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+        if (model.get("outcome6") != null){
+            // TODO query below must reflect outcome 6
+            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            String outcomeNumAndType = "6";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+        if (model.get("outcome8") != null){
+            // TODO query below must reflect outcome 8
+            String inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            String outcomeNumAndType = "8";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+
 
         model.put("tableData", level2State);
         model.put("currentPage", "level2State");
