@@ -15,12 +15,11 @@
                s aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/page1.html">Mission Statement</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/level2LGA.html">By LGA</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/page3.html">By State</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/page4.html">Page 4</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/level3Filter.html">Filter</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link" aria-current="page" href="/">Home</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active" class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link" href="/level2LGA.html">By LGA</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link" href="/level2State.html">By State</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Filter</a></li>
                 </ul>
             </div>
         </div>
@@ -33,57 +32,55 @@
         <form action='/level3Filter.html' method='post'>
             <h5 class="text-muted">Display Data:</h5>
             <div class='form-check'>
-                <input type="radio" id="customRadio2" name="customRadio" class="form-check-input" value="proportional" >
+                <input type="radio" id="customRadio2" name="customRadio" class="form-check-input" value="proportional" th:checked="${dataType} == fracSelected">
                 <label class="form-check-label" for="customRadio2"> Proportional</label>
             </div>
             <div class='form-check'>
-                <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" checked>
+                <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
                 <label class="form-check-label" for="customRadio1"> Count</label>
             </div><br>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="outcome1" checked>
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
                 <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="outcome5" checked>
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked" th:checked="${checkboxOutcome5} == checked">
                 <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="outcome6" checked>
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked" th:checked="${checkboxOutcome6} == checked">
                 <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="outcome8" checked>
+                <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
                 <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
             </div><br>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
         
         <!-- </form> -->
     </div><br>
     <!-- add filter display -->
     <!-- <form class="form-inline" action='/level3Filter.html' method='post'> -->
-        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Add Filter</label>
-        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="filterType">
-          <option selected>Choose...</option>
-          <option value="age">Age</option>
-          <option value="sex">Gender</option>
-          <option value="other">Other?</option>
-        </select>
+        <h5 class="text-muted">Filter Data:</h5>
+        
+        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Add Filter: Gender =</label>
+        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="genderFilterValue">
+            <option value="all" th:selected="${genderFilterSelection} == null">None</option>
+            <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
+            <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
+          </select><br>
 
-        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">=</label>
-        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="filterValue">
-            <option selected>Choose...</option>
-            <option value="f">Female</option>
-            <option value="m">Male</option>
-            <option value="lessThan">&lt;</option>
-          </select>
+        <p th:if="${genderFilterSelection} == m">Filtering results by Gender = <b>Male</b></p>
+        <p th:if="${genderFilterSelection} == f">Filtering results by Gender = <b>Female</b></p>
+          <!-- input bar bellow -->
 
-        <label class="sr-only" for="inlineFormInputName2">input</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="50">
+        <!-- <label class="sr-only" for="inlineFormInputName2">input</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="50"> -->
       
-        <button type="submit" class="btn btn-primary my-1">Submit</button>
+        <button type="submit" class="btn btn-primary">Refresh Data</button>
       <!-- </form> -->
     </form>
+    
     <!-- adds table of data -->
     <div class="container">
         <div class="table-responsive">
@@ -154,5 +151,7 @@
         </div>
     </div>
 </body>
-
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
+    integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p'
+    crossorigin='anonymous'></script>
 </html>

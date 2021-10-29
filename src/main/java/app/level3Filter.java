@@ -55,10 +55,10 @@ public class level3Filter implements Handler {
         String contextMethod = context.method();
         
         if (contextMethod.equalsIgnoreCase("GET")) {
-            checkboxOutcome1 = "startChecked";
-            checkboxOutcome5 = "startChecked";
-            checkboxOutcome6 = "startChecked";
-            checkboxOutcome8 = "startChecked";
+            checkboxOutcome1 = "checked";
+            checkboxOutcome5 = "checked";
+            checkboxOutcome6 = "checked";
+            checkboxOutcome8 = "checked";
         } else {
             checkboxOutcome1 = context.formParam("checkboxOutcome1");
             checkboxOutcome5 = context.formParam("checkboxOutcome5");
@@ -73,7 +73,7 @@ public class level3Filter implements Handler {
 
         // add filter for sex
         
-        String filterSelect = "";
+        String genderFilter = "";
         String filterValue = "";
 
         String filterSex1r = " ";
@@ -85,15 +85,15 @@ public class level3Filter implements Handler {
         String inputQuery = "";
         String outcomeNumAndType = "";
 
-        filterSelect = context.formParam("filterType");
-        filterValue = context.formParam("filterValue");
-
-        if (filterSelect != null) {
-            if (filterSelect.equalsIgnoreCase("sex") && (!"Choose...".equals(filterValue))) {
-                filterSex1r = "and p.sex = '" + filterValue + "' ";
-                filterSex5 = "and s.sex = '" + filterValue + "' ";
-                filterSex6 = "and q.sex = '" + filterValue + "' ";
-                filterSex8 = "and e.sex = '" + filterValue + "' ";
+        genderFilter = context.formParam("genderFilterValue");
+        model.put("genderFilterSelection", genderFilter);
+        System.out.println(genderFilter);
+        if (genderFilter != null) {
+            if (!"all".equals(genderFilter)) {
+                filterSex1r = "and p.sex = '" + genderFilter + "' ";
+                filterSex5 = "and s.sex = '" + genderFilter + "' ";
+                filterSex6 = "and q.sex = '" + genderFilter + "' ";
+                filterSex8 = "and e.sex = '" + genderFilter + "' ";
             } else {
                 filterSex1r = "";
             }
@@ -114,6 +114,15 @@ public class level3Filter implements Handler {
         "SELECT p.lga_code16 AS areaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p " +
         "WHERE p.indigenous_status = 'non_indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r +
         "GROUP BY p.lga_code16;";
+        jdbc.createSqlView(inputQuery);
+
+        inputQuery = "DROP VIEW IF EXISTS Non_indig_Y12;";
+        jdbc.createSqlView(inputQuery);
+
+        inputQuery = "CREATE VIEW Non_indig_Y12 AS " +
+        "SELECT s.lga_code16 AS areaCode, SUM(s.count) AS sValue FROM SchoolStatistics AS s " +
+        "WHERE s.indigenous_status = 'non_indig' and s.School = 'y12_equiv' " + filterSex5 +
+        "GROUP BY s.lga_code16;";
         jdbc.createSqlView(inputQuery);
         
 
@@ -182,14 +191,14 @@ public class level3Filter implements Handler {
         } else  {
             
             // Outcome 5 % select indig proportion that have completed year 12 compaired to all indig above 15 years per LGA
-            inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop_above_15.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop_above_15.pValue * 100 , 1) AS 'value' " +
-            "FROM Indig_Y12 JOIN pop_above_15 ON Indig_Y12.Code = pop_above_15.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+            inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+            "FROM Indig_Y12 JOIN indig_pop_above_15 AS pop ON Indig_Y12.Code = pop.areaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
             outcomeNumAndType = "5p";
             jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
             // Outcome 5 % select Non-indig proportion that have completed year 12 compaired to all Non-indig above 15 years per LGA
-            inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM Indig_Y12 JOIN Non_indig_pop_above_15 AS pop ON Indig_Y12.Code = pop.lgaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+            inputQuery = "SELECT Non_indig_Y12.areaCode AS areaCode, LGAs.lga_name16 AS areaName, Non_indig_Y12.sValue, pop.pValue, round(CAST (Non_indig_Y12.sValue AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
+            "FROM Non_indig_Y12 JOIN Non_indig_pop_above_15 AS pop ON Non_indig_Y12.areaCode = pop.areaCode JOIN LGAs ON Non_indig_Y12.areaCode = LGAs.lga_code16;";
             outcomeNumAndType = "5p";
             jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
 
@@ -345,6 +354,8 @@ public class level3Filter implements Handler {
                 
             }
         }
+
+        model.put("currentPage", "level3Filter");
         
         model.put("outcome1rGap", outcome1rGap);
         model.put("outcome5rGap", outcome5rGap);
