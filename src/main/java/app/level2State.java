@@ -38,6 +38,20 @@ public class level2State implements Handler {
         String outcomeNumAndType = "5r";
         jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
 
+        if(context.method().equalsIgnoreCase("get")){
+            model.put("outcome1", true);
+            model.put("outcome5", true);
+            model.put("outcome6", true);
+            model.put("outcome8", true);
+        }
+        else{
+            model.put("outcome1", context.formParam("checkboxOutcome1"));
+            model.put("outcome5", context.formParam("checkboxOutcome5"));
+            model.put("outcome6", context.formParam("checkboxOutcome6"));
+            model.put("outcome8", context.formParam("checkboxOutcome8"));
+        }
+        
+
         model.put("tableData", level2State);
         model.put("currentPage", "level2State");
 
