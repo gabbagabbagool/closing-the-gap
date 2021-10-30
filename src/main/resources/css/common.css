@@ -26,9 +26,9 @@ Base styles
       
   }
   div {
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
-    align-content: center;
+    align-content: center; */
   }
 
     /* limit table size and allow scrolling */
