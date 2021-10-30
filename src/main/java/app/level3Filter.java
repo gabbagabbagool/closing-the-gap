@@ -86,6 +86,10 @@ public class level3Filter implements Handler {
         String outcomeNumAndType = "";
 
         genderFilter = context.formParam("genderFilterValue");
+        // if clear button hit - clear this filter
+        if (context.formParam("buttonClearFilter") != null) {
+            genderFilter = null;
+        }
         model.put("genderFilterSelection", genderFilter);
         System.out.println(genderFilter);
         if (genderFilter != null) {
