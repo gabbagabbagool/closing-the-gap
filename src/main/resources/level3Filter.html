@@ -25,130 +25,210 @@
         </div>
     </nav>
     <div class="container">
-        <h1 class="display-4">Comparing Indigenous and Non-Indigenous</h1>
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Comparing Indigenous and Non-Indigenous</h1>
+            </div>
+        </div>
     </div>
-    <!-- adds radio and checkboxes for display data -->
-    <div class="container">
-        <form action='/level3Filter.html' method='post'>
-            <h5 class="text-muted">Display Data:</h5>
-            <div class='form-check'>
-                <input type="radio" id="customRadio2" name="customRadio" class="form-check-input" value="proportional" th:checked="${dataType} == fracSelected">
-                <label class="form-check-label" for="customRadio2"> Proportional</label>
-            </div>
-            <div class='form-check'>
-                <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
-                <label class="form-check-label" for="customRadio1"> Count</label>
-            </div><br>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
-                <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked" th:checked="${checkboxOutcome5} == checked">
-                <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked" th:checked="${checkboxOutcome6} == checked">
-                <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
-                <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
-            </div><br>
-            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+    <!-- <div class="container"> -->
         
-        <!-- </form> -->
-    </div><br>
-    <!-- add filter display -->
-    <!-- <form class="form-inline" action='/level3Filter.html' method='post'> -->
-        <h5 class="text-muted">Filter Data:</h5>
-        
-        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Add Filter: Gender =</label>
-        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="genderFilterValue">
-            <option value="all" th:selected="${genderFilterSelection} == null">None</option>
-            <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
-            <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
-          </select><br>
-
-        <p th:if="${genderFilterSelection} == m">Filtering results by Gender = <b>Male</b></p>
-        <p th:if="${genderFilterSelection} == f">Filtering results by Gender = <b>Female</b></p>
-          <!-- input bar bellow -->
-
-        <!-- <label class="sr-only" for="inlineFormInputName2">input</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="50"> -->
-      
-        <button type="submit" class="btn btn-primary">Refresh Data</button>
-      <!-- </form> -->
-    </form>
-    
+    <!-- </div> -->
     <!-- adds table of data -->
     <div class="container">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col" >LGA</th>
-                        <th style="display:none" scope="col" colspan="3">Overal</th>
-                        <th th:if="${checkboxOutcome1} != null" scope="col" colspan="3"> Outcome 1</th>
-                        <th th:if="${checkboxOutcome5} != null" scope="col" colspan="3"> Outcome 5</th>
-                        <th th:if="${checkboxOutcome6} != null" scope="col" colspan="3"> Outcome 6</th>
-                        <th th:if="${checkboxOutcome8} != null" scope="col" colspan="3"> Outcome 8</th>
-                    </tr>
-                    <tr>
-                        <td >&nbsp;</td>
-                        <!-- <td >Indig</td>
-                        <td >Non</td>
-                        <td >Gap</td> -->
-                        <td th:if="${checkboxOutcome1} != null" >Indig</td>
-                        <td th:if="${checkboxOutcome1} != null" >Non</td>
-                        <td th:if="${checkboxOutcome1} != null" >Gap</td>
-                        <td th:if="${checkboxOutcome5} != null" >Indig</td>
-                        <td th:if="${checkboxOutcome5} != null" >Non</td>
-                        <td th:if="${checkboxOutcome5} != null" >Gap</td>
-                        <td th:if="${checkboxOutcome6} != null" >Indig</td>
-                        <td th:if="${checkboxOutcome6} != null" >Non</td>
-                        <td th:if="${checkboxOutcome6} != null" >Gap</td>
-                        <td th:if="${checkboxOutcome8} != null" >Indig</td>
-                        <td th:if="${checkboxOutcome8} != null" >Non</td>
-                        <td th:if="${checkboxOutcome8} != null" >Gap</td>
-                    </tr>
-                </thead>
-                <tbody  th:if="${dataType} != fracSelected">
-                    <tr th:each="lga,iter : ${tableDataIndig}">
-                        <td th:text="${lga.areaName}"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Raw}" ></td> 
-                        <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Raw}"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${outcome1rGap[iter.index]}"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Raw}"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Raw}"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${outcome5rGap[iter.index]}"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Raw}"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Raw}"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${outcome6rGap[iter.index]}"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Raw}"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Raw}"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${outcome8rGap[iter.index]}"></td>
-                    </tr>
-                </tbody>
-                <tbody  th:if="${dataType} == fracSelected">
-                    <tr th:each="lga,iter : ${tableDataIndig}">
-                        <td th:text="${lga.areaName}"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome1} != null" th:text="${outcome1pGap[iter.index]} + '%'"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome5} != null" th:text="${outcome5pGap[iter.index]} + '%'"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome6} != null" th:text="${outcome6pGap[iter.index]} + '%'"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Frac} + '%'"></td>
-                        <td th:if="${checkboxOutcome8} != null" th:text="${outcome8pGap[iter.index]} + '%'"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col" >LGA</th>
+                                <th style="display:none" scope="col" colspan="3">Overal</th>
+                                <th th:if="${checkboxOutcome1} != null" scope="col" colspan="3"> Outcome 1</th>
+                                <th th:if="${checkboxOutcome5} != null" scope="col" colspan="3"> Outcome 5</th>
+                                <th th:if="${checkboxOutcome6} != null" scope="col" colspan="3"> Outcome 6</th>
+                                <th th:if="${checkboxOutcome8} != null" scope="col" colspan="3"> Outcome 8</th>
+                            </tr>
+                            <tr>
+                                <td >&nbsp;</td>
+                                <!-- <td >Indig</td>
+                                <td >Non</td>
+                                <td >Gap</td> -->
+                                <td th:if="${checkboxOutcome1} != null" >Indig</td>
+                                <td th:if="${checkboxOutcome1} != null" >Non</td>
+                                <td th:if="${checkboxOutcome1} != null" >Gap</td>
+                                <td th:if="${checkboxOutcome5} != null" >Indig</td>
+                                <td th:if="${checkboxOutcome5} != null" >Non</td>
+                                <td th:if="${checkboxOutcome5} != null" >Gap</td>
+                                <td th:if="${checkboxOutcome6} != null" >Indig</td>
+                                <td th:if="${checkboxOutcome6} != null" >Non</td>
+                                <td th:if="${checkboxOutcome6} != null" >Gap</td>
+                                <td th:if="${checkboxOutcome8} != null" >Indig</td>
+                                <td th:if="${checkboxOutcome8} != null" >Non</td>
+                                <td th:if="${checkboxOutcome8} != null" >Gap</td>
+                            </tr>
+                        </thead>
+                        <tbody  th:if="${dataType} != fracSelected">
+                            <tr th:each="lga,iter : ${tableDataIndig}">
+                                <td th:text="${lga.areaName}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Raw}" ></td> 
+                                <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Raw}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${outcome1rGap[iter.index]}"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Raw}"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Raw}"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${outcome5rGap[iter.index]}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Raw}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Raw}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${outcome6rGap[iter.index]}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Raw}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Raw}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${outcome8rGap[iter.index]}"></td>
+                            </tr>
+                        </tbody>
+                        <tbody  th:if="${dataType} == fracSelected">
+                            <tr th:each="lga,iter : ${tableDataIndig}">
+                                <td th:text="${lga.areaName}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${outcome1pGap[iter.index]} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${outcome5pGap[iter.index]} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${outcome6pGap[iter.index]} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Frac} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${outcome8pGap[iter.index]} + '%'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <!-- Button trigger modal -->
+                <div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" ata-toggle="tooltip" data-placement="bottom" title="Show descriptions of Outcomes">
+                        Outcome legend
+                    </button>
+                </div><br>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Outcome descriptions</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- add accordion for outcome legend -->
+                            <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                      Outcome 1
+                                    </button>
+                                  </h2>
+                                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body">
+                                      <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                      Outcome 5
+                                    </button>
+                                  </h2>
+                                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                    <div class="accordion-body">
+                                      <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                        Outcome 6
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                        Outcome 8
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                 <!-- adds radio and checkboxes for display data -->
+                <form action='/level3Filter.html' method='post'>
+                    <h5 class="text-muted">Display Data:</h5>
+                    <div class='form-check'>
+                        <input type="radio" id="customRadio2" name="customRadio" class="form-check-input" value="proportional" th:checked="${dataType} == fracSelected">
+                        <label class="form-check-label" for="customRadio2"> Proportional</label>
+                    </div>
+                    <div class='form-check'>
+                        <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
+                        <label class="form-check-label" for="customRadio1"> Count</label>
+                    </div><br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
+                        <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked" th:checked="${checkboxOutcome5} == checked">
+                        <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked" th:checked="${checkboxOutcome6} == checked">
+                        <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
+                        <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
+                    </div><br>
+                    <!-- add filter display -->
+                    <h5 class="text-muted">Add Filters:</h5>
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Gender =</label>
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="genderFilterValue">
+                        <option value="all" th:selected="${genderFilterSelection} == null">All</option>
+                        <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
+                        <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
+                    </select><br>
+                    <div>
+                        <p th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">Filtering results by:</p>
+                        <p th:if="${genderFilterSelection} == m">Gender = <b>Male</b></p>
+                        <p th:if="${genderFilterSelection} == f">Gender = <b>Female</b></p>
+                        <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">
+                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Clear all filters" value="clear">Clear</button>
+                        </div>
+                        
+                    </div><br>
+                    <button type="submit" class="btn btn-primary">Refresh Data</button>
+                </form>
+            </div>
+        </div>   
     </div>
 </body>
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
