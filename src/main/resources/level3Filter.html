@@ -108,9 +108,11 @@
             <div class="col-md-2">
                 <!-- Button trigger modal -->
                 <div>
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" ata-toggle="tooltip" data-placement="bottom" title="Show descriptions of Outcomes">
-                        Outcome legend
-                    </button>
+                    <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show descriptions of Outcomes">
+                            Outcome legend
+                        </button>
+                    </span>
                 </div><br>
                 
                 <!-- Modal -->
@@ -192,21 +194,25 @@
                         <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
                         <label class="form-check-label" for="customRadio1"> Count</label>
                     </div><br>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
-                        <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
+                        <label class="form-check-label" for="inlineCheckbox2">
+                        Outcome 1</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 5 - Schooling">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked" th:checked="${checkboxOutcome5} == checked">
-                        <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
+                        <label class="form-check-label" for="inlineCheckbox2">
+                        Outcome 5</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 6 - Qualification">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked" th:checked="${checkboxOutcome6} == checked">
-                        <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
+                        <label class="form-check-label" for="inlineCheckbox3" >
+                        Outcome 6</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 8 - Employment">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
-                        <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
+                        <label class="form-check-label" for="inlineCheckbox4">
+                        Outcome 8</label>
                     </div><br>
                     <!-- add filter display -->
                     <h5 class="text-muted">Add Filters:</h5>
@@ -221,7 +227,7 @@
                         <p th:if="${genderFilterSelection} == m">Gender = <b>Male</b></p>
                         <p th:if="${genderFilterSelection} == f">Gender = <b>Female</b></p>
                         <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">
-                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Clear all filters" value="clear">Clear</button>
+                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters" value="clear">Clear</button>
                         </div>
                         
                     </div><br>
