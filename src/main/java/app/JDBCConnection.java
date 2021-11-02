@@ -9,11 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Class for Managing the JDBC Connection to a SQLLite Database.
- * Allows SQL queries to be used with the SQLLite Databse in Java.
+ * Class for Managing the JDBC Connection to a SQLLite Database. Allows SQL
+ * queries to be used with the SQLLite Databse in Java.
  * 
- * This is an example JDBC Connection that has a single query for the Movies Database
- * This is similar to the project workshop JDBC examples.
+ * This is an example JDBC Connection that has a single query for the Movies
+ * Database This is similar to the project workshop JDBC examples.
  *
  * @author Santha Sumanasekara, 2021. email: santha.sumanasekara@rmit.edu.au
  * @author Timothy Wiley, 2021. email: timothy.wiley@rmit.edu.au
@@ -28,9 +28,11 @@ public class JDBCConnection {
     }
 
     /***
-     * @param OutcomeList is the list of lga's with attached outcomes that this method will help build
-     * @param inputQuery 
-     * @param outcomeNumAndType (1,5,6 or 8) + ('r' or 'p') is the number  of the outcome we are interested in
+     * @param OutcomeList       is the list of lga's with attached outcomes that
+     *                          this method will help build
+     * @param inputQuery
+     * @param outcomeNumAndType (1,5,6 or 8) + ('r' or 'p') is the number of the
+     *                          outcome we are interested in
      * @see this method requires the SQL columns to be areaCode, value and areaName
      * @return nothing, the arraylist will be modified
      */
@@ -54,21 +56,32 @@ public class JDBCConnection {
             // The "results" variable is similar to an array
             // We can iterate through all of the database query results
             while (results.next()) {
-
-                // Store the results of this query
-                int    lgaCode = results.getInt("areaCode");
-                Double   value = Double.parseDouble(results.getString("value"));
-                String lgaName = results.getString("areaName");
-                boolean  found = false;
+                int lgaCode;
+                Double value;
+                String lgaName;
+                boolean found;
+                try {
+                    // Store the results of this query
+                    lgaCode = results.getInt("areaCode");
+                    value = Double.parseDouble(results.getString("value"));
+                    lgaName = results.getString("areaName");
+                    found = false;
+                } catch (Exception e) {
+                    lgaCode = 42069;
+                    value = 420.69;
+                    lgaName = "42069";
+                    found = false;
+                }
 
                 for (thymeleafOutcomes entry : OutcomeList) {
-                    if (entry.areaCode == lgaCode){
+                    if (entry.areaCode == lgaCode) {
                         entry.setOutcomes(outcomeNumAndType, value);
                         found = true;
+                        break;
                     }
                 }
 
-                if (found == false){
+                if (found == false) {
                     // Create a new OutcomeTracker object and set the appropriate values
                     thymeleafOutcomes myObject = new thymeleafOutcomes();
                     myObject.setOutcomes(outcomeNumAndType, value);
@@ -77,8 +90,6 @@ public class JDBCConnection {
                     // Add this OutcomeTracker object to the methods ArrayList
                     OutcomeList.add(myObject);
                 }
-                
-
 
             }
 
@@ -98,7 +109,7 @@ public class JDBCConnection {
                 System.err.println(e.getMessage());
             }
         }
-    }    
+    }
 
     /***
      *
@@ -125,29 +136,29 @@ public class JDBCConnection {
             while (results.next()) {
 
                 // Store the results of this query
-                int     lgaCode = results.getInt("areaCode");
-                String  value = results.getString("value");
-                String  proportion = results.getString("proportion");
-                String  lgaName = results.getString("areaName");
-                String  lgaPopulation = results.getString("pValue");
-                boolean  found = false;
+                int lgaCode = results.getInt("areaCode");
+                String value = results.getString("value");
+                String proportion = results.getString("proportion");
+                String lgaName = results.getString("areaName");
+                String lgaPopulation = results.getString("pValue");
+                boolean found = false;
 
                 for (filterOutcomes entry : OutcomeList) {
-                    if (entry.areaCode == lgaCode){
+                    if (entry.areaCode == lgaCode) {
                         entry.setOutcomes(outcomeNumAndType, value, proportion, lgaPopulation);
                         entry.setGap();
                         found = true;
                     }
                 }
 
-                if (found == false){
+                if (found == false) {
                     // Create a new OutcomeTracker object and set the appropriate values
                     filterOutcomes myObject = new filterOutcomes();
                     myObject.setOutcomes(outcomeNumAndType, value, proportion, lgaPopulation);
                     myObject.setGap();
                     myObject.areaCode = lgaCode;
                     myObject.areaName = lgaName;
-                    
+
                     // Add this OutcomeTracker object to the methods ArrayList
                     OutcomeList.add(myObject);
                 }
@@ -170,13 +181,13 @@ public class JDBCConnection {
                 System.err.println(e.getMessage());
             }
         }
-    }  
+    }
 
     /**
      * create a view in the SQL database
      */
     public void createSqlView(String query) {
-        
+
         // Setup the variable for the JDBC connection
         Connection connection = null;
 
@@ -187,7 +198,7 @@ public class JDBCConnection {
             // Prepare a new SQL Query & Set a timeout
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
-            
+
             // Generate view in data
             ResultSet results = statement.executeQuery(query);
 
