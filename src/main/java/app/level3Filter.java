@@ -32,8 +32,8 @@ public class level3Filter implements Handler {
     
         JDBCConnection jdbc = new JDBCConnection();
 
-        ArrayList<thymeleafOutcomes> page6Indig = new ArrayList<thymeleafOutcomes>();
-        ArrayList<thymeleafOutcomes> page6Non = new ArrayList<thymeleafOutcomes>();
+        ArrayList<filterOutcomes> page6Indig = new ArrayList<filterOutcomes>();
+        // ArrayList<filterOutcomes> page6Non = new ArrayList<filterOutcomes>();
 
         // radio buttons form link
         String countRadio1 = context.formParam("customRadio");
@@ -71,27 +71,35 @@ public class level3Filter implements Handler {
         model.put("checkboxOutcome6", checkboxOutcome6);
         model.put("checkboxOutcome8", checkboxOutcome8);
 
-        // add filter for sex
+        // add filters for gender and population
         
         String genderFilter = "";
-        String filterValue = "";
+        String populationFilter = "";
 
         String filterSex1r = " ";
         String filterSex5 = "";
         String filterSex6 = "";
         String filterSex8 = "";
-        String filterAge = "";
+        String populationQuery = "";
+        String populationViewQuery = "";
+        
 
         String inputQuery = "";
         String outcomeNumAndType = "";
+        String populationValueIndig;
 
         genderFilter = context.formParam("genderFilterValue");
+        populationFilter = context.formParam("populationFilterIndig");
+        populationValueIndig = context.formParam("populationFilterValueIndig");
         // if clear button hit - clear this filter
         if (context.formParam("buttonClearFilter") != null) {
             genderFilter = null;
+            populationFilter = null;
         }
+        System.out.println(populationFilter);
         model.put("genderFilterSelection", genderFilter);
-        System.out.println(genderFilter);
+        model.put("populationFilterSelection", populationFilter);
+        
         if (genderFilter != null) {
             if (!"all".equals(genderFilter)) {
                 filterSex1r = "and p.sex = '" + genderFilter + "' ";
@@ -102,6 +110,22 @@ public class level3Filter implements Handler {
                 filterSex1r = "";
             }
         }
+
+        if (populationFilter != null) {
+            if ("greater".equals(populationFilter)) {
+                populationQuery = "and pop.pValue > " + populationValueIndig + " ";
+                populationViewQuery = "WHERE pop.pValue > " + populationValueIndig + " ";
+            } else if ("less".equals(populationFilter)) {
+                populationQuery = "and pop.pValue < " + populationValueIndig + " ";
+                populationViewQuery = "WHERE pop.pValue < " + populationValueIndig + " ";
+            } else {
+                populationQuery = "";
+
+            }
+        }
+        // TODO populationQuery set to  none for now
+        populationQuery = "";
+
         inputQuery = "DROP VIEW IF EXISTS indig_pop_above_15;";
         jdbc.createSqlView(inputQuery);
 
@@ -130,246 +154,78 @@ public class level3Filter implements Handler {
         jdbc.createSqlView(inputQuery);
         
 
-        // only run code for either count or proportional data for outcome 1
-        if (countRadio1.equalsIgnoreCase("raw")) {
-            
-            // Outcome 1 raw select indig count of population over 65 years per LGA
-            inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
-            "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
-            "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r +
-            "GROUP BY p.lga_code16;";
-            outcomeNumAndType = "1r";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
+        // Outcome 1 % select indig proportion of population over 65 years comparied to all indig above 15 years per LGA
+        inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value, pop.pValue AS pValue, round(CAST (SUM(p.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN " +
+        "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r + 
+        "GROUP BY p.lga_code16) AS pop ON p.lga_code16 = pop.lgaCode " +
+        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r + populationQuery +
+        "GROUP BY p.lga_code16;";
+        outcomeNumAndType = "1Indig";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
+        
+        // Outcome 1 % select Non-indig proportion of population over 65 years comparied to all Non-indig above 15 years per LGA
+        inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value, pop.pValue AS pValue, round(CAST (SUM(p.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN " +
+        "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p WHERE p.indigenous_status = 'non_indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r +
+        "GROUP BY p.lga_code16) AS pop ON p.lga_code16 = pop.lgaCode " +
+        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + populationQuery +
+        "GROUP BY p.lga_code16;";
+        outcomeNumAndType = "1Non";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-            // Outcome 1 raw select NON-indig count of population over 65 years per LGA
-            inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value " +
-            "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 " +
-            "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + 
-            "GROUP BY p.lga_code16;";
-            outcomeNumAndType = "1r";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
+        // Outcome 5 % select indig proportion that have completed year 12 compaired to all indig above 15 years per LGA
+        inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total AS value, pop.pValue AS pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM Indig_Y12 JOIN indig_pop_above_15 AS pop ON Indig_Y12.Code = pop.areaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+        outcomeNumAndType = "5Indig";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-        } else  {
+        // Outcome 5 % select Non-indig proportion that have completed year 12 compaired to all Non-indig above 15 years per LGA
+        inputQuery = "SELECT Non_indig_Y12.areaCode AS areaCode, LGAs.lga_name16 AS areaName, Non_indig_Y12.sValue AS value, pop.pValue AS pValue, round(CAST (Non_indig_Y12.sValue AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM Non_indig_Y12 JOIN Non_indig_pop_above_15 AS pop ON Non_indig_Y12.areaCode = pop.areaCode JOIN LGAs ON Non_indig_Y12.areaCode = LGAs.lga_code16;";
+        outcomeNumAndType = "5Non";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-            // Outcome 1 % select indig proportion of population over 65 years comparied to all indig above 15 years per LGA
-            inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, pop.pValue, round(CAST (SUM(p.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN " +
-            "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r +
-            "GROUP BY p.lga_code16) AS pop ON p.lga_code16 = pop.lgaCode " +
-            "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r + 
-            "GROUP BY p.lga_code16;";
-            outcomeNumAndType = "1p";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
+        // Outcome 6 % select indig proportion that have any qualification compared to indig population above 15 years per LGA.
+        inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "JOIN pop_above_15 AS pop ON q.lga_code16 = pop.lgaCode " +
+        "WHERE q.indigenous_status = 'indig' " + filterSex6 + populationQuery +
+        "GROUP BY q.lga_code16;";
+        outcomeNumAndType = "6Indig";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-            // Outcome 1 % select Non-indig proportion of population over 65 years comparied to all Non-indig above 15 years per LGA
-            inputQuery = "SELECT p.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS above65, pop.pValue, round(CAST (SUM(p.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN " +
-            "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p WHERE p.indigenous_status = 'non_indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r +
-            "GROUP BY p.lga_code16) AS pop ON p.lga_code16 = pop.lgaCode " +
-            "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + 
-            "GROUP BY p.lga_code16;";
-            outcomeNumAndType = "1p";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-            
-        }
+        // Outcome 6 % select Non-indig proportion that have any qualification compared to Non-indig population above 15 years per LGA.
+        inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
+        "JOIN Non_indig_pop_above_15 AS pop ON q.lga_code16 = pop.areaCode " +
+        "WHERE q.indigenous_status = 'non_indig' " + filterSex6 + populationQuery +
+        "GROUP BY q.lga_code16;";
+        outcomeNumAndType = "6Non";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-        // only run code for either raw or proportional data for outcome 5
-        if (countRadio1.equalsIgnoreCase("raw")) {
+        // Outcome 8 % select indig proportion in labour force but unemployed compared to indig population above 15 years per LGA.
+        inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value, pop.pValue AS pValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM EmploymentStatistics AS e JOIN indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQuery +
+        "GROUP BY e.lga_code16;";
+        outcomeNumAndType = "8Indig";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-            // Outcome 5 raw select indig count that have completed year 12 per LGA
-            inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value " +
-            "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
-            "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " + filterSex5 +
-            "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
-            outcomeNumAndType = "5r";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
+        // Outcome 8 % select Non-indig proportion in labour force but unemployed compared to Non-indig population above 15 years per LGA.
+        inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value, pop.pValue AS pValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM EmploymentStatistics AS e JOIN Non_indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
+        "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQuery +
+        "GROUP BY e.lga_code16;";
+        outcomeNumAndType = "8Non";
+        jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-            // Outcome 5 raw select Non-indig count that have completed year 12 per LGA
-            inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value " +
-            "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 " +
-            "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'non_indig' " + filterSex5 +
-            "GROUP BY s.lga_code16, s.indigenous_status, s.School;";
-            outcomeNumAndType = "5r";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-
-        } else  {
-            
-            // Outcome 5 % select indig proportion that have completed year 12 compaired to all indig above 15 years per LGA
-            inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total, pop.pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM Indig_Y12 JOIN indig_pop_above_15 AS pop ON Indig_Y12.Code = pop.areaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
-            outcomeNumAndType = "5p";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
-            // Outcome 5 % select Non-indig proportion that have completed year 12 compaired to all Non-indig above 15 years per LGA
-            inputQuery = "SELECT Non_indig_Y12.areaCode AS areaCode, LGAs.lga_name16 AS areaName, Non_indig_Y12.sValue, pop.pValue, round(CAST (Non_indig_Y12.sValue AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM Non_indig_Y12 JOIN Non_indig_pop_above_15 AS pop ON Non_indig_Y12.areaCode = pop.areaCode JOIN LGAs ON Non_indig_Y12.areaCode = LGAs.lga_code16;";
-            outcomeNumAndType = "5p";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-
-        }
-
-        // only run code for either raw or proportional data for outcome 6
-        if (countRadio1.equalsIgnoreCase("raw")) {
-            
-            // Outcome 6 raw select indig count that have any qualification per LGA
-            inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value " +
-            "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
-            "WHERE q.indigenous_status = 'indig' " + filterSex6 +
-            "GROUP BY q.lga_code16;";
-            outcomeNumAndType = "6r";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
-            // Outcome 6 raw select Non-indig count that have any qualification per LGA
-            inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value " +
-            "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
-            "WHERE q.indigenous_status = 'non_indig' " + filterSex6 +
-            "GROUP BY q.lga_code16;";
-            outcomeNumAndType = "6r";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-
-        } else  {
-
-            // Outcome 6 % select indig proportion that have any qualification compared to indig population above 15 years per LGA.
-            inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS qValue, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
-            "JOIN pop_above_15 AS pop ON q.lga_code16 = pop.lgaCode " +
-            "WHERE q.indigenous_status = 'indig' " + filterSex6 +
-            "GROUP BY q.lga_code16;";
-            outcomeNumAndType = "6p";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
-            // Outcome 6 % select Non-indig proportion that have any qualification compared to Non-indig population above 15 years per LGA.
-            inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS qValue, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
-            "JOIN Non_indig_pop_above_15 AS pop ON q.lga_code16 = pop.areaCode " +
-            "WHERE q.indigenous_status = 'non_indig' " + filterSex6 +
-            "GROUP BY q.lga_code16;";
-            outcomeNumAndType = "6p";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-
-        }
-
-        // only run code for either raw or proportional data for outcome 8
-        if (countRadio1.equalsIgnoreCase("raw")) {
-
-            // Outcome 8 raw select indig count in labour force but unemployed per LGA
-            inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value " +
-            "FROM EmploymentStatistics AS e JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-            "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " + filterSex8 +
-            "GROUP BY e.lga_code16;";
-            outcomeNumAndType = "8r";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
-            // Outcome 8 raw select Non-indig count in labour force but unemployed per LGA
-            inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value " +
-            "FROM EmploymentStatistics AS e JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-            "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_unemp' " + filterSex8 +
-            "GROUP BY e.lga_code16;";
-            outcomeNumAndType = "8r";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-
-        } else  {
-
-            // Outcome 8 % select indig proportion in labour force but unemployed compared to indig population above 15 years per LGA.
-            inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS eValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM EmploymentStatistics AS e JOIN indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-            "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 +
-            "GROUP BY e.lga_code16;";
-            outcomeNumAndType = "8p";
-            jdbc.thymeleafHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
-            // Outcome 8 % select Non-indig proportion in labour force but unemployed compared to Non-indig population above 15 years per LGA.
-            inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS eValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'value' " +
-            "FROM EmploymentStatistics AS e JOIN Non_indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-            "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 +
-            "GROUP BY e.lga_code16;";
-            outcomeNumAndType = "8p";
-            jdbc.thymeleafHookUp(page6Non, inputQuery, outcomeNumAndType);
-        }
         
 
         model.put("tableDataIndig", page6Indig); 
-        model.put("tableDataNon", page6Non);
-
-        // calulate the gap
-        int tempValue;
-        Double tempFloat;
-
-        ArrayList<String> outcome1rGap = new ArrayList<String>();
-        ArrayList<String> outcome5rGap = new ArrayList<String>();
-        ArrayList<String> outcome6rGap = new ArrayList<String>();
-        ArrayList<String> outcome8rGap = new ArrayList<String>();
-
-        ArrayList<String> outcome1pGap = new ArrayList<String>();
-        ArrayList<String> outcome5pGap = new ArrayList<String>();
-        ArrayList<String> outcome6pGap = new ArrayList<String>();
-        ArrayList<String> outcome8pGap = new ArrayList<String>();
-        
-        for (int i = 0; i < page6Indig.size() ; i++) {
-            if (countRadio1.equalsIgnoreCase("raw")){
-                
-                // outcome 1
-                tempValue = Integer.valueOf(page6Non.get(i).outcome1Raw) - Integer.valueOf(page6Indig.get(i).outcome1Raw);
-                outcome1rGap.add(String.valueOf(tempValue));
-                // outcome 5
-                tempValue = Integer.valueOf(page6Non.get(i).outcome5Raw) - Integer.valueOf(page6Indig.get(i).outcome5Raw);
-                outcome5rGap.add(String.valueOf(tempValue));
-                // outcome 6
-                tempValue = Integer.valueOf(page6Non.get(i).outcome6Raw) - Integer.valueOf(page6Indig.get(i).outcome6Raw);
-                outcome6rGap.add(String.valueOf(tempValue));
-                // outcome 8
-                tempValue = Integer.valueOf(page6Non.get(i).outcome8Raw) - Integer.valueOf(page6Indig.get(i).outcome8Raw);
-                outcome8rGap.add(String.valueOf(tempValue));
-
-            } else {
-                // System.out.println(Double.parseDouble(page6Non.get(i).outcome1Frac) - Double.parseDouble(page6Indig.get(i).outcome1Frac));
-                try {
-                    // outcome 1
-                    tempFloat = Double.parseDouble(page6Non.get(i).outcome1Frac) - Double.parseDouble(page6Indig.get(i).outcome1Frac);
-                    outcome1pGap.add(String.valueOf(String.format("%.1f", tempFloat)));
-                    // outcome1pGap.add(String.valueOf(tempFloat));
-                } catch (Exception e) {
-                    // no population under 65 to calculate proportion
-                    outcome1pGap.add("NA Gap");
-                }
-
-                try {
-                    // outcome 5
-                    tempFloat = Double.parseDouble(page6Non.get(i).outcome5Frac) - Double.parseDouble(page6Indig.get(i).outcome5Frac);
-                    outcome5pGap.add(String.valueOf(String.format("%.1f", tempFloat)));
-                } catch (Exception e) {
-                    outcome5pGap.add("NA Gap");
-                }
-
-                try {
-                    // outcome 6
-                    tempFloat = Double.parseDouble(page6Non.get(i).outcome6Frac) - Double.parseDouble(page6Indig.get(i).outcome6Frac);
-                    outcome6pGap.add(String.valueOf(String.format("%.1f",tempFloat)));
-                } catch (Exception e) {
-                    outcome6pGap.add("NA Gap");
-                }
-                try {
-                    // outcome 8
-                    tempFloat = Double.parseDouble(page6Non.get(i).outcome8Frac) - Double.parseDouble(page6Indig.get(i).outcome8Frac);
-                    outcome8pGap.add(String.valueOf(String.format("%.1f",tempFloat)));
-                } catch (Exception e) {
-                    outcome8pGap.add("NA Gap");
-                }
-                
-            }
-        }
+    
 
         model.put("currentPage", "level3Filter");
-        
-        model.put("outcome1rGap", outcome1rGap);
-        model.put("outcome5rGap", outcome5rGap);
-        model.put("outcome6rGap", outcome6rGap);
-        model.put("outcome8rGap", outcome8rGap);
-
-        model.put("outcome1pGap", outcome1pGap);
-        model.put("outcome5pGap", outcome5pGap);
-        model.put("outcome6pGap", outcome6pGap);
-        model.put("outcome8pGap", outcome8pGap);
         
 
         // DO NOT MODIFY THIS
