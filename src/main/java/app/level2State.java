@@ -99,7 +99,7 @@ public class level2State implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+                inputQuery = "SELECT SUM(count) AS value, substr(EmploymentStatistics.lga_code16, 1, 1) AS areaCode, State.stateName as areaName FROM EmploymentStatistics JOIN State ON substr(EmploymentStatistics.lga_code16, 1, 1) = stateCode WHERE indigenous_status = 'indig' AND  Labour_force == 'in_lf_unemp' GROUP BY substr(EmploymentStatistics.lga_code16, 1, 1); ";
             }
             else{
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
