@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -10,10 +11,9 @@ import java.util.Map;
 /**
  * Temporary HTML as an example page.
  * 
- * Based on the Project Workshop code examples.
- * This page currently:
- *  - Provides a link back to the index page
- *  - Displays the list of movies from the Movies Database using the JDBCConnection
+ * Based on the Project Workshop code examples. This page currently: - Provides
+ * a link back to the index page - Displays the list of movies from the Movies
+ * Database using the JDBCConnection
  *
  * @author Timothy Wiley, 2021. email: timothy.wiley@rmit.edu.au
  * @author Santha Sumanasekara, 2021. email: santha.sumanasekara@rmit.edu.au
@@ -55,7 +55,6 @@ public class level2State implements Handler {
         String inputQuery;
         // If outcome 1 has been selected
         if (model.get("outcome1") != null){
-            // TODO query below must reflect outcome 1
             
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
@@ -84,7 +83,6 @@ public class level2State implements Handler {
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         if (model.get("outcome6") != null){
-            // TODO query below must reflect outcome 6
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -98,7 +96,6 @@ public class level2State implements Handler {
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         if (model.get("outcome8") != null){
-            // TODO query below must reflect outcome 8
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -111,7 +108,44 @@ public class level2State implements Handler {
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
+        // Store the form options that were selected for sorting
+        String sortSelect = context.formParam("outcomeSortSelect");
+        String outcomeSortOrder = context.formParam("outcomeSortOrder");
 
+        // If there was a selection
+        if ((sortSelect != null)&&(!sortSelect.equals("null"))){
+
+            // Switch case to find the outcome to sort
+            switch(sortSelect){
+                // For outcome 8
+                case "8":
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Raw/Proportional branching
+                        if(model.get("radio").equals("r")){
+                            Collections.sort(level2State, new sortOutcome8RawAscending());
+                        }
+                        else{
+                            Collections.sort(level2State, new sortOutcome8ProportionalAscending());
+                        }
+                        break;
+                    }
+                        // Descending branch
+                    if(model.get("radio").equals("r")){
+                        Collections.sort(level2State, new sortOutcome8RawDescending());
+                    }
+                    else{
+                        Collections.sort(level2State, new sortOutcome8ProportionalDescending());
+                    }
+                    break;                 
+            }
+        }
+        // If outcome 5 sort has been selected
+            // See if ascending or descending has been selected
+                // Sort data according to selection
+
+        model.put("sortSelect", sortSelect);
+        model.put("outcomeSortOrder", outcomeSortOrder);
         model.put("tableData", level2State);
         model.put("currentPage", "level2State");
 

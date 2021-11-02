@@ -76,7 +76,7 @@
                         </tbody>
                     </table>
             </div>
-            <div class="col-1">
+            <div class="col-3">
                 <form action='/level2State.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
@@ -109,7 +109,26 @@
                             th:checked="${outcome8}">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                        <a>Sort by outcome number:</a>
+                        <br>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <select class="form-select" name="outcomeSortSelect"
+                                aria-label="Options for selecting an outcome to sort by">
+                                <option value="null">Choose</option>
+                                <option th:selected="${sortSelect} == 1" value="1">1</option>
+                                <option th:selected="${sortSelect} == 5" value="5">5</option>
+                                <option th:selected="${sortSelect} == 6" value="6">6</option>
+                                <option th:selected="${sortSelect} == 8" value="8">8</option>5
+                            </select>
+                        </div>
+                            <select class="form-select" name="outcomeSortOrder"
+                                aria-label="Options to sort in ascending, or descending order">
+                                <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
+                                <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending</option>
+                            </select>
+                        </div>
+                    <button type="submit" class="btn btn-primary my-2">Submit</button>
                 </form>
             </div>
         </div>

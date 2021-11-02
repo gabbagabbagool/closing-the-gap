@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 
 /**
  * Class for Managing the JDBC Connection to a SQLLite Database.
@@ -58,7 +57,7 @@ public class JDBCConnection {
 
                 // Store the results of this query
                 int    lgaCode = results.getInt("areaCode");
-                String   value = results.getString("value");
+                Double   value = Double.parseDouble(results.getString("value"));
                 String lgaName = results.getString("areaName");
                 boolean  found = false;
 
