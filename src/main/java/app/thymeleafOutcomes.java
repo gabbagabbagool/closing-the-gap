@@ -91,3 +91,15 @@ class sortOutcome8RawDescending implements Comparator<thymeleafOutcomes> {
         return  obj2.outcome8Raw.compareTo(obj1.outcome8Raw); 
     }
 }
+
+class sortOutcome8ProportionalAscending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj1.outcome8Frac.compareTo(obj2.outcome8Frac); 
+    }
+}
+
+class sortOutcome8ProportionalDescending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj2.outcome8Frac.compareTo(obj1.outcome8Frac); 
+    }
+}

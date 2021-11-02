@@ -55,7 +55,6 @@ public class level2State implements Handler {
         String inputQuery;
         // If outcome 1 has been selected
         if (model.get("outcome1") != null){
-            // TODO query below must reflect outcome 1
             
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
@@ -84,7 +83,6 @@ public class level2State implements Handler {
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         if (model.get("outcome6") != null){
-            // TODO query below must reflect outcome 6
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -98,7 +96,6 @@ public class level2State implements Handler {
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         if (model.get("outcome8") != null){
-            // TODO query below must reflect outcome 8
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -120,31 +117,27 @@ public class level2State implements Handler {
 
             // Switch case to find the outcome to sort
             switch(sortSelect){
+                // For outcome 8
                 case "8":
-
                     // Ascending/Descending branching
                     if (outcomeSortOrder.equals("ascending")){
-
                         // Raw/Proportional branching
                         if(model.get("radio").equals("r")){
-
-                            // Call to sort
                             Collections.sort(level2State, new sortOutcome8RawAscending());
                         }
                         else{
-                            // sort 8 proportional ascending
+                            Collections.sort(level2State, new sortOutcome8ProportionalAscending());
                         }
                         break;
                     }
+                        // Descending branch
                     if(model.get("radio").equals("r")){
                         Collections.sort(level2State, new sortOutcome8RawDescending());
                     }
                     else{
-                        // sort 8 proportional ascending
+                        Collections.sort(level2State, new sortOutcome8ProportionalDescending());
                     }
-                    break;
-                    //sort descending
-                    
+                    break;                 
             }
         }
         // If outcome 5 sort has been selected
