@@ -69,37 +69,37 @@
                             </tr>
                         </thead>
                         <tbody  th:if="${dataType} != fracSelected">
-                            <tr th:each="lga,iter : ${tableDataIndig}">
+                            <tr th:each="lga : ${tableDataIndig}">
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Raw}" ></td> 
-                                <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Raw}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${outcome1rGap[iter.index]}"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Raw}"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Raw}"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${outcome5rGap[iter.index]}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Raw}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Raw}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${outcome6rGap[iter.index]}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Raw}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Raw}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${outcome8rGap[iter.index]}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1IndigRaw}" ></td> 
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1NonRaw}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5IndigRaw}"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5NonRaw}" ></td> 
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6IndigRaw}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6NonRaw}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8IndigRaw}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8NonRaw}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Gap} + '%'"></td>
                             </tr>
                         </tbody>
                         <tbody  th:if="${dataType} == fracSelected">
                             <tr th:each="lga,iter : ${tableDataIndig}">
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${tableDataNon[iter.index].outcome1Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${outcome1pGap[iter.index]} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${tableDataNon[iter.index].outcome5Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${outcome5pGap[iter.index]} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${tableDataNon[iter.index].outcome6Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${outcome6pGap[iter.index]} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${tableDataNon[iter.index].outcome8Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${outcome8pGap[iter.index]} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1IndigFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1NonFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5IndigFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5NonFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6IndigFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6NonFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8IndigFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8NonFrac} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Gap} + '%'"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -222,6 +222,11 @@
                         <label class="form-check-label" for="inlineCheckbox4">
                         Outcome 8</label>
                     </div><br>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Refresh Data</button>
+                    </div><br>
+                        
+
                     <!-- add filter display -->
                     <h5 class="text-muted">Add Filters:</h5>
                     <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Gender =</label>
@@ -230,16 +235,33 @@
                         <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
                         <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
                     </select><br>
+                    <p>Population</p>
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Indigenous </label>
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="populationFilterIndig">
+                        <option value="all" th:selected="${populationFilterSelection} == null">All</option>
+                        <option value="greater" th:selected="${populationFilterSelection} == greater">&gt;</option>
+                        <option value="less" th:selected="${populationFilterSelection} == less">&lt;</option>
+                    </select><br>
+                    <input class="form-control form-control-sm" type="text" placeholder="0" name="populationFilterValueIndig">
+
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Non-Indig</label>
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="populationFilterNon">
+                        <option value="all" th:selected="${populationFilterSelection} == null">All</option>
+                        <option value="greater" th:selected="${populationFilterSelection} == greater">&gt;</option>
+                        <option value="less" th:selected="${populationFilterSelection} == less">&lt;</option>
+                    </select><br>
+                    <input class="form-control form-control-sm" type="text" placeholder="0" name="populationFilterValueNon">
+
                     <div>
                         <p th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">Filtering results by:</p>
                         <p th:if="${genderFilterSelection} == m">Gender = <b>Male</b></p>
                         <p th:if="${genderFilterSelection} == f">Gender = <b>Female</b></p>
                         <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">
-                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters" value="clear">Clear</button>
+                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters" value="clear">Clear filters</button>
                         </div>
                         
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Refresh Data</button>
+                    
                 </form>
             </div>
         </div>   
