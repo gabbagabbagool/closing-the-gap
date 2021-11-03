@@ -136,12 +136,29 @@ public class JDBCConnection {
             while (results.next()) {
 
                 // Store the results of this query
-                int lgaCode = results.getInt("areaCode");
-                String value = results.getString("value");
-                String proportion = results.getString("proportion");
-                String lgaName = results.getString("areaName");
-                String lgaPopulation = results.getString("pValue");
-                boolean found = false;
+                int lgaCode;
+                Double value;
+                Double proportion;
+                String lgaName;
+                Double lgaPopulation;
+                boolean found;
+
+                try {
+                    // Store the results of this query
+                    lgaCode = results.getInt("areaCode");
+                    value = Double.parseDouble(results.getString("value"));
+                    proportion = Double.parseDouble(results.getString("proportion"));
+                    lgaName = results.getString("areaName");
+                    lgaPopulation = Double.parseDouble(results.getString("pValue"));
+                    found = false;
+                } catch (Exception e) {
+                    lgaCode = 42069;
+                    value = null;
+                    proportion = null;
+                    lgaName = null;
+                    lgaPopulation = null;
+                    found = false;
+                }
 
                 for (filterOutcomes entry : OutcomeList) {
                     if (entry.areaCode == lgaCode) {
