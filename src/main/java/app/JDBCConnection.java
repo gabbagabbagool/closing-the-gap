@@ -55,34 +55,33 @@ public class JDBCConnection {
             // Process all of the results
             // The "results" variable is similar to an array
             // We can iterate through all of the database query results
+            int indexer = 0;
             while (results.next()) {
                 int lgaCode;
                 Double value;
                 String lgaName;
-                boolean found;
-                try {
-                    // Store the results of this query
-                    lgaCode = results.getInt("areaCode");
-                    value = Double.parseDouble(results.getString("value"));
-                    lgaName = results.getString("areaName");
-                    found = false;
-                } catch (Exception e) {
-                    lgaCode = 42069;
-                    value = 420.69;
-                    lgaName = "42069";
-                    found = false;
-                }
 
-                for (thymeleafOutcomes entry : OutcomeList) {
-                    if (entry.areaCode == lgaCode) {
-                        entry.setOutcomes(outcomeNumAndType, value);
-                        found = true;
-                        break;
-                    }
-                }
+                // Store the results of this query                    
+                lgaCode = results.getInt("areaCode");
+                value = Double.parseDouble(results.getString("value"));
+                lgaName = results.getString("areaName");
+                
 
-                if (found == false) {
-                    // Create a new OutcomeTracker object and set the appropriate values
+                // for (thymeleafOutcomes entry : OutcomeList) {
+                //     if (entry.areaCode == lgaCode) {
+                //         entry.setOutcomes(outcomeNumAndType, value);
+                //         found = true;
+                //         break;
+                //     }
+                // }
+                if (OutcomeList.size() != 0 && OutcomeList.get(indexer).areaCode == lgaCode){
+                    OutcomeList.get(indexer).setOutcomes(outcomeNumAndType, value);
+                    OutcomeList.get(indexer).areaCode = lgaCode;
+                    OutcomeList.get(indexer).areaName = lgaName;                 
+                    indexer += 1;
+                }
+                
+                else{
                     thymeleafOutcomes myObject = new thymeleafOutcomes();
                     myObject.setOutcomes(outcomeNumAndType, value);
                     myObject.areaCode = lgaCode;
@@ -90,6 +89,8 @@ public class JDBCConnection {
                     // Add this OutcomeTracker object to the methods ArrayList
                     OutcomeList.add(myObject);
                 }
+
+                
 
             }
 
