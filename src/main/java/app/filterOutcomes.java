@@ -1,35 +1,33 @@
 package app;
+import java.text.DecimalFormat;
 
 public class filterOutcomes {
     public int areaCode;
     public String areaName;
-    public String outcome1IndigRaw;
-    public String outcome5IndigRaw;
-    public String outcome6IndigRaw;
-    public String outcome8IndigRaw;
-    public String outcome1NonRaw;
-    public String outcome5NonRaw;
-    public String outcome6NonRaw;
-    public String outcome8NonRaw;
-    public String outcome1IndigFrac;
-    public String outcome5IndigFrac;
-    public String outcome6IndigFrac;
-    public String outcome8IndigFrac;
-    public String outcome1NonFrac;
-    public String outcome5NonFrac;
-    public String outcome6NonFrac;
-    public String outcome8NonFrac;
-    public String outcome1Gap;
-    public String outcome5Gap;
-    public String outcome6Gap; 
-    public String outcome8Gap;
-    public String outcome1Overall;
-    public String outcome5Overall;
-    public String outcome6Overall; 
-    public String outcome8Overall;
+    public Double outcome1IndigRaw;
+    public Double outcome5IndigRaw;
+    public Double outcome6IndigRaw;
+    public Double outcome8IndigRaw;
+    public Double outcome1NonRaw;
+    public Double outcome5NonRaw;
+    public Double outcome6NonRaw;
+    public Double outcome8NonRaw;
+    public Double outcome1IndigFrac;
+    public Double outcome5IndigFrac;
+    public Double outcome6IndigFrac;
+    public Double outcome8IndigFrac;
+    public Double outcome1NonFrac;
+    public Double outcome5NonFrac;
+    public Double outcome6NonFrac;
+    public Double outcome8NonFrac;
+    public Double outcome1Gap;
+    public Double outcome5Gap;
+    public Double outcome6Gap; 
+    public Double outcome8Gap;
+    public Double lgaRank;
 
-    // value = count
-    public void setOutcomes(String outcome, String value, String proportion, String population){
+
+    public void setOutcomes(String outcome, Double value, Double proportion, Double population){
         switch(outcome){
             case "1Indig":
                 this.outcome1IndigRaw = value;
@@ -69,24 +67,58 @@ public class filterOutcomes {
     // set the gap value per outcome
     public void setGap() {
         try {
-            this.outcome1Gap = String.valueOf(String.format("%.1f", Double.parseDouble(this.outcome1NonFrac) - Double.parseDouble(this.outcome1IndigFrac)));
+            this.outcome1Gap = Double.parseDouble(String.format("%.1f", (this.outcome1NonFrac - this.outcome1IndigFrac)));
         } catch (Exception e) {
-            this.outcome1Gap = "NA Gap";
+            this.outcome1Gap = null;
         }
         try {
-            this.outcome5Gap = String.valueOf(String.format("%.1f", Double.parseDouble(this.outcome5NonFrac) - Double.parseDouble(this.outcome5IndigFrac)));
+            this.outcome5Gap = Double.parseDouble(String.format("%.1f", (this.outcome5NonFrac - this.outcome5IndigFrac)));
         } catch (Exception e) {
-            this.outcome5Gap = "NA Gap";
+            this.outcome5Gap = null;
         }
         try {
-            this.outcome6Gap = String.valueOf(String.format("%.1f", Double.parseDouble(this.outcome6NonFrac) - Double.parseDouble(this.outcome6IndigFrac)));
+            this.outcome6Gap = Double.parseDouble(String.format("%.1f", (this.outcome6NonFrac - this.outcome6IndigFrac)));
         } catch (Exception e) {
-            this.outcome6Gap = "NA Gap";
+            this.outcome6Gap = null;
         } 
         try {
-            this.outcome8Gap = String.valueOf(String.format("%.1f", Double.parseDouble(this.outcome8NonFrac) - Double.parseDouble(this.outcome8IndigFrac)));
+            this.outcome8Gap = Double.parseDouble(String.format("%.1f", (this.outcome8NonFrac - this.outcome8IndigFrac)));
         } catch (Exception e) {
-            this.outcome8Gap = "NA Gap";
+            this.outcome8Gap = null;
         } 
+    }
+
+    // set the ranknig value per outcome
+    public void setRanking(String checkboxOutcome1, String checkboxOutcome5, String checkboxOutcome6, String checkboxOutcome8 ) {
+        this.lgaRank = 0.0;
+        if (checkboxOutcome1 != null) {
+            try {
+                this.lgaRank += this.outcome1Gap;
+            } catch (Exception e) {
+                this.lgaRank += 0.0;
+            }
+        }
+        if (checkboxOutcome5 != null) {
+            try {
+                this.lgaRank += this.outcome5Gap;
+            } catch (Exception e) {
+                this.lgaRank += 0.0;
+            }
+        }
+        if (checkboxOutcome6 != null) {
+            try {
+                this.lgaRank += this.outcome6Gap;
+            } catch (Exception e) {
+                this.lgaRank += 0.0;
+            }
+        }
+        if (checkboxOutcome8 != null) {
+            try {
+                this.lgaRank -= this.outcome8Gap;
+            } catch (Exception e) {
+                this.lgaRank += 0.0;
+            }
+        }
+    
     }
 }
