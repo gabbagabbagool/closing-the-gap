@@ -62,7 +62,7 @@ public class level2State implements Handler {
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
             }
             else{
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, abs((random() %10000) / 100.0) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
             }
             String outcomeNumAndType = "1";
             outcomeNumAndType += model.get("radio");
@@ -76,7 +76,7 @@ public class level2State implements Handler {
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
             }
             else{
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, abs((random() %10000) / 100.0) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
             }
             String outcomeNumAndType = "5";
             outcomeNumAndType += model.get("radio");
@@ -89,7 +89,7 @@ public class level2State implements Handler {
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
             }
             else{
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, abs((random() %10000) / 100.0) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
             }
             String outcomeNumAndType = "6";
             outcomeNumAndType += model.get("radio");
