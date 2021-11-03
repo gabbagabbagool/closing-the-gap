@@ -41,42 +41,162 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                    <table class="table table-bordered table-striped table-xl">
-                        <thead>
-                            <tr>
-                                <th scope="col">State</th>
-                                <th th:if="${outcome1}" scope="col">Long &amp; healthy lives</th>
-                                <th th:if="${outcome5}" scope="col">Full learning potential</th>
-                                <th th:if="${outcome6}" scope="col">Further education completion</th>
-                                <th th:if="${outcome8}" scope="col">Employment participation</th>
+                <table class="table table-bordered table-striped table-xl">
+                    <thead>
+                        <tr>
+                            <th scope="col">State</th>
+                            <th th:if="${outcome1}" scope="col">Long &amp; healthy lives</th>
+                            <th th:if="${outcome5}" scope="col">Full learning potential</th>
+                            <th th:if="${outcome6}" scope="col">Further education completion</th>
+                            <th th:if="${outcome8}" scope="col">Employment participation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- These two divs could be combined, with thymeleaf logic selecting the right raw/proportional based on a conditional -->
+                        <div th:if="${radio} == r">
+                            <!-- If raw is selected, render raw table-->
+                            <tr th:each="state : ${tableData}">
+                                <td th:text="${state.areaName}"></td>
+                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(state.outcome1Raw,3,0)}"></td>
+                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(state.outcome5Raw,3,0)}"></td>
+                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(state.outcome6Raw,3,0)}"></td>
+                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(state.outcome8Raw,3,0)}"></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <!-- These two divs could be combined, with thymeleaf logic selecting the right raw/proportional based on a conditional -->
-                            <div th:if="${radio} == r">
-                                <!-- If raw is selected, render raw table-->
-                                <tr th:each="state : ${tableData}">
-                                    <td th:text="${state.areaName}"></td>
-                                    <td th:if="${outcome1}" th:text="${state.outcome1Raw}"></td>
-                                    <td th:if="${outcome5}" th:text="${state.outcome5Raw}"></td>
-                                    <td th:if="${outcome6}" th:text="${state.outcome6Raw}"></td>
-                                    <td th:if="${outcome8}" th:text="${state.outcome8Raw}"></td>
-                                </tr>
-                            </div>
-                            <div th:if="${radio} == p">
-                                <!-- If proportional is selected, render proportional table-->
-                                <tr th:each="state : ${tableData}">
-                                    <td th:text="${state.areaName}"></td>
-                                    <td th:if="${outcome1}" th:text="${state.outcome1Frac}"></td>
-                                    <td th:if="${outcome5}" th:text="${state.outcome5Frac}"></td>
-                                    <td th:if="${outcome6}" th:text="${state.outcome6Frac}"></td>
-                                    <td th:if="${outcome8}" th:text="${state.outcome8Frac}"></td>
-                                </tr>
-                            </div>
-                        </tbody>
-                    </table>
+                        </div>
+                        <div th:if="${radio} == p">
+                            <!-- If proportional is selected, render proportional table-->
+                            <tr th:each="state : ${tableData}">
+                                <td th:text="${state.areaName}"></td>
+                                <td th:if="${outcome1}" th:text="${state.outcome1Frac} + '%'"></td>
+                                <td th:if="${outcome5}" th:text="${state.outcome5Frac} + '%'"></td>
+                                <td th:if="${outcome6}" th:text="${state.outcome6Frac} + '%'"></td>
+                                <td th:if="${outcome8}" th:text="${state.outcome8Frac} + '%'"></td>
+                            </tr>
+                        </div>
+                    </tbody>
+                </table>
             </div>
             <div class="col-3">
+                <!-- Button trigger modal -->
+                <div>
+                    <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Show descriptions of Outcomes">
+                            Outcome legend
+                        </button>
+                    </span>
+                </div><br>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Outcome descriptions</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- add accordion for outcome legend -->
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseOne">
+                                                <p>
+                                                    <b>Outcome 1 </b> - Population over 65 years
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                            aria-labelledby="panelsStayOpen-headingOne">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander people enjoy long and
+                                                    healthy lives.</strong><br><br> The data for outcome 1 represents
+                                                the count of the population over 65 years of age. The proportional value
+                                                for this outcome compares the count of over 65 to the rest of the
+                                                relative Indigenous/ non-Indigenous population above 15 years old, for
+                                                that state.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                                <p>
+                                                    <b>Outcome 5 </b> - Attaining year 12 or equivalent
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingTwo">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander students achieve their
+                                                    full learning potential</strong><br><br> The data for outcome 5
+                                                represents the count of the population that have completed year 12. The
+                                                proportional value for this outcome compares this count to the rest of
+                                                the relative Indigenous/ non-Indigenous population above 15 years old,
+                                                for that state.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <p>
+                                                    <b>Outcome 6</b> - Tertiary qualification (Cert III & above)
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander students reach their full
+                                                    potential through further education pathways.</strong><br><br> The
+                                                data for outcome 6 represents the count of the population that have
+                                                completed any tertiary qualification (Certificate III and above). The
+                                                proportional value for this outcome compares this count to the rest of
+                                                the relative Indigenous/ non-Indigenous population above 15 years old,
+                                                for that state.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <p>
+                                                    <b>Outcome 8</b> - Count of all employment
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <strong>Strong economic participation and development of Aboriginal and
+                                                    Torres Strait Islander people and communities.</strong><br><br> The
+                                                raw count for this outcome is the population of employed indigenous
+                                                peoples per state.
+                                                the workforce per state. The proportionate data represents the
+                                                employment rate for Indigenoous peoples per state.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <form action='/level2State.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
@@ -109,11 +229,11 @@
                             th:checked="${outcome8}">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
                     </div><br>
-                        <a>Sort by outcome number:</a>
-                        <br>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <select class="form-select" name="outcomeSortSelect"
+                    <a>Sort by outcome number:</a>
+                    <br>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <select class="form-select" name="outcomeSortSelect"
                                 aria-label="Options for selecting an outcome to sort by">
                                 <option value="null">Choose</option>
                                 <option th:selected="${sortSelect} == 1" value="1">1</option>
@@ -122,12 +242,13 @@
                                 <option th:selected="${sortSelect} == 8" value="8">8</option>5
                             </select>
                         </div>
-                            <select class="form-select" name="outcomeSortOrder"
-                                aria-label="Options to sort in ascending, or descending order">
-                                <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
-                                <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending</option>
-                            </select>
-                        </div>
+                        <select class="form-select" name="outcomeSortOrder"
+                            aria-label="Options to sort in ascending, or descending order">
+                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
+                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending
+                            </option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary my-2">Submit</button>
                 </form>
             </div>
