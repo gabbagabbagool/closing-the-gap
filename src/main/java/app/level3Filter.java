@@ -251,7 +251,7 @@ public class level3Filter implements Handler {
         outcomeNumAndType = "8Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
-        // filter results to reove null values
+        // filter results to remove null values
         int removedCounter = 0;
         int listSize = page6Indig.size();
         // System.out.println("List size start: " + page6Indig.size());
@@ -277,6 +277,12 @@ public class level3Filter implements Handler {
         } 
         // System.out.println("Removed no: " + removedCounter);
         System.out.println("List size end: " + page6Indig.size());
+
+        for (int i = 0; i < page6Indig.size(); i++) {
+            page6Indig.get(i).setRanking(checkboxOutcome1, checkboxOutcome5, checkboxOutcome6, checkboxOutcome8);
+        }
+        
+
 
         model.put("tableDataIndig", page6Indig); 
     
