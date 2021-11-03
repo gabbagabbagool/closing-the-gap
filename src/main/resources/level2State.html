@@ -57,10 +57,10 @@
                             <!-- If raw is selected, render raw table-->
                             <tr th:each="state : ${tableData}">
                                 <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${state.outcome1Raw}"></td>
-                                <td th:if="${outcome5}" th:text="${state.outcome5Raw}"></td>
-                                <td th:if="${outcome6}" th:text="${state.outcome6Raw}"></td>
-                                <td th:if="${outcome8}" th:text="${state.outcome8Raw}"></td>
+                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(state.outcome1Raw,3,0)}"></td>
+                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(state.outcome5Raw,3,0)}"></td>
+                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(state.outcome6Raw,3,0)}"></td>
+                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(state.outcome8Raw,3,0)}"></td>
                             </tr>
                         </div>
                         <div th:if="${radio} == p">
