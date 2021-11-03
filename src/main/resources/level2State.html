@@ -67,10 +67,10 @@
                             <!-- If proportional is selected, render proportional table-->
                             <tr th:each="state : ${tableData}">
                                 <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${state.outcome1Frac}"></td>
-                                <td th:if="${outcome5}" th:text="${state.outcome5Frac}"></td>
-                                <td th:if="${outcome6}" th:text="${state.outcome6Frac}"></td>
-                                <td th:if="${outcome8}" th:text="${state.outcome8Frac}"></td>
+                                <td th:if="${outcome1}" th:text="${state.outcome1Frac} + '%'"></td>
+                                <td th:if="${outcome5}" th:text="${state.outcome5Frac} + '%'"></td>
+                                <td th:if="${outcome6}" th:text="${state.outcome6Frac} + '%'"></td>
+                                <td th:if="${outcome8}" th:text="${state.outcome8Frac} + '%'"></td>
                             </tr>
                         </div>
                     </tbody>
@@ -185,7 +185,7 @@
                                                 raw count for this outcome is the population of unemployed indigenous
                                                 peoples
                                                 the workforce per state. The proportionate data represents the
-                                                unemployment rate for Indigenoous peoples per state.
+                                                employment rate for Indigenoous peoples per state.
                                             </div>
                                         </div>
                                     </div>
