@@ -75,18 +75,18 @@
                             <tr th:each="lga : ${tableDataIndig}">
                                 <td th:text="${lga.areaName}"></td>
                                 <td th:text="${lga.lgaRank}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1IndigRaw}" ></td> 
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1NonRaw}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Gap} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5IndigRaw}"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5NonRaw}" ></td> 
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Gap} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6IndigRaw}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6NonRaw}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Gap} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8IndigRaw}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8NonRaw}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Gap} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1IndigRaw,1,0)}" ></td> 
+                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5NonRaw,1,0)}" ></td> 
+                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8Gap,1,1)} + '%'"></td>
                             </tr>
                         </tbody>
                         <tbody  th:if="${dataType} == fracSelected">
