@@ -201,7 +201,7 @@ public class level3Filter implements Handler {
         "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p  " +
         "WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " +  filterSex1r +
         "GROUP BY p.lga_code16) AS pop ON s.lga_code16 = pop.lgaCode " +
-        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +  filterSex1r + populationQueryIndig +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +  filterSex5 + populationQueryIndig +
         "GROUP BY s.lga_code16;";
         outcomeNumAndType = "5Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -212,7 +212,7 @@ public class level3Filter implements Handler {
         "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p  " +
         "WHERE p.indigenous_status = 'non_indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " +  filterSex1r +
         "GROUP BY p.lga_code16) AS pop ON s.lga_code16 = pop.lgaCode " +
-        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'non_indig' " +  filterSex1r + populationQueryNon +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'non_indig' " +  filterSex5 + populationQueryNon +
         "GROUP BY s.lga_code16;";
         outcomeNumAndType = "5Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
