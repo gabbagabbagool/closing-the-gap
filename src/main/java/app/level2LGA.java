@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -134,6 +135,38 @@ public class level2LGA implements Handler {
         outcomeNumAndType = "8p";
         jdbc.thymeleafHookUp(level2LGA, inputQuery, outcomeNumAndType);
 
+        // Store the form options that were selected for sorting
+        String sortSelect = context.formParam("outcomeSortSelect");
+        String outcomeSortOrder = context.formParam("outcomeSortOrder");
+
+        // If there was a selection
+        if ((sortSelect != null)&&(!sortSelect.equals("null"))){
+
+            // Switch case to find the outcome to sort
+            switch(sortSelect){
+                // For outcome 8
+                case "8":
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Raw/Proportional branching
+                        if(model.get("dataType").equals("rawSelected")){
+                            Collections.sort(level2LGA, new sortOutcome8RawAscending());
+                        }
+                        else{
+                            Collections.sort(level2LGA, new sortOutcome8ProportionalAscending());
+                        }
+                        break;
+                    }
+                        // Descending branch
+                    if(model.get("dataType").equals("rawSelected")){
+                        Collections.sort(level2LGA, new sortOutcome8RawDescending());
+                    }
+                    else{
+                        Collections.sort(level2LGA, new sortOutcome8ProportionalDescending());
+                    }
+                    break;                 
+            }
+        }
 
         model.put("tableData", level2LGA);
         model.put("currentPage", "level2LGA");

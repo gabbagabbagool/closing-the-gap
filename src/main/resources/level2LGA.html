@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Outcomes by LGA</title>
@@ -48,10 +48,10 @@
                         <tbody  th:if="${dataType} != fracSelected">
                             <tr th:each="lga : ${tableData}">
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Raw}"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Raw}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Raw}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Raw}"></td>
+                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1Raw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5Raw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6Raw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8Raw,1,0)}"></td>
                             </tr>
                         </tbody>
                         <tbody  th:if="${dataType} == fracSelected">
@@ -67,7 +67,92 @@
                 </div>
             </div>
      
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <!-- Button trigger modal -->
+                <div>
+                    <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show descriptions of Outcomes">
+                            Outcome legend
+                        </button>
+                    </span>
+                </div><br>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Outcome descriptions</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- add accordion for outcome legend -->
+                            <div class="accordion" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                      <p>
+                                        <b>Outcome 1 </b> - Population over 65 years
+                                      </p>
+                                    </button>
+                                  </h2>
+                                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body">
+                                      <strong>Aboriginal and Torres Strait Islander people enjoy long and healthy lives.</strong><br><br> The data for outcome 1 represents the count of the population over 65 years of age. The proportional value for this outcome compares the count of over 65 to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                        <p>
+                                            <b>Outcome 5 </b> - Attaining year 12 or equivalent
+                                        </p>
+                                    </button>
+                                  </h2>
+                                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                    <div class="accordion-body">
+                                      <strong>Aboriginal and Torres Strait Islander students achieve their full learning potential</strong><br><br> The data for outcome 5 represents the count of the population that have completed year 12. The proportional value for this outcome compares this count to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                            <p>
+                                                <b>Outcome 6</b> - Tertiary qualification (Cert III & above)
+                                            </p>
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <strong>Aboriginal and Torres Strait Islander students reach their full potential through further education pathways.</strong><br><br> The data for outcome 6 represents the count of the population that have completed any tertiary qualification (Certificate III and above). The proportional value for this outcome compares this count to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                            <p>
+                                                <b>Outcome 8</b> - Count of all employment
+                                            </p>
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <strong>Strong economic participation and development of Aboriginal and Torres Strait Islander people and communities.</strong><br><br> The data for outcome 8 represents the count of the population that are employed. The proportional value for this outcome compares this count to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 <form action='/level2LGA.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
@@ -93,6 +178,25 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
+                    </div><br>
+                    <a>Sort by outcome number:</a>
+                    <br>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <select class="form-select" name="outcomeSortSelect"
+                                aria-label="Options for selecting an outcome to sort by">
+                                <option value="null">Choose</option>
+                                <option th:selected="${sortSelect} == 1" value="1">1</option>
+                                <option th:selected="${sortSelect} == 5" value="5">5</option>
+                                <option th:selected="${sortSelect} == 6" value="6">6</option>
+                                <option th:selected="${sortSelect} == 8" value="8">8</option>5
+                            </select>
+                        </div>
+                        <select class="form-select" name="outcomeSortOrder"
+                            aria-label="Options to sort in ascending, or descending order">
+                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
+                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending</option>
+                        </select>
                     </div><br>
                     <button type="submit" class="btn btn-primary">Refresh Data</button>
                 </form>
