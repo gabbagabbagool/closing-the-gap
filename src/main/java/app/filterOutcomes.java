@@ -119,6 +119,6 @@ public class filterOutcomes {
                 this.lgaRank += 0.0;
             }
         }
-    
+        this.lgaRank =  Double.parseDouble(String.format("%.1f", this.lgaRank));
     }
 }
