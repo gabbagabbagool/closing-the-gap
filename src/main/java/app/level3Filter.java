@@ -74,31 +74,41 @@ public class level3Filter implements Handler {
         // add filters for gender and population
         
         String genderFilter = "";
-        String populationFilter = "";
+        String populationFilterIndig = "";
+        String populationFilterNon = "";
 
         String filterSex1r = " ";
         String filterSex5 = "";
         String filterSex6 = "";
         String filterSex8 = "";
-        String populationQuery = "";
-        String populationViewQuery = "";
+        String populationQueryIndig = "";
+        String populationQueryNon = "";
+        // String populationViewQuery = "";
         
 
         String inputQuery = "";
         String outcomeNumAndType = "";
         String populationValueIndig;
+        String populationValueNon;
 
         genderFilter = context.formParam("genderFilterValue");
-        populationFilter = context.formParam("populationFilterIndig");
+        populationFilterIndig = context.formParam("populationFilterIndig");
+        populationFilterNon = context.formParam("populationFilterNon");
         populationValueIndig = context.formParam("populationFilterValueIndig");
+        populationValueNon = context.formParam("populationFilterValueNon");
+        
         // if clear button hit - clear this filter
         if (context.formParam("buttonClearFilter") != null) {
             genderFilter = null;
-            populationFilter = null;
+            populationFilterIndig = null;
+            populationFilterNon = null;
         }
-        System.out.println(populationFilter);
+        System.out.println(populationFilterIndig);
         model.put("genderFilterSelection", genderFilter);
-        model.put("populationFilterSelection", populationFilter);
+        model.put("populationFilterSelectionIndig", populationFilterIndig);
+        model.put("populationFilterSelectionNon", populationFilterNon);
+        model.put("populationInputIndig", populationValueIndig);
+        model.put("populationInputNon", populationValueNon);
         
         if (genderFilter != null) {
             if (!"all".equals(genderFilter)) {
@@ -111,20 +121,31 @@ public class level3Filter implements Handler {
             }
         }
 
-        if (populationFilter != null) {
-            if ("greater".equals(populationFilter)) {
-                populationQuery = "and pop.pValue > " + populationValueIndig + " ";
-                populationViewQuery = "WHERE pop.pValue > " + populationValueIndig + " ";
-            } else if ("less".equals(populationFilter)) {
-                populationQuery = "and pop.pValue < " + populationValueIndig + " ";
-                populationViewQuery = "WHERE pop.pValue < " + populationValueIndig + " ";
+        // set the population filter value to update SQL query
+        if (populationFilterIndig != null) {
+            if ("greater".equals(populationFilterIndig)) {
+                populationQueryIndig = " and pop.pValue > " + populationValueIndig + " ";
+                // populationViewQuery = " WHERE pop.pValue > " + populationValueIndig + " ";
+            } else if ("less".equals(populationFilterIndig)) {
+                populationQueryIndig = " and pop.pValue < " + populationValueIndig + " ";
+                // populationViewQuery = " WHERE pop.pValue < " + populationValueIndig + " ";
             } else {
-                populationQuery = "";
+                populationQueryIndig = " ";
 
             }
         }
-        // TODO populationQuery set to  none for now
-        populationQuery = "";
+        if (populationFilterNon != null) {
+            if ("greater".equals(populationFilterNon)) {
+                populationQueryNon = " and pop.pValue > " + populationValueNon + " ";
+                
+            } else if ("less".equals(populationFilterNon)) {
+                populationQueryNon = " and pop.pValue < " + populationValueNon + " ";
+                
+            } else {
+                populationQueryNon = " ";
+
+            }
+        }
 
         inputQuery = "DROP VIEW IF EXISTS indig_pop_above_15;";
         jdbc.createSqlView(inputQuery);
@@ -159,7 +180,7 @@ public class level3Filter implements Handler {
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN " +
         "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r + 
         "GROUP BY p.lga_code16) AS pop ON p.lga_code16 = pop.lgaCode " +
-        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r + populationQuery +
+        "WHERE p.indigenous_status = 'indig' and p.age = '_65_yrs_ov' " + filterSex1r + populationQueryIndig +
         "GROUP BY p.lga_code16;";
         outcomeNumAndType = "1Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -169,28 +190,38 @@ public class level3Filter implements Handler {
         "FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN " +
         "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p WHERE p.indigenous_status = 'non_indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " + filterSex1r +
         "GROUP BY p.lga_code16) AS pop ON p.lga_code16 = pop.lgaCode " +
-        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + populationQuery +
+        "WHERE p.indigenous_status = 'non_indig' and p.age = '_65_yrs_ov' " + filterSex1r + populationQueryNon +
         "GROUP BY p.lga_code16;";
         outcomeNumAndType = "1Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
         // Outcome 5 % select indig proportion that have completed year 12 compaired to all indig above 15 years per LGA
-        inputQuery = "SELECT Indig_Y12.Code AS areaCode, LGAs.lga_name16 AS areaName, Indig_Y12.Total AS value, pop.pValue AS pValue, round(CAST (Indig_Y12.Total AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
-        "FROM Indig_Y12 JOIN indig_pop_above_15 AS pop ON Indig_Y12.Code = pop.areaCode JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16;";
+        inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value, pop.pValue AS pValue, round(CAST (SUM(s.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 JOIN " +
+        "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p  " +
+        "WHERE p.indigenous_status = 'indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " +  filterSex1r +
+        "GROUP BY p.lga_code16) AS pop ON s.lga_code16 = pop.lgaCode " +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'indig' " +  filterSex5 + populationQueryIndig +
+        "GROUP BY s.lga_code16;";
         outcomeNumAndType = "5Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
+        System.out.println(inputQuery);
         // Outcome 5 % select Non-indig proportion that have completed year 12 compaired to all Non-indig above 15 years per LGA
-        inputQuery = "SELECT Non_indig_Y12.areaCode AS areaCode, LGAs.lga_name16 AS areaName, Non_indig_Y12.sValue AS value, pop.pValue AS pValue, round(CAST (Non_indig_Y12.sValue AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
-        "FROM Non_indig_Y12 JOIN Non_indig_pop_above_15 AS pop ON Non_indig_Y12.areaCode = pop.areaCode JOIN LGAs ON Non_indig_Y12.areaCode = LGAs.lga_code16;";
+        inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value, pop.pValue AS pValue, round(CAST (SUM(s.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
+        "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 JOIN " +
+        "(SELECT p.lga_code16 AS lgaCode, SUM(p.count) AS pValue FROM PopulationStatistics AS p  " +
+        "WHERE p.indigenous_status = 'non_indig' and p.age <> '_0_4' AND p.age <> '_5_9' AND p.age <> '_10_14' AND p.age <> '_65_yrs_ov' " +  filterSex1r +
+        "GROUP BY p.lga_code16) AS pop ON s.lga_code16 = pop.lgaCode " +
+        "WHERE s.School = 'y12_equiv' AND s.indigenous_status = 'non_indig' " +  filterSex5 + populationQueryNon +
+        "GROUP BY s.lga_code16;";
         outcomeNumAndType = "5Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
-
+        System.out.println(inputQuery);
         // Outcome 6 % select indig proportion that have any qualification compared to indig population above 15 years per LGA.
         inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
         "JOIN pop_above_15 AS pop ON q.lga_code16 = pop.lgaCode " +
-        "WHERE q.indigenous_status = 'indig' " + filterSex6 + populationQuery +
+        "WHERE q.indigenous_status = 'indig' " + filterSex6 + populationQueryIndig +
         "GROUP BY q.lga_code16;";
         outcomeNumAndType = "6Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -199,7 +230,7 @@ public class level3Filter implements Handler {
         inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
         "JOIN Non_indig_pop_above_15 AS pop ON q.lga_code16 = pop.areaCode " +
-        "WHERE q.indigenous_status = 'non_indig' " + filterSex6 + populationQuery +
+        "WHERE q.indigenous_status = 'non_indig' " + filterSex6 + populationQueryNon +
         "GROUP BY q.lga_code16;";
         outcomeNumAndType = "6Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -207,7 +238,7 @@ public class level3Filter implements Handler {
         // Outcome 8 % select indig proportion in labour force but unemployed compared to indig population above 15 years per LGA.
         inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value, pop.pValue AS pValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM EmploymentStatistics AS e JOIN indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQuery +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQueryIndig +
         "GROUP BY e.lga_code16;";
         outcomeNumAndType = "8Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -215,12 +246,43 @@ public class level3Filter implements Handler {
         // Outcome 8 % select Non-indig proportion in labour force but unemployed compared to Non-indig population above 15 years per LGA.
         inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value, pop.pValue AS pValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM EmploymentStatistics AS e JOIN Non_indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-        "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQuery +
+        "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQueryNon +
         "GROUP BY e.lga_code16;";
         outcomeNumAndType = "8Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
 
+        // filter results to remove null values
+        int removedCounter = 0;
+        int listSize = page6Indig.size();
+        // System.out.println("List size start: " + page6Indig.size());
+        for (int i = 0; i < listSize - removedCounter; i++) {
+            // System.out.println();
+            // System.out.println("Count = " + i);
+            
+            // System.out.println(page6Indig.get(i).areaName);
+            // System.out.println(page6Indig.get(i).outcome1IndigRaw);
+            // System.out.println(page6Indig.get(i).outcome1NonRaw);
+            // System.out.println();
+            if (page6Indig.get(i).outcome1IndigRaw == null) {
+                // System.out.println("To remove by indig: " + page6Indig.get(i).areaName);
+                page6Indig.remove(i);
+                removedCounter ++;
+                i --;
+            } else if (page6Indig.get(i).outcome1NonRaw == null) {
+                // System.out.println("To remove by Non: " + page6Indig.get(i).areaName);
+                page6Indig.remove(i);
+                removedCounter ++;
+                i --;
+            }
+        } 
+        // System.out.println("Removed no: " + removedCounter);
+        System.out.println("List size end: " + page6Indig.size());
+
+        for (int i = 0; i < page6Indig.size(); i++) {
+            page6Indig.get(i).setRanking(checkboxOutcome1, checkboxOutcome5, checkboxOutcome6, checkboxOutcome8);
+        }
         
+
 
         model.put("tableDataIndig", page6Indig); 
     
