@@ -114,7 +114,7 @@ public class filterOutcomes {
         }
         if (checkboxOutcome8 != null) {
             try {
-                this.lgaRank -= this.outcome8Gap;
+                this.lgaRank += this.outcome8Gap;
             } catch (Exception e) {
                 this.lgaRank += 0.0;
             }
