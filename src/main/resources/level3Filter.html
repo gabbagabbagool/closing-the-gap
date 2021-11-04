@@ -237,12 +237,14 @@
 
                     <!-- add filter display -->
                     <h5 class="text-muted">Add Filters:</h5>
+                    <!-- Gender filter -->
                     <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Gender =</label>
                     <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="genderFilterValue">
                         <option value="all" th:selected="${genderFilterSelection} == null">All</option>
                         <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
                         <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
                     </select><br>
+                    <!-- poulation filter -->
                     <p>Population</p>
                     <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Indigenous </label>
                     <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="populationFilterIndig">
@@ -260,11 +262,28 @@
                     </select><br>
                     <input class="form-control form-control-sm" type="text" placeholder="0" name="populationFilterValueNon" th:value="${populationInputNon}">
 
+                    <!-- Proportion value filter -->
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Proportion</label>
+                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="gapFilter">
+                        <option value="none" th:selected="${gapFilter} == null">...</option>
+                        <option value="outcome1" th:selected="${gapFilter} == outcome1">Outcome1</option>
+                        <option value="outcome5" th:selected="${gapFilter} == outcome5">Outcome5</option>
+                        <option value="outcome6" th:selected="${gapFilter} == outcome6">Outcome6</option>
+                        <option value="outcome8" th:selected="${gapFilter} == outcome8">Outcome8</option>
+                        <option value="all" th:selected="${gapFilter} == all">All</option>
+                    </select><br>
+                    <input class="form-control form-control-sm" type="text" placeholder="0" name="gapFilterValue" th:value="${gapFilterValue}">
+
+                    <!-- add text to show what is being filtered -->
                     <div>
-                        <p th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">Filtering results by:</p>
+                        <p th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
+                        or ${populationFilterSelectionNon} == greater or ${populationFilterSelectionNon} == less">Filtering results by:</p>
                         <p th:if="${genderFilterSelection} == m">Gender = <b>Male</b></p>
                         <p th:if="${genderFilterSelection} == f">Gender = <b>Female</b></p>
-                        <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m">
+                        <p th:if="${populationFilterSelectionNon} == greater">Non-Indig &gt; [[${populationInputNon}]]</p>
+                        <!-- button to clear all filters -->
+                        <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m
+                        or ${populationFilterSelectionNon} == greater or ${populationFilterSelectionNon} == less">
                             <button type="submit" name="buttonClearFilter" class="btn btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters" value="clear">Clear Filters
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle text-danger" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
