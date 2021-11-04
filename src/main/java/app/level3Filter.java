@@ -238,7 +238,7 @@ public class level3Filter implements Handler {
         // Outcome 8 % select indig proportion in labour force but unemployed compared to indig population above 15 years per LGA.
         inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value, pop.pValue AS pValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM EmploymentStatistics AS e JOIN indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQueryIndig +
+        "WHERE e.indigenous_status = 'indig' AND e.Labour_force = 'in_lf_emp' " +  filterSex8 + populationQueryIndig +
         "GROUP BY e.lga_code16;";
         outcomeNumAndType = "8Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
@@ -246,7 +246,7 @@ public class level3Filter implements Handler {
         // Outcome 8 % select Non-indig proportion in labour force but unemployed compared to Non-indig population above 15 years per LGA.
         inputQuery = "SELECT e.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, e.Labour_force, SUM(e.count) AS value, pop.pValue AS pValue, round(CAST (SUM(e.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM EmploymentStatistics AS e JOIN Non_indig_pop_above_15 AS pop ON e.lga_code16 = pop.areaCode JOIN LGAs ON e.lga_code16 = LGAs.lga_code16 " +
-        "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_unemp' " +  filterSex8 + populationQueryNon +
+        "WHERE e.indigenous_status = 'non_indig' AND e.Labour_force = 'in_lf_emp' " +  filterSex8 + populationQueryNon +
         "GROUP BY e.lga_code16;";
         outcomeNumAndType = "8Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
