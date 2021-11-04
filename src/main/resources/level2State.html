@@ -57,20 +57,20 @@
                             <!-- If raw is selected, render raw table-->
                             <tr th:each="state : ${tableData}">
                                 <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${state.outcome1Raw}"></td>
-                                <td th:if="${outcome5}" th:text="${state.outcome5Raw}"></td>
-                                <td th:if="${outcome6}" th:text="${state.outcome6Raw}"></td>
-                                <td th:if="${outcome8}" th:text="${state.outcome8Raw}"></td>
+                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(state.outcome1Raw,3,0)}"></td>
+                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(state.outcome5Raw,3,0)}"></td>
+                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(state.outcome6Raw,3,0)}"></td>
+                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(state.outcome8Raw,3,0)}"></td>
                             </tr>
                         </div>
                         <div th:if="${radio} == p">
                             <!-- If proportional is selected, render proportional table-->
                             <tr th:each="state : ${tableData}">
                                 <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${state.outcome1Frac}"></td>
-                                <td th:if="${outcome5}" th:text="${state.outcome5Frac}"></td>
-                                <td th:if="${outcome6}" th:text="${state.outcome6Frac}"></td>
-                                <td th:if="${outcome8}" th:text="${state.outcome8Frac}"></td>
+                                <td th:if="${outcome1}" th:text="${state.outcome1Frac} + '%'"></td>
+                                <td th:if="${outcome5}" th:text="${state.outcome5Frac} + '%'"></td>
+                                <td th:if="${outcome6}" th:text="${state.outcome6Frac} + '%'"></td>
+                                <td th:if="${outcome8}" th:text="${state.outcome8Frac} + '%'"></td>
                             </tr>
                         </div>
                     </tbody>
@@ -182,10 +182,10 @@
                                             <div class="accordion-body">
                                                 <strong>Strong economic participation and development of Aboriginal and
                                                     Torres Strait Islander people and communities.</strong><br><br> The
-                                                raw count for this outcome is the population of unemployed indigenous
-                                                peoples
+                                                raw count for this outcome is the population of employed indigenous
+                                                peoples per state.
                                                 the workforce per state. The proportionate data represents the
-                                                unemployment rate for Indigenoous peoples per state.
+                                                employment rate for Indigenoous peoples per state.
                                             </div>
                                         </div>
                                     </div>
