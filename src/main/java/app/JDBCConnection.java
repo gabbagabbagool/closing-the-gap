@@ -67,21 +67,20 @@ public class JDBCConnection {
                 lgaName = results.getString("areaName");
                 
 
-                // for (thymeleafOutcomes entry : OutcomeList) {
-                //     if (entry.areaCode == lgaCode) {
-                //         entry.setOutcomes(outcomeNumAndType, value);
-                //         found = true;
-                //         break;
-                //     }
-                // }
                 if (OutcomeList.size() != 0 && OutcomeList.get(indexer).areaCode == lgaCode){
                     OutcomeList.get(indexer).setOutcomes(outcomeNumAndType, value);
                     OutcomeList.get(indexer).areaCode = lgaCode;
                     OutcomeList.get(indexer).areaName = lgaName;                 
                     indexer += 1;
                 }
-                
-                else{
+                boolean found = false;
+                for (var obj : OutcomeList) {
+                    if (obj.areaCode == lgaCode){
+                        obj.setOutcomes(outcomeNumAndType, value);
+                        found = true;
+                    }
+                }
+                if(found == false){
                     thymeleafOutcomes myObject = new thymeleafOutcomes();
                     myObject.setOutcomes(outcomeNumAndType, value);
                     myObject.areaCode = lgaCode;

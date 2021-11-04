@@ -57,10 +57,10 @@
                             <!-- If raw is selected, render raw table-->
                             <tr th:each="state : ${tableData}">
                                 <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(state.outcome1Raw,3,0)}"></td>
-                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(state.outcome5Raw,3,0)}"></td>
-                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(state.outcome6Raw,3,0)}"></td>
-                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(state.outcome8Raw,3,0)}"></td>
+                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(state.outcome1Raw,1,0)}"></td>
+                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(state.outcome5Raw,1,0)}"></td>
+                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(state.outcome6Raw,1,0)}"></td>
+                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(state.outcome8Raw,1,0)}"></td>
                             </tr>
                         </div>
                         <div th:if="${radio} == p">
@@ -249,7 +249,7 @@
                             </option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary my-2">Submit</button>
+                    <button type="submit" class="btn btn-primary my-2">Refresh Data</button>
                 </form>
             </div>
         </div>
