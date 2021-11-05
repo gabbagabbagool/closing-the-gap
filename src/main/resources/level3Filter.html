@@ -231,6 +231,35 @@
                         <label class="form-check-label" for="inlineCheckbox4">
                         Outcome 8</label>
                     </div><br>
+                    <a>Sort by outcome:</a>
+                    <br>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
+                                aria-label="Options for selecting an outcome to sort by">
+                                <option value="null">...</option>
+                                <option th:selected="${sortSelect} == 1" value="1">1</option>
+                                <option th:selected="${sortSelect} == 5" value="5">5</option>
+                                <option th:selected="${sortSelect} == 6" value="6">6</option>
+                                <option th:selected="${sortSelect} == 8" value="8">8</option>
+                            </select>
+                        </div>
+                        <div class="input-group-prepend">
+                            <select class="custom-select my-1 mr-sm-2" name="outcomeSelectGroup"
+                                aria-label="Options for selecting an outcome to sort by">
+                                <option value="null">...</option>
+                                <option th:selected="${sortSelectGroup} == Indig" value="Indig">Indig</option>
+                                <option th:selected="${sortSelectGroup} == Non" value="Non">Non</option>
+                                <option th:selected="${sortSelectGroup} == Gap" value="Gap">Gap</option>
+                            </select>
+                        </div>
+                        <select class="custom-select my-1 mr-sm-2" name="outcomeSortOrder"
+                            aria-label="Options to sort in ascending, or descending order">
+                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Best</option>
+                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Worst</option>
+                        </select>
+                    </div><br>
+                    
                     <div>
                         <button type="submit" class="btn btn-primary">Refresh Data</button>
                     </div><br>
