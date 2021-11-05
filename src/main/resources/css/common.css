@@ -39,3 +39,11 @@ Base styles
     overflow: auto;
     display: block;
     }
+    
+    /* .custom-select {
+        width: 35px;
+        margin: 10px;
+    }
+    .custom-select:focus {
+        width: auto;
+    }     */
