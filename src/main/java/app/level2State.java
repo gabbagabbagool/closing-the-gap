@@ -76,7 +76,7 @@ public class level2State implements Handler {
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
             }
             else{
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, abs((random() %10000) / 100.0) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs)) * 100, 2) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = lga_code16 JOIN State ON substr(indig_finish_hs.lga_code16, 1, 1) = stateCode GROUP BY substr(Indig_Y12.Code, 1, 1)  ORDER BY Indig_Y12.Code;";
             }
             String outcomeNumAndType = "5";
             outcomeNumAndType += model.get("radio");
@@ -117,6 +117,26 @@ public class level2State implements Handler {
 
             // Switch case to find the outcome to sort
             switch(sortSelect){
+                case "5":
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Raw/Proportional branching
+                        if(model.get("radio").equals("r")){
+                            Collections.sort(level2State, new sortOutcome5RawAscending());
+                        }
+                        else{
+                            Collections.sort(level2State, new sortOutcome5ProportionalAscending());
+                        }
+                        break;
+                    }
+                        // Descending branch
+                    if(model.get("radio").equals("r")){
+                        Collections.sort(level2State, new sortOutcome5RawDescending());
+                    }
+                    else{
+                        Collections.sort(level2State, new sortOutcome5ProportionalDescending());
+                    }
+                    break;
                 // For outcome 8
                 case "8":
                     // Ascending/Descending branching
