@@ -41,6 +41,8 @@
     <div class="container">
         <div class="row">
             <div class="col">
+                    <div th:if="${error != null}" th:text="${error}" class="alert alert-danger" role="alert">
+                    </div>
                 <table class="table table-bordered table-striped table-xl">
                     <thead>
                         <tr>

@@ -52,10 +52,18 @@ public class level2State implements Handler {
             model.put("outcome8", context.formParam("checkboxOutcome8"));
             model.put("radio", context.formParam("radio"));
         }
+        // Store the form options that were selected for sorting
+        String sortSelect = context.formParam("outcomeSortSelect");
+        String outcomeSortOrder = context.formParam("outcomeSortOrder");
         String inputQuery;
+
         // If outcome 1 has been selected
-        if (model.get("outcome1") != null){
-            
+        if ((model.get("outcome1") != null)||(sortSelect.equals("1"))){
+            if(model.get("outcome1") == null){
+                model.put("outcome1", "true");
+                model.put("error", "Outcome 1 was chosen to sort, whilst not selected to display. The site has included outcome 1 in the results");
+            }
+
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -69,7 +77,11 @@ public class level2State implements Handler {
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
         // if outcome 5 has been selected
-        if (model.get("outcome5") != null){
+        if ((model.get("outcome5") != null)||(sortSelect.equals("5"))){
+            if(model.get("outcome5") == null){
+                model.put("outcome5", "true");
+                model.put("error", "Outcome 5 was chosen to sort, whilst not selected to display. The site has included outcome 5 in the results");
+            }
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -82,7 +94,11 @@ public class level2State implements Handler {
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
-        if (model.get("outcome6") != null){
+        if ((model.get("outcome6") != null)||(sortSelect.equals("6"))){
+            if(model.get("outcome6") == null){
+                model.put("outcome6", "true");
+                model.put("error", "Outcome 6 was chosen to sort, whilst not selected to display. The site has included outcome 6 in the results");
+            }
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -95,7 +111,11 @@ public class level2State implements Handler {
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
-        if (model.get("outcome8") != null){
+        if ((model.get("outcome8")) != null||(sortSelect.equals("8"))){
+            if(model.get("outcome8") == null){
+                model.put("outcome8", "true");
+                model.put("error", "Outcome 8 was chosen to sort, whilst not selected to display. The site has included outcome 8 in the results");
+            }
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
@@ -108,9 +128,7 @@ public class level2State implements Handler {
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
         }
-        // Store the form options that were selected for sorting
-        String sortSelect = context.formParam("outcomeSortSelect");
-        String outcomeSortOrder = context.formParam("outcomeSortOrder");
+
 
         // If there was a selection
         if ((sortSelect != null)&&(!sortSelect.equals("null"))){
