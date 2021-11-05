@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Outcomes by LGA</title>
@@ -57,10 +57,22 @@
                         <tbody  th:if="${dataType} == fracSelected">
                             <tr th:each="lga : ${tableData}">
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Frac} + '%'"></td>
+                                <div th:switch="${lga.outcome1Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
+                                </div>
+                                <div th:switch="${lga.outcome5Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
+                                </div>
+                                <div th:switch="${lga.outcome6Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
+                                </div>
+                                <div th:switch="${lga.outcome8Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
+                                </div>
                             </tr>
                         </tbody>
                     </table>
