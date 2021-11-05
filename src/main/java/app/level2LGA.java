@@ -138,33 +138,101 @@ public class level2LGA implements Handler {
         // Store the form options that were selected for sorting
         String sortSelect = context.formParam("outcomeSortSelect");
         String outcomeSortOrder = context.formParam("outcomeSortOrder");
-
+        model.put("sortSelect", sortSelect);
+        model.put("outcomeSortOrder", outcomeSortOrder);
+        
         // If there was a selection
         if ((sortSelect != null)&&(!sortSelect.equals("null"))){
 
             // Switch case to find the outcome to sort
             switch(sortSelect){
-                // For outcome 8
-                case "8":
+                // For outcome 1
+                case "1":
                     // Ascending/Descending branching
                     if (outcomeSortOrder.equals("ascending")){
                         // Raw/Proportional branching
                         if(model.get("dataType").equals("rawSelected")){
-                            Collections.sort(level2LGA, new sortOutcome8RawAscending());
+                            Collections.sort(level2LGA, new sortOutcome1RawAscending());
                         }
                         else{
-                            Collections.sort(level2LGA, new sortOutcome8ProportionalAscending());
+                            Collections.sort(level2LGA, new sortOutcome1ProportionalAscending());
                         }
                         break;
                     }
                         // Descending branch
                     if(model.get("dataType").equals("rawSelected")){
-                        Collections.sort(level2LGA, new sortOutcome8RawDescending());
+                        Collections.sort(level2LGA, new sortOutcome1RawDescending());
                     }
                     else{
-                        Collections.sort(level2LGA, new sortOutcome8ProportionalDescending());
+                        Collections.sort(level2LGA, new sortOutcome1ProportionalDescending());
                     }
-                    break;                 
+                    break;
+
+                // For outcome 5
+                case "5":
+                // Ascending/Descending branching
+                if (outcomeSortOrder.equals("ascending")){
+                    // Raw/Proportional branching
+                    if(model.get("dataType").equals("rawSelected")){
+                        Collections.sort(level2LGA, new sortOutcome5RawAscending());
+                    }
+                    else{
+                        Collections.sort(level2LGA, new sortOutcome5ProportionalAscending());
+                    }
+                    break;
+                }
+                    // Descending branch
+                if(model.get("dataType").equals("rawSelected")){
+                    Collections.sort(level2LGA, new sortOutcome5RawDescending());
+                }
+                else{
+                    Collections.sort(level2LGA, new sortOutcome5ProportionalDescending());
+                }
+                break;
+
+                // For outcome 6
+                case "6":
+                // Ascending/Descending branching
+                if (outcomeSortOrder.equals("ascending")){
+                    // Raw/Proportional branching
+                    if(model.get("dataType").equals("rawSelected")){
+                        Collections.sort(level2LGA, new sortOutcome6RawAscending());
+                    }
+                    else{
+                        Collections.sort(level2LGA, new sortOutcome6ProportionalAscending());
+                    }
+                    break;
+                }
+                    // Descending branch
+                if(model.get("dataType").equals("rawSelected")){
+                    Collections.sort(level2LGA, new sortOutcome6RawDescending());
+                }
+                else{
+                    Collections.sort(level2LGA, new sortOutcome6ProportionalDescending());
+                }
+                break;
+
+                // For outcome 8
+                case "8":
+                // Ascending/Descending branching
+                if (outcomeSortOrder.equals("ascending")){
+                    // Raw/Proportional branching
+                    if(model.get("dataType").equals("rawSelected")){
+                        Collections.sort(level2LGA, new sortOutcome8RawAscending());
+                    }
+                    else{
+                        Collections.sort(level2LGA, new sortOutcome8ProportionalAscending());
+                    }
+                    break;
+                }
+                    // Descending branch
+                if(model.get("dataType").equals("rawSelected")){
+                    Collections.sort(level2LGA, new sortOutcome8RawDescending());
+                }
+                else{
+                    Collections.sort(level2LGA, new sortOutcome8ProportionalDescending());
+                }
+                break;
             }
         }
 
