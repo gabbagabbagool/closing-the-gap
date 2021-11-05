@@ -53,22 +53,34 @@
                         <!-- These two divs could be combined, with thymeleaf logic selecting the right raw/proportional based on a conditional -->
                         <div th:if="${radio} == r">
                             <!-- If raw is selected, render raw table-->
-                            <tr th:each="state : ${tableData}">
-                                <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(state.outcome1Raw,1,0)}"></td>
-                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(state.outcome5Raw,1,0)}"></td>
-                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(state.outcome6Raw,1,0)}"></td>
-                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(state.outcome8Raw,1,0)}"></td>
+                            <tr th:each="lga : ${tableData}">
+                                <td th:text="${lga.areaName}"></td>
+                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(lga.outcome1Raw,1,0)}"></td>
+                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(lga.outcome5Raw,1,0)}"></td>
+                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(lga.outcome6Raw,1,0)}"></td>
+                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(lga.outcome8Raw,1,0)}"></td>
                             </tr>
                         </div>
                         <div th:if="${radio} == p">
                             <!-- If proportional is selected, render proportional table-->
-                            <tr th:each="state : ${tableData}">
-                                <td th:text="${state.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${state.outcome1Frac} + '%'"></td>
-                                <td th:if="${outcome5}" th:text="${state.outcome5Frac} + '%'"></td>
-                                <td th:if="${outcome6}" th:text="${state.outcome6Frac} + '%'"></td>
-                                <td th:if="${outcome8}" th:text="${state.outcome8Frac} + '%'"></td>
+                            <tr th:each="lga : ${tableData}">
+                                <td th:text="${lga.areaName}"></td>
+                                <div th:switch="${lga.outcome1Frac}">
+                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
+                                </div>
+                                <div th:switch="${lga.outcome5Frac}">
+                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
+                                </div>
+                                <div th:switch="${lga.outcome6Frac}">
+                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
+                                </div>
+                                <div th:switch="${lga.outcome8Frac}">
+                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
+                                </div>
                             </tr>
                         </div>
                     </tbody>
@@ -113,7 +125,7 @@
                                             <div class="accordion-body">
                                                 <strong>Aboriginal and Torres Strait Islander people enjoy long and
                                                     healthy lives.</strong><br><br> The data for outcome 1 represents
-                                                the count of the indigenous population over 65 years of age per state.
+                                                the count of the indigenous population over 65 years of age per LGA.
                                                 The proportional value for this outcome represents the proportion of
                                                 population that indigenous
                                                 peoples make up in the age bracket of 65 years old and over.
@@ -136,10 +148,10 @@
                                                 <strong>Aboriginal and Torres Strait Islander students achieve their
                                                     full learning potential</strong><br><br> The raw data for outcome 5
                                                 represents the count of the indigenous population that have completed
-                                                year 12 equivalent study per state. The
+                                                year 12 equivalent study per LGA. The
                                                 proportional value for this outcome is the rate of completion of year 12
                                                 equivalent for
-                                                indigenous peoples per state.
+                                                indigenous peoples per LGA.
                                             </div>
                                         </div>
                                     </div>
@@ -160,10 +172,10 @@
                                                     potential through further education pathways.</strong><br><br> The
                                                 data for outcome 6 represents the count of the indigenous population
                                                 that have completed any tertiary qualification (Certificate III or
-                                                above) per state. The proportional value for this outcome is the
+                                                above) per LGA. The proportional value for this outcome is the
                                                 ratio of indigenous peoples who have completed a Certificate
-                                                III or above per state as compared to the indigenous population with a
-                                                non-school qualification in that state.
+                                                III or above per LGA as compared to the indigenous population with a
+                                                non-school qualification in that LGA.
                                             </div>
                                         </div>
                                     </div>
@@ -183,9 +195,9 @@
                                                 <strong>Strong economic participation and development of Aboriginal and
                                                     Torres Strait Islander people and communities.</strong><br><br> The
                                                 raw count for this outcome is the population of employed indigenous
-                                                peoples per state.
-                                                the workforce per state. The proportionate data represents the
-                                                employment rate for Indigenous peoples per state.
+                                                peoples per LGA.
+                                                the workforce per LGA. The proportionate data represents the
+                                                employment rate for Indigenous peoples per LGA.
                                             </div>
                                         </div>
                                     </div>
