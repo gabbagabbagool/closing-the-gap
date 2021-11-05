@@ -44,19 +44,17 @@
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col" >LGA</th>
-                                <th scope="col" colspan="1">Ranking</th>
                                 <th th:if="${checkboxOutcome1} != null" scope="col" colspan="3"> Outcome 1</th>
                                 <th th:if="${checkboxOutcome5} != null" scope="col" colspan="3"> Outcome 5</th>
                                 <th th:if="${checkboxOutcome6} != null" scope="col" colspan="3"> Outcome 6</th>
                                 <th th:if="${checkboxOutcome8} != null" scope="col" colspan="3"> Outcome 8</th>
+                                <th scope="col" colspan="1">Ranking</th>
                             </tr>
                             <tr>
                                 <td >&nbsp;</td>
                                 <td >&nbsp;</td>
-                                <!-- <td >Indig</td>
-                                <td >Non</td>
-                                <td >Gap</td> -->
                                 <td th:if="${checkboxOutcome1} != null" >Indig</td>
                                 <td th:if="${checkboxOutcome1} != null" >Non</td>
                                 <td th:if="${checkboxOutcome1} != null" >Gap</td>
@@ -69,12 +67,13 @@
                                 <td th:if="${checkboxOutcome8} != null" >Indig</td>
                                 <td th:if="${checkboxOutcome8} != null" >Non</td>
                                 <td th:if="${checkboxOutcome8} != null" >Gap</td>
+                                <td >&nbsp;</td>
                             </tr>
                         </thead>
                         <tbody  th:if="${dataType} != fracSelected">
-                            <tr th:each="lga : ${tableDataIndig}">
+                            <tr th:each="lga,iter : ${tableDataIndig}">
+                                <th scope="row">[[${iter.count}]]</th>
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:text="${lga.lgaRank}"></td>
                                 <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1IndigRaw,1,0)}" ></td> 
                                 <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1NonRaw,1,0)}"></td>
                                 <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1Gap,1,1)} + '%'"></td>
@@ -87,12 +86,13 @@
                                 <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8IndigRaw,1,0)}"></td>
                                 <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8NonRaw,1,0)}"></td>
                                 <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8Gap,1,1)} + '%'"></td>
+                                <td th:text="${lga.lgaRank}"></td>
                             </tr>
                         </tbody>
                         <tbody  th:if="${dataType} == fracSelected">
-                            <tr th:each="lga : ${tableDataIndig}">
+                            <tr th:each="lga,iter : ${tableDataIndig}">
+                                <th scope="row">[[${iter.count}]]</th>
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:text="${lga.lgaRank}"></td>
                                 <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1IndigFrac} + '%'"></td>
                                 <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1NonFrac} + '%'"></td>
                                 <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Gap} + '%'"></td>
@@ -105,6 +105,7 @@
                                 <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8IndigFrac} + '%'"></td>
                                 <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8NonFrac} + '%'"></td>
                                 <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Gap} + '%'"></td>
+                                <td th:text="${lga.lgaRank}"></td>
                             </tr>
                         </tbody>
                     </table>
