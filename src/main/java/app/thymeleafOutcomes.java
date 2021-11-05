@@ -15,6 +15,9 @@ public class thymeleafOutcomes {
     public Double outcome8Frac;
 
     public void setOutcomes(String outcome, Double value){
+        if(value == null){
+            value = -42069.0;
+        }
         switch(outcome){
             case "1r":
                 this.outcome1Raw = value;
