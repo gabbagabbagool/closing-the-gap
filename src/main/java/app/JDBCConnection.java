@@ -73,24 +73,23 @@ public class JDBCConnection {
                     OutcomeList.get(indexer).areaName = lgaName;                 
                     indexer += 1;
                 }
-                boolean found = false;
-                for (var obj : OutcomeList) {
-                    if (obj.areaCode == lgaCode){
-                        obj.setOutcomes(outcomeNumAndType, value);
-                        found = true;
+                else{
+                    boolean found = false;
+                    for (var obj : OutcomeList) {
+                        if (obj.areaCode == lgaCode){
+                            obj.setOutcomes(outcomeNumAndType, value);
+                            found = true;
+                        }
+                    }
+                    if(found == false){
+                        thymeleafOutcomes myObject = new thymeleafOutcomes();
+                        myObject.setOutcomes(outcomeNumAndType, value);
+                        myObject.areaCode = lgaCode;
+                        myObject.areaName = lgaName;
+                        // Add this OutcomeTracker object to the methods ArrayList
+                        OutcomeList.add(myObject);
                     }
                 }
-                if(found == false){
-                    thymeleafOutcomes myObject = new thymeleafOutcomes();
-                    myObject.setOutcomes(outcomeNumAndType, value);
-                    myObject.areaCode = lgaCode;
-                    myObject.areaName = lgaName;
-                    // Add this OutcomeTracker object to the methods ArrayList
-                    OutcomeList.add(myObject);
-                }
-
-                
-
             }
 
             // Close the statement because we are done with it

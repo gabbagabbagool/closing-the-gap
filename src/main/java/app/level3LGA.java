@@ -18,12 +18,12 @@ import java.util.Map;
  * @author Timothy Wiley, 2021. email: timothy.wiley@rmit.edu.au
  * @author Santha Sumanasekara, 2021. email: santha.sumanasekara@rmit.edu.au
  */
-public class level2State implements Handler {
+public class level3LGA implements Handler {
 
     // URL of this page relative to http://localhost:7000/
-    public static final String URL = "/level2State.html";
+    public static final String URL = "/level3LGA.html";
 
-    private static final String TEMPLATE = ("level2State.html");
+    private static final String TEMPLATE = ("level3LGA.html");
 
     @Override
     public void handle(Context context) throws Exception {
@@ -32,7 +32,7 @@ public class level2State implements Handler {
     
         JDBCConnection jdbc = new JDBCConnection();
 
-        ArrayList<thymeleafOutcomes> level2State = new ArrayList<thymeleafOutcomes>();
+        ArrayList<thymeleafOutcomes> level3LGA = new ArrayList<thymeleafOutcomes>();
 
         // If we visit this page from a GET request, e.g. a navigation from navbar
         if(context.method().equalsIgnoreCase("get")){
@@ -67,14 +67,14 @@ public class level2State implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 WHERE p.indigenous_status = 'indig' AND  p.age = '_65_yrs_ov' GROUP BY LGAs.lga_code16;";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON  every.lga_code16 = indig.lga_code16 JOIN State ON substr(indig.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, IFNULL(ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2),0) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON every.lga_code16 = indig.lga_code16 JOIN LGAs ON every.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16 ORDER BY LGAs.lga_code16;";
             }
             String outcomeNumAndType = "1";
             outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+            jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
         }
         // if outcome 5 has been selected
         if ((model.get("outcome5") != null)||(sortSelect.equals("5"))){
@@ -85,14 +85,21 @@ public class level2State implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, SUM(Indig_Y12.total) AS value, LGAs.lga_name16 AS areaName FROM Indig_Y12 JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16 GROUP BY LGAs.lga_code16; ";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs)) * 100, 2) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = lga_code16 JOIN State ON substr(indig_finish_hs.lga_code16, 1, 1) = stateCode GROUP BY substr(Indig_Y12.Code, 1, 1)  ORDER BY Indig_Y12.Code;";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, IFNULL(ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs) ) * 100, 2), -42069) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = LGAs.lga_code16 JOIN  LGAs ON indig_finish_hs.lga_code16 = LGAs.lga_code16 GROUP BY Indig_Y12.Code ORDER BY Indig_Y12.Code;";
             }
             String outcomeNumAndType = "5";
             outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+            try {
+                jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
+            } catch (Exception e) {
+                String shitdog = "ss";
+                if(shitdog == "ss"){
+                    shitdog = "tt";
+                }
+            }
         }
         if ((model.get("outcome6") != null)||(sortSelect.equals("6"))){
             if(model.get("outcome6") == null){
@@ -102,14 +109,14 @@ public class level2State implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(certIII.certIII) AS value, State.stateName AS areaName FROM indig_certIII AS certIII JOIN LGAs ON certIII.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, SUM(certIII.certIII) AS value, LGAs.lga_name16 AS areaName FROM indig_certIII AS certIII JOIN LGAs ON certIII.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16;";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON  all_qual.lga_code16 = certIII.lga_code16 JOIN State ON substr(certIII.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, IFNULL(ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2), -42069) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON all_qual.lga_code16 = certIII.lga_code16 JOIN LGAs ON certIII.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16 ORDER BY LGAs.lga_code16;";
             }
             String outcomeNumAndType = "6";
             outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+            jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
         }
         if ((model.get("outcome8")) != null||(sortSelect.equals("8"))){
             if(model.get("outcome8") == null){
@@ -119,17 +126,21 @@ public class level2State implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT sum(employed_indig) as value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY stateName;";
+                inputQuery = "SELECT sum(employed_indig) AS value, LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName FROM labour_force_indig JOIN LGAs ON  labour_force_indig.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16;";
             }
             else{
-                inputQuery = "SELECT ROUND(100 - (100.0 * unemployed_indig/employed_indig),1) AS value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM unemployed_indig NATURAL JOIN labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY areaName ORDER BY areaCode;";
+                inputQuery = "SELECT IFNULL(ROUND(100 - (100.0 * unemployed_indig / employed_indig), 1), -42069) AS value, LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName FROM unemployed_indig NATURAL JOIN labour_force_indig JOIN LGAs ON labour_force_indig.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16";
             }
             String outcomeNumAndType = "8";
             outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+            jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
         }
 
-
+        for (thymeleafOutcomes obj : level3LGA) {
+            if(obj.outcome1Frac == null){
+                System.out.println(obj.areaCode);
+            }
+        }
         // If there was a selection
         if ((sortSelect != null)&&(!sortSelect.equals("null"))){
 
@@ -140,19 +151,19 @@ public class level2State implements Handler {
                     if (outcomeSortOrder.equals("ascending")){
                         // Raw/Proportional branching
                         if(model.get("radio").equals("r")){
-                            Collections.sort(level2State, new sortOutcome1RawAscending());
+                            Collections.sort(level3LGA, new sortOutcome1RawAscending());
                         }
                         else{
-                            Collections.sort(level2State, new sortOutcome1ProportionalAscending());
+                            Collections.sort(level3LGA, new sortOutcome1ProportionalAscending());
                         }
                         break;
                     }
                         // Descending branch
                     if(model.get("radio").equals("r")){
-                        Collections.sort(level2State, new sortOutcome1RawDescending());
+                        Collections.sort(level3LGA, new sortOutcome1RawDescending());
                     }
                     else{
-                        Collections.sort(level2State, new sortOutcome1ProportionalDescending());
+                        Collections.sort(level3LGA, new sortOutcome1ProportionalDescending());
                     }
                     break;
                 case "5":
@@ -160,19 +171,19 @@ public class level2State implements Handler {
                     if (outcomeSortOrder.equals("ascending")){
                         // Raw/Proportional branching
                         if(model.get("radio").equals("r")){
-                            Collections.sort(level2State, new sortOutcome5RawAscending());
+                            Collections.sort(level3LGA, new sortOutcome5RawAscending());
                         }
                         else{
-                            Collections.sort(level2State, new sortOutcome5ProportionalAscending());
+                            Collections.sort(level3LGA, new sortOutcome5ProportionalAscending());
                         }
                         break;
                     }
                         // Descending branch
                     if(model.get("radio").equals("r")){
-                        Collections.sort(level2State, new sortOutcome5RawDescending());
+                        Collections.sort(level3LGA, new sortOutcome5RawDescending());
                     }
                     else{
-                        Collections.sort(level2State, new sortOutcome5ProportionalDescending());
+                        Collections.sort(level3LGA, new sortOutcome5ProportionalDescending());
                     }
                     break;
                 case "6":
@@ -180,19 +191,19 @@ public class level2State implements Handler {
                     if (outcomeSortOrder.equals("ascending")){
                         // Raw/Proportional branching
                         if(model.get("radio").equals("r")){
-                            Collections.sort(level2State, new sortOutcome6RawAscending());
+                            Collections.sort(level3LGA, new sortOutcome6RawAscending());
                         }
                         else{
-                            Collections.sort(level2State, new sortOutcome6ProportionalAscending());
+                            Collections.sort(level3LGA, new sortOutcome6ProportionalAscending());
                         }
                         break;
                     }
                         // Descending branch
                     if(model.get("radio").equals("r")){
-                        Collections.sort(level2State, new sortOutcome6RawDescending());
+                        Collections.sort(level3LGA, new sortOutcome6RawDescending());
                     }
                     else{
-                        Collections.sort(level2State, new sortOutcome6ProportionalDescending());
+                        Collections.sort(level3LGA, new sortOutcome6ProportionalDescending());
                     }
                     break;
                 case "8":
@@ -200,19 +211,19 @@ public class level2State implements Handler {
                     if (outcomeSortOrder.equals("ascending")){
                         // Raw/Proportional branching
                         if(model.get("radio").equals("r")){
-                            Collections.sort(level2State, new sortOutcome8RawAscending());
+                            Collections.sort(level3LGA, new sortOutcome8RawAscending());
                         }
                         else{
-                            Collections.sort(level2State, new sortOutcome8ProportionalAscending());
+                            Collections.sort(level3LGA, new sortOutcome8ProportionalAscending());
                         }
                         break;
                     }
                         // Descending branch
                     if(model.get("radio").equals("r")){
-                        Collections.sort(level2State, new sortOutcome8RawDescending());
+                        Collections.sort(level3LGA, new sortOutcome8RawDescending());
                     }
                     else{
-                        Collections.sort(level2State, new sortOutcome8ProportionalDescending());
+                        Collections.sort(level3LGA, new sortOutcome8ProportionalDescending());
                     }
                     break;                 
             }
@@ -223,8 +234,8 @@ public class level2State implements Handler {
 
         model.put("sortSelect", sortSelect);
         model.put("outcomeSortOrder", outcomeSortOrder);
-        model.put("tableData", level2State);
-        model.put("currentPage", "level2State");
+        model.put("tableData", level3LGA);
+        model.put("currentPage", "level3LGA");
 
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
