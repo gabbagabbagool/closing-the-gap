@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -315,11 +316,275 @@ public class level3Filter implements Handler {
             page6Indig.get(i).setRanking(checkboxOutcome1, checkboxOutcome5, checkboxOutcome6, checkboxOutcome8);
         }
         
+        // Store the form options that were selected for sorting
+        String sortSelectOutcome = context.formParam("outcomeSortSelect");
+        String sortSelectGroup = context.formParam("outcomeSelectGroup");
+        String outcomeSortOrder = context.formParam("outcomeSortOrder");
+        model.put("sortSelect", sortSelectOutcome);
+        model.put("sortSelectGroup", sortSelectGroup);
+        model.put("outcomeSortOrder", outcomeSortOrder);
+        
+        // If there was a selection
+        if ((sortSelectOutcome != null)&&(!sortSelectOutcome.equals("null"))){
+          
+            // Switch case to find the outcome to sort
+            switch(sortSelectOutcome){
+                // For outcome 1
+                case "1":
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Raw/Proportional branching
+                        if(model.get("dataType").equals("rawSelected")){
+                            switch(sortSelectGroup) {
+                                case "Indig":
+                                Collections.sort(page6Indig, new sortOutcome1IndigRawAscending());
+                                    break;
+                                case "Non":
+                                Collections.sort(page6Indig, new sortOutcome1NonRawAscending());
+                                    break;
+                                case "Gap":
+                                Collections.sort(page6Indig, new sortOutcome1GapAscending());
+                                    break;
+                              }
+                        } else {
+                            // Ascending proportional
+                            switch(sortSelectGroup) {
+                                case "Indig":
+                                Collections.sort(page6Indig, new sortOutcome1IndigProportionalAscending());
+                                    break;
+                                case "Non":
+                                Collections.sort(page6Indig, new sortOutcome1NonProportionalAscending());
+                                    break;
+                                case "Gap":
+                                Collections.sort(page6Indig, new sortOutcome1GapAscending());
+                                    break;
+                              }
+                        }
+                        break;
+                    }
+                    // Descending branch
+                    if(model.get("dataType").equals("rawSelected")){
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome1IndigRawDescending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome1NonRawDescending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome1GapDescending());
+                                break;
+                        }
+                        
+                    } else {
+                        // Descending proportional
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome1IndigProportionalDescending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome1NonProportionalDescending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome1GapDescending());
+                                break;
+                          }
+                    }
+                    break;
+
+                // For outcome 5
+                case "5":
+                // Ascending/Descending branching
+                if (outcomeSortOrder.equals("ascending")){
+                    // Raw/Proportional branching
+                    if(model.get("dataType").equals("rawSelected")){
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome5IndigRawAscending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome5NonRawAscending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome5GapAscending());
+                                break;
+                          }
+                    } else {
+                        // Ascending proportional
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome5IndigProportionalAscending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome5NonProportionalAscending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome5GapAscending());
+                                break;
+                          }
+                    }
+                    break;
+                }
+                // Descending branch
+                if(model.get("dataType").equals("rawSelected")){
+                    switch(sortSelectGroup) {
+                        case "Indig":
+                        Collections.sort(page6Indig, new sortOutcome5IndigRawDescending());
+                            break;
+                        case "Non":
+                        Collections.sort(page6Indig, new sortOutcome5NonRawDescending());
+                            break;
+                        case "Gap":
+                        Collections.sort(page6Indig, new sortOutcome5GapDescending());
+                            break;
+                    }
+                    
+                } else {
+                    // Descending proportional
+                    switch(sortSelectGroup) {
+                        case "Indig":
+                        Collections.sort(page6Indig, new sortOutcome5IndigProportionalDescending());
+                            break;
+                        case "Non":
+                        Collections.sort(page6Indig, new sortOutcome5NonProportionalDescending());
+                            break;
+                        case "Gap":
+                        Collections.sort(page6Indig, new sortOutcome5GapDescending());
+                            break;
+                      }
+                }
+                break;
+
+                // For outcome 6
+                case "6":
+                 // Ascending/Descending branching
+                 if (outcomeSortOrder.equals("ascending")){
+                    // Raw/Proportional branching
+                    if(model.get("dataType").equals("rawSelected")){
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome6IndigRawAscending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome6NonRawAscending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome6GapAscending());
+                                break;
+                          }
+                    } else {
+                        // Ascending proportional
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome6IndigProportionalAscending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome6NonProportionalAscending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome6GapAscending());
+                                break;
+                          }
+                    }
+                    break;
+                }
+                // Descending branch
+                if(model.get("dataType").equals("rawSelected")){
+                    switch(sortSelectGroup) {
+                        case "Indig":
+                        Collections.sort(page6Indig, new sortOutcome6IndigRawDescending());
+                            break;
+                        case "Non":
+                        Collections.sort(page6Indig, new sortOutcome6NonRawDescending());
+                            break;
+                        case "Gap":
+                        Collections.sort(page6Indig, new sortOutcome6GapDescending());
+                            break;
+                    }
+                    
+                } else {
+                    // Descending proportional
+                    switch(sortSelectGroup) {
+                        case "Indig":
+                        Collections.sort(page6Indig, new sortOutcome6IndigProportionalDescending());
+                            break;
+                        case "Non":
+                        Collections.sort(page6Indig, new sortOutcome6NonProportionalDescending());
+                            break;
+                        case "Gap":
+                        Collections.sort(page6Indig, new sortOutcome6GapDescending());
+                            break;
+                      }
+                }
+                break;
+
+                // For outcome 8
+                case "8":
+                 // Ascending/Descending branching
+                 if (outcomeSortOrder.equals("ascending")){
+                    // Raw/Proportional branching
+                    if(model.get("dataType").equals("rawSelected")){
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome8IndigRawAscending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome8NonRawAscending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome8GapAscending());
+                                break;
+                          }
+                    } else {
+                        // Ascending proportional
+                        switch(sortSelectGroup) {
+                            case "Indig":
+                            Collections.sort(page6Indig, new sortOutcome8IndigProportionalAscending());
+                                break;
+                            case "Non":
+                            Collections.sort(page6Indig, new sortOutcome8NonProportionalAscending());
+                                break;
+                            case "Gap":
+                            Collections.sort(page6Indig, new sortOutcome8GapAscending());
+                                break;
+                          }
+                    }
+                    break;
+                }
+                // Descending branch
+                if(model.get("dataType").equals("rawSelected")){
+                    switch(sortSelectGroup) {
+                        case "Indig":
+                        Collections.sort(page6Indig, new sortOutcome8IndigRawDescending());
+                            break;
+                        case "Non":
+                        Collections.sort(page6Indig, new sortOutcome8NonRawDescending());
+                            break;
+                        case "Gap":
+                        Collections.sort(page6Indig, new sortOutcome8GapDescending());
+                            break;
+                    }
+                    
+                } else {
+                    // Descending proportional
+                    switch(sortSelectGroup) {
+                        case "Indig":
+                        Collections.sort(page6Indig, new sortOutcome8IndigProportionalDescending());
+                            break;
+                        case "Non":
+                        Collections.sort(page6Indig, new sortOutcome8NonProportionalDescending());
+                            break;
+                        case "Gap":
+                        Collections.sort(page6Indig, new sortOutcome8GapDescending());
+                            break;
+                      }
+                }
+                break;
+            }
+        }
 
 
         model.put("tableDataIndig", page6Indig); 
-    
-
         model.put("currentPage", "level3Filter");
         
 
