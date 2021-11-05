@@ -62,7 +62,7 @@ public class level2State implements Handler {
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2) AS value, SUM(indig.over_65), SUM(every.over_65) FROM all_over_65 AS every JOIN indig_over_65 AS indig ON  every.lga_code16 = indig.lga_code16 JOIN State ON substr(indig.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON  every.lga_code16 = indig.lga_code16 JOIN State ON substr(indig.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
             }
             String outcomeNumAndType = "1";
             outcomeNumAndType += model.get("radio");
@@ -89,7 +89,7 @@ public class level2State implements Handler {
                 inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
             }
             else{
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, abs((random() %10000) / 100.0) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON  all_qual.lga_code16 = certIII.lga_code16 JOIN State ON substr(certIII.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
             }
             String outcomeNumAndType = "6";
             outcomeNumAndType += model.get("radio");
@@ -118,25 +118,25 @@ public class level2State implements Handler {
             // Switch case to find the outcome to sort
             switch(sortSelect){
                 case "1":
-                // Ascending/Descending branching
-                if (outcomeSortOrder.equals("ascending")){
-                    // Raw/Proportional branching
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Raw/Proportional branching
+                        if(model.get("radio").equals("r")){
+                            Collections.sort(level2State, new sortOutcome1RawAscending());
+                        }
+                        else{
+                            Collections.sort(level2State, new sortOutcome1ProportionalAscending());
+                        }
+                        break;
+                    }
+                        // Descending branch
                     if(model.get("radio").equals("r")){
-                        Collections.sort(level2State, new sortOutcome1RawAscending());
+                        Collections.sort(level2State, new sortOutcome1RawDescending());
                     }
                     else{
-                        Collections.sort(level2State, new sortOutcome1ProportionalAscending());
+                        Collections.sort(level2State, new sortOutcome1ProportionalDescending());
                     }
                     break;
-                }
-                    // Descending branch
-                if(model.get("radio").equals("r")){
-                    Collections.sort(level2State, new sortOutcome1RawDescending());
-                }
-                else{
-                    Collections.sort(level2State, new sortOutcome1ProportionalDescending());
-                }
-                break;
                 case "5":
                     // Ascending/Descending branching
                     if (outcomeSortOrder.equals("ascending")){
@@ -157,7 +157,26 @@ public class level2State implements Handler {
                         Collections.sort(level2State, new sortOutcome5ProportionalDescending());
                     }
                     break;
-                // For outcome 8
+                case "6":
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Raw/Proportional branching
+                        if(model.get("radio").equals("r")){
+                            Collections.sort(level2State, new sortOutcome6RawAscending());
+                        }
+                        else{
+                            Collections.sort(level2State, new sortOutcome6ProportionalAscending());
+                        }
+                        break;
+                    }
+                        // Descending branch
+                    if(model.get("radio").equals("r")){
+                        Collections.sort(level2State, new sortOutcome6RawDescending());
+                    }
+                    else{
+                        Collections.sort(level2State, new sortOutcome6ProportionalDescending());
+                    }
+                    break;
                 case "8":
                     // Ascending/Descending branching
                     if (outcomeSortOrder.equals("ascending")){
