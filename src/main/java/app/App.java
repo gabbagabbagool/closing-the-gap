@@ -43,7 +43,7 @@ public class App {
         app.get(level2LGA.URL, new level2LGA());
         app.get(level2State.URL, new level2State());
         app.get(level3Filter.URL, new level3Filter());
-        app.get(Page6.URL, new Page6());
+        app.get(level3LGA.URL, new level3LGA());
 
         // Add / uncomment POST commands for any pages that need web form POSTS
         // app.post(Index.URL, new Index());
@@ -51,7 +51,7 @@ public class App {
         app.post(level2LGA.URL, new level2LGA());
         app.post(level2State.URL, new level2State());
         app.post(level3Filter.URL, new level3Filter());
-        app.post(Page6.URL, new Page6());
+        app.post(level3LGA.URL, new level3LGA());
     }
 
 }
