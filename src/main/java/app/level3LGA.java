@@ -67,10 +67,10 @@ public class level3LGA implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 WHERE p.indigenous_status = 'indig' AND  p.age = '_65_yrs_ov' GROUP BY LGAs.lga_code16;";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON  every.lga_code16 = indig.lga_code16 JOIN State ON substr(indig.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, IFNULL(ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2),0) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON every.lga_code16 = indig.lga_code16 JOIN LGAs ON every.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16 ORDER BY LGAs.lga_code16;";
             }
             String outcomeNumAndType = "1";
             outcomeNumAndType += model.get("radio");
@@ -85,14 +85,21 @@ public class level3LGA implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, SUM(Indig_Y12.total) AS value, LGAs.lga_name16 AS areaName FROM Indig_Y12 JOIN LGAs ON Indig_Y12.Code = LGAs.lga_code16 GROUP BY LGAs.lga_code16; ";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs)) * 100, 2) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = lga_code16 JOIN State ON substr(indig_finish_hs.lga_code16, 1, 1) = stateCode GROUP BY substr(Indig_Y12.Code, 1, 1)  ORDER BY Indig_Y12.Code;";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, IFNULL(ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs) ) * 100, 2), -42069) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = LGAs.lga_code16 JOIN  LGAs ON indig_finish_hs.lga_code16 = LGAs.lga_code16 GROUP BY Indig_Y12.Code ORDER BY Indig_Y12.Code;";
             }
             String outcomeNumAndType = "5";
             outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
+            try {
+                jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
+            } catch (Exception e) {
+                String shitdog = "ss";
+                if(shitdog == "ss"){
+                    shitdog = "tt";
+                }
+            }
         }
         if ((model.get("outcome6") != null)||(sortSelect.equals("6"))){
             if(model.get("outcome6") == null){
@@ -102,10 +109,10 @@ public class level3LGA implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, SUM(certIII.certIII) AS value, LGAs.lga_name16 AS areaName FROM indig_certIII AS certIII JOIN LGAs ON certIII.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16;";
             }
             else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON  all_qual.lga_code16 = certIII.lga_code16 JOIN State ON substr(certIII.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+                inputQuery = "SELECT LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, IFNULL(ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2), -42069) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON all_qual.lga_code16 = certIII.lga_code16 JOIN LGAs ON certIII.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16 ORDER BY LGAs.lga_code16;";
             }
             String outcomeNumAndType = "6";
             outcomeNumAndType += model.get("radio");
@@ -119,17 +126,21 @@ public class level3LGA implements Handler {
             // If the raw radio is selected
             if (model.get("radio").equals("r")){
                 // We ask the database to return a raw count
-                inputQuery = "SELECT sum(employed_indig) as value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY stateName;";
+                inputQuery = "SELECT sum(employed_indig) AS value, LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName FROM labour_force_indig JOIN LGAs ON  labour_force_indig.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16;";
             }
             else{
-                inputQuery = "SELECT ROUND(100 - (100.0 * unemployed_indig/employed_indig),1) AS value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM unemployed_indig NATURAL JOIN labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY areaName ORDER BY areaCode;";
+                inputQuery = "SELECT IFNULL(ROUND(100 - (100.0 * unemployed_indig / employed_indig), 1), -42069) AS value, LGAs.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName FROM unemployed_indig NATURAL JOIN labour_force_indig JOIN LGAs ON labour_force_indig.lga_code16 = LGAs.lga_code16 GROUP BY LGAs.lga_code16";
             }
             String outcomeNumAndType = "8";
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
         }
 
-
+        for (thymeleafOutcomes obj : level3LGA) {
+            if(obj.outcome1Frac == null){
+                System.out.println(obj.areaCode);
+            }
+        }
         // If there was a selection
         if ((sortSelect != null)&&(!sortSelect.equals("null"))){
 
