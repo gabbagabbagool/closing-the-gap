@@ -92,9 +92,45 @@ class sortOutcome8RawDescending implements Comparator<thymeleafOutcomes> {
     }
 }
 
+class sortOutcome1ProportionalAscending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj1.outcome1Frac.compareTo(obj2.outcome1Frac); 
+    }
+}
+
+class sortOutcome5ProportionalAscending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj1.outcome5Frac.compareTo(obj2.outcome5Frac); 
+    }
+}
+
+class sortOutcome6ProportionalAscending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj1.outcome6Frac.compareTo(obj2.outcome6Frac); 
+    }
+}
+
 class sortOutcome8ProportionalAscending implements Comparator<thymeleafOutcomes> {
     public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
         return  obj1.outcome8Frac.compareTo(obj2.outcome8Frac); 
+    }
+}
+
+class sortOutcome1ProportionalDescending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj2.outcome1Frac.compareTo(obj1.outcome1Frac); 
+    }
+}
+
+class sortOutcome5ProportionalDescending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj2.outcome5Frac.compareTo(obj1.outcome5Frac); 
+    }
+}
+
+class sortOutcome6ProportionalDescending implements Comparator<thymeleafOutcomes> {
+    public int compare(thymeleafOutcomes obj1,thymeleafOutcomes obj2){
+        return  obj2.outcome6Frac.compareTo(obj1.outcome6Frac); 
     }
 }
 
