@@ -69,11 +69,6 @@
 
             <!-- sort table script -->
             <script>
-                function somefunction(){
-                window.alert("TODO: sort LGA");
-                }
-                </script>
-            <script>
                 function sortTable(n) {
                   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
                   table = document.getElementById("leve2LgaTable");
@@ -255,23 +250,23 @@
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
                     </div><br>
-                    <a>Sort by outcome number:</a>
+                    <a>Sort by outcome:</a>
                     <br>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <select class="form-select" name="outcomeSortSelect"
+                            <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
                                 aria-label="Options for selecting an outcome to sort by">
-                                <option value="null">Choose</option>
+                                <option value="null">...</option>
                                 <option th:selected="${sortSelect} == 1" value="1">1</option>
                                 <option th:selected="${sortSelect} == 5" value="5">5</option>
                                 <option th:selected="${sortSelect} == 6" value="6">6</option>
                                 <option th:selected="${sortSelect} == 8" value="8">8</option>5
                             </select>
                         </div>
-                        <select class="form-select" name="outcomeSortOrder"
+                        <select class="custom-select my-1 mr-sm-2" name="outcomeSortOrder"
                             aria-label="Options to sort in ascending, or descending order">
-                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
-                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending</option>
+                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Best</option>
+                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Worst</option>
                         </select>
                     </div><br>
                     <button type="submit" class="btn btn-primary">Refresh Data</button>
