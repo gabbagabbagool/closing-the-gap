@@ -58,7 +58,6 @@ public class level2State implements Handler {
         String inputQuery;
 
         populateData(model, jdbc, level2State, sortSelect);
-
         sorting(model, level2State, sortSelect, outcomeSortOrder);
 
         model.put("sortSelect", sortSelect);
