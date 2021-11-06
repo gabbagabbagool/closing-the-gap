@@ -238,6 +238,7 @@ public class level3LGA implements Handler {
                 Iterator<thymeleafOutcomes> itr = level3LGA.iterator();
                 while (itr.hasNext()) {
                     thymeleafOutcomes obj = itr.next();
+                    // Uses pythagoras theorem to calculate distance between two points in units of latitude, then multiplies by 111 for units in kilometers
                     double distance = (Math.pow((Math.pow((inputDetails.get("latitude") - obj.latitude),2) + Math.pow((inputDetails.get("longitude") - obj.longitude),2)), .5)) * 111;
                     if (distance > inputDistance) {
                         itr.remove();
