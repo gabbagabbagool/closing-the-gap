@@ -295,6 +295,60 @@ public class JDBCConnection {
         }
     }
 
+    public void level3LGALocationTool(ArrayList<thymeleafOutcomes> OutcomeList, HashMap<String,Double> inputDetails, int inputLGACode) {
+
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            String inputQuery = "SELECT lga_code16 as areaCode, longitude, latitude FROM LGAs;";
+            // Get Result
+            ResultSet results = statement.executeQuery(inputQuery);
+
+            while (results.next()) {
+                Double latitude= results.getDouble("latitude");
+                Double longitude= results.getDouble("longitude");
+                int areaCode = results.getInt("areaCode");
+                for (thymeleafOutcomes obj : OutcomeList) {
+                    if(obj.areaCode == areaCode){
+                        obj.latitude = latitude;
+                        obj.longitude = longitude;
+                        if (obj.areaCode == inputLGACode){
+                            inputDetails.put("latitude",latitude);
+                            inputDetails.put("longitude",longitude);
+                        }
+                        break;
+                    }
+                }
+            }
+
+
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
     /**
      * create a view in the SQL database
      */

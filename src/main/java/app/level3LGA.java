@@ -155,6 +155,98 @@ public class level3LGA implements Handler {
         }
     }
 
+    private void similarities(Context context, Map<String, Object> model, JDBCConnection jdbc,
+             ArrayList<thymeleafOutcomes> level3LGA) {
+        String inputQuery;
+        model.put("inputLGA", context.formParam("inputLGA"));
+
+        if (context.formParam("LGAradio") != null) {
+            model.put("LGAradio", context.formParam("LGAradio"));
+        } else {
+            model.put("LGAradio", "similar");
+        }
+
+        // If input is not blank, nor null
+        if ((model.get("inputLGA") != "") && (model.get("inputLGA") != null)) {
+            Integer inputLGACode = -42069;
+            // query for the LGA code
+
+            // Find the LGA with this name and store the code
+            boolean found = false;
+            for (thymeleafOutcomes obj : level3LGA) {
+                // A case insensitive search through the table data for a matching lga name
+                if (obj.areaName.toLowerCase().equals(model.get("inputLGA").toString().toLowerCase())) {
+                    inputLGACode = obj.areaCode;
+                    found = true;
+                    break;
+                }
+            }
+            if (found == false) {
+                String errorMessage = "An LGA with the name \"";
+                errorMessage += model.get("inputLGA");
+                errorMessage += "\" was not found";
+                model.put("error", errorMessage);
+            } else if (context.formParam("LGAradio").equals("similar")) {
+                // Based on this LGA code, find population, sqkm and lga type
+                inputQuery = "SELECT LGAs.area_sqkm, LGAs.lga_type16, SUM(PopulationStatistics.count) as population FROM LGAs NATURAL JOIN PopulationStatistics WHERE LGAs.lga_code16 = ";
+                inputQuery += inputLGACode.toString();
+                inputQuery += " GROUP BY LGAs.lga_code16;";
+                HashMap<String, String> LGAdetails = jdbc.level3LGADetails(inputQuery);
+
+                Double myValue = Double.parseDouble(LGAdetails.get("area_sqkm")) * .50;
+                String areaLowerBound = myValue.toString();
+                myValue = Double.parseDouble(LGAdetails.get("area_sqkm")) * 1.50;
+                String areaUpperBound = myValue.toString();
+
+                myValue = Double.parseDouble(LGAdetails.get("population")) * .50;
+                String populationLowerBound = myValue.toString();
+                myValue = Double.parseDouble(LGAdetails.get("population")) * 1.50;
+                String populationUpperBound = myValue.toString();
+
+                // create a list of LGA codes where the LGAs have similar population, similar
+                // sqkm and the same type
+                inputQuery = "SELECT LGAs.lga_code16 as areaCode FROM LGAs NATURAL JOIN entire_population WHERE (LGAs.area_sqkm > ";
+                inputQuery += areaLowerBound;
+                inputQuery += ") AND  (LGAs.area_sqkm < ";
+                inputQuery += areaUpperBound;
+                inputQuery += ") AND  LGAs.lga_type16 = '";
+                inputQuery += LGAdetails.get("lga_type16");
+                inputQuery += "' AND (entire_population.population > ";
+                inputQuery += populationLowerBound;
+                inputQuery += ") AND (entire_population.population < ";
+                inputQuery += populationUpperBound;
+                inputQuery += ") GROUP BY LGAs.lga_code16;";
+
+                HashSet<Integer> similarLGAs = new HashSet<Integer>();
+                jdbc.level3LGAHashSet(similarLGAs, inputQuery);
+
+                // This is to remove LGA's that do not match the similarity
+                Iterator<thymeleafOutcomes> itr = level3LGA.iterator();
+                while (itr.hasNext()) {
+                    thymeleafOutcomes obj = itr.next();
+                    if (!similarLGAs.contains(Integer.valueOf(obj.areaCode))) {
+                        itr.remove();
+                    }
+                }
+            } else if (context.formParam("LGAradio").equals("distance")) {
+                Double inputDistance = Double.parseDouble(context.formParam("inputDistance"));
+                model.put("inputDistance", inputDistance);
+                HashMap<String,Double> inputDetails = new HashMap<>();
+
+                jdbc.level3LGALocationTool(level3LGA, inputDetails, inputLGACode);
+                
+                Iterator<thymeleafOutcomes> itr = level3LGA.iterator();
+                while (itr.hasNext()) {
+                    thymeleafOutcomes obj = itr.next();
+                    double distance = (Math.pow((Math.pow((inputDetails.get("latitude") - obj.latitude),2) + Math.pow((inputDetails.get("longitude") - obj.longitude),2)), .5)) * 111;
+                    if (distance > inputDistance) {
+                        itr.remove();
+                    }
+                }
+            }
+        }
+    }
+
     private void sorting(Map<String, Object> model, ArrayList<thymeleafOutcomes> level3LGA, String sortSelect,
             String outcomeSortOrder) {
         // If there was a selection
@@ -237,88 +329,4 @@ public class level3LGA implements Handler {
             }
         }
     }
-
-    private void similarities(Context context, Map<String, Object> model, JDBCConnection jdbc,
-             ArrayList<thymeleafOutcomes> level3LGA) {
-        String inputQuery;
-        model.put("inputLGA", context.formParam("inputLGA"));
-
-        if (context.formParam("LGAradio") != null) {
-            model.put("LGAradio", context.formParam("LGAradio"));
-        } else {
-            model.put("LGAradio", "similar");
-        }
-
-        // If input is not blank, nor null
-        if ((model.get("inputLGA") != "") && (model.get("inputLGA") != null)) {
-            Integer inputLGACode = -42069;
-            // query for the LGA code
-
-            // Find the LGA with this name and store the code
-            boolean found = false;
-            for (thymeleafOutcomes obj : level3LGA) {
-                // A case insensitive search through the table data for a matching lga name
-                if (obj.areaName.toLowerCase().equals(model.get("inputLGA").toString().toLowerCase())) {
-                    inputLGACode = obj.areaCode;
-                    found = true;
-                    break;
-                }
-            }
-            if (found == false) {
-                String errorMessage = "An LGA with the name \"";
-                errorMessage += model.get("inputLGA");
-                errorMessage += "\" was not found";
-                model.put("error", errorMessage);
-            } else if (context.formParam("LGAradio").equals("similar")) {
-                // Based on this LGA code, find population, sqkm and lga type
-                inputQuery = "SELECT LGAs.area_sqkm, LGAs.lga_type16, SUM(PopulationStatistics.count) as population FROM LGAs NATURAL JOIN PopulationStatistics WHERE LGAs.lga_code16 = ";
-                inputQuery += inputLGACode.toString();
-                inputQuery += " GROUP BY LGAs.lga_code16;";
-                HashMap<String, String> LGAdetails = jdbc.level3LGADetails(inputQuery);
-
-                Double myValue = Double.parseDouble(LGAdetails.get("area_sqkm")) * .50;
-                String areaLowerBound = myValue.toString();
-                myValue = Double.parseDouble(LGAdetails.get("area_sqkm")) * 1.50;
-                String areaUpperBound = myValue.toString();
-
-                myValue = Double.parseDouble(LGAdetails.get("population")) * .50;
-                String populationLowerBound = myValue.toString();
-                myValue = Double.parseDouble(LGAdetails.get("population")) * 1.50;
-                String populationUpperBound = myValue.toString();
-
-                // create a list of LGA codes where the LGAs have similar population, similar
-                // sqkm and the same type
-                inputQuery = "SELECT LGAs.lga_code16 as areaCode FROM LGAs NATURAL JOIN entire_population WHERE (LGAs.area_sqkm > ";
-                inputQuery += areaLowerBound;
-                inputQuery += ") AND  (LGAs.area_sqkm < ";
-                inputQuery += areaUpperBound;
-                inputQuery += ") AND  LGAs.lga_type16 = '";
-                inputQuery += LGAdetails.get("lga_type16");
-                inputQuery += "' AND (entire_population.population > ";
-                inputQuery += populationLowerBound;
-                inputQuery += ") AND (entire_population.population < ";
-                inputQuery += populationUpperBound;
-                inputQuery += ") GROUP BY LGAs.lga_code16;";
-
-                HashSet<Integer> similarLGAs = new HashSet<Integer>();
-                jdbc.level3LGAHashSet(similarLGAs, inputQuery);
-
-                // This is to remove LGA's that do not match the similarity
-                Iterator<thymeleafOutcomes> itr = level3LGA.iterator();
-                while (itr.hasNext()) {
-                    thymeleafOutcomes obj = itr.next();
-                    if (!similarLGAs.contains(Integer.valueOf(obj.areaCode))) {
-                        itr.remove();
-                    }
-                }
-            } else if (context.formParam("LGAradio").equals("distance")) {
-                // Find input LGA's lat & long
-
-                // For each LGA
-                // See if the distance to iterated LGA is within the range specified
-                // ((inputs lat - iterated lat)**2 + (input long - iterated long)**2) ** 1/2
-            }
-        }
-    }
-
 }
