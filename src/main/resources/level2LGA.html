@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Outcomes by LGA</title>
@@ -19,7 +19,8 @@
                     <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active" class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
                     <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link" href="/level2LGA.html">By LGA</a></li>
                     <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link" href="/level2State.html">By State</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Filter</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Advanced Search</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link" href="/level3LGA.html">Similar LGA's</a></li>
                 </ul>
             </div>
         </div>
@@ -39,10 +40,10 @@
                         <thead>
                             <tr>
                                 <th scope="col" onclick="somefunction()">LGA</th>
-                                <th th:if="${checkboxOutcome1} != null" scope="col" onclick="sortTable(1)"> Outcome 1</th>
-                                <th th:if="${checkboxOutcome5} != null" scope="col" onclick="sortTable(2)"> Outcome 5</th>
-                                <th th:if="${checkboxOutcome6} != null" scope="col"> Outcome 6</th>
-                                <th th:if="${checkboxOutcome8} != null" scope="col"> Outcome 8</th>
+                                <th th:if="${checkboxOutcome1} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy"> Outcome 1</th>
+                                <th th:if="${checkboxOutcome5} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 5 - Schooling"> Outcome 5</th>
+                                <th th:if="${checkboxOutcome6} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 6 - Qualification"> Outcome 6</th>
+                                <th th:if="${checkboxOutcome8} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 8 - Employment"> Outcome 8</th>
                             </tr>
                         </thead>
                         <tbody  th:if="${dataType} != fracSelected">
@@ -57,10 +58,22 @@
                         <tbody  th:if="${dataType} == fracSelected">
                             <tr th:each="lga : ${tableData}">
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${lga.outcome1Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${lga.outcome5Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${lga.outcome6Frac} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${lga.outcome8Frac} + '%'"></td>
+                                <div th:if="${checkboxOutcome1}" th:switch="${lga.outcome1Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
+                                </div>
+                                <div th:if="${checkboxOutcome5}" th:switch="${lga.outcome5Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
+                                </div>
+                                <div th:if="${checkboxOutcome6}" th:switch="${lga.outcome6Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
+                                </div>
+                                <div th:if="${checkboxOutcome8}" th:switch="${lga.outcome8Frac}">
+                                    <td th:case="-42069" th:text="'no data'"></td>
+                                    <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
+                                </div>
                             </tr>
                         </tbody>
                     </table>
@@ -68,11 +81,6 @@
             </div>
 
             <!-- sort table script -->
-            <script>
-                function somefunction(){
-                window.alert("TODO: sort LGA");
-                }
-                </script>
             <script>
                 function sortTable(n) {
                   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -141,19 +149,8 @@
      
 
             <div class="col-md-3">
-                 <!-- Button trigger modal -->
-                 <div>
-                    <span data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <button type="button" class="btn btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show descriptions of Outcomes">Outcome legend
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle text-success" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                              </svg>
-
-                        </button>
-                    </span>
-                </div><br>
-                
+                 
+                <!-- Button trigger for modal under checkboxes-->
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -229,6 +226,8 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- adds radio and checkboxes for display data -->
                 <form action='/level2LGA.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
@@ -239,46 +238,58 @@
                         <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
                         <label class="form-check-label" for="customRadio1"> Count</label>
                     </div><br>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
                         <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 5 - Schooling">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked" th:checked="${checkboxOutcome5} == checked">
                         <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 6 - Qualification">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked" th:checked="${checkboxOutcome6} == checked">
                         <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 8 - Employment">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <div>
+                        <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show descriptions of Outcomes">Outcomes
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle text-primary" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                            </button>
+                        </span>
                     </div><br>
-                    <a>Sort by outcome number:</a>
+                    
+                    <a>Sort by outcome:</a>
                     <br>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <select class="form-select" name="outcomeSortSelect"
+                            <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
                                 aria-label="Options for selecting an outcome to sort by">
-                                <option value="null">Choose</option>
+                                <option value="null">...</option>
                                 <option th:selected="${sortSelect} == 1" value="1">1</option>
                                 <option th:selected="${sortSelect} == 5" value="5">5</option>
                                 <option th:selected="${sortSelect} == 6" value="6">6</option>
-                                <option th:selected="${sortSelect} == 8" value="8">8</option>5
+                                <option th:selected="${sortSelect} == 8" value="8">8</option>
                             </select>
                         </div>
-                        <select class="form-select" name="outcomeSortOrder"
+                        <select class="custom-select my-1 mr-sm-2" name="outcomeSortOrder"
                             aria-label="Options to sort in ascending, or descending order">
-                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
-                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending</option>
+                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Desc</option>
+                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Asc</option>
                         </select>
                     </div><br>
                     <button type="submit" class="btn btn-primary">Refresh Data</button>
                 </form><br>
                 <div>
-                    <p>For more options try:</p>
-                    <a href='level3Filter.html' class='btn btn-outline-warning btn-sm' role='button'>Advanced Search</a>
+                    <a>For filter options</a><br>
+                    <a href='level3Filter.html' class='btn btn-warning' role='button'>Advanced Search</a>
                 </div>
             </div>
         </div>

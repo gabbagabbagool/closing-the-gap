@@ -3,6 +3,7 @@ package app;
 import java.util.Comparator;
 
 public class thymeleafOutcomes {
+    // I don't love that these are public, however, I cannot have thymeleaf execute a getter method. So here we are.
     public int areaCode;
     public String areaName;
     public Double outcome1Raw;
@@ -13,8 +14,13 @@ public class thymeleafOutcomes {
     public Double outcome5Frac;
     public Double outcome6Frac; 
     public Double outcome8Frac;
+    public Double latitude;
+    public Double longitude;
 
     public void setOutcomes(String outcome, Double value){
+        if(value == null){
+            value = -42069.0;
+        }
         switch(outcome){
             case "1r":
                 this.outcome1Raw = value;
@@ -41,6 +47,11 @@ public class thymeleafOutcomes {
                 this.outcome8Frac = value;
                 break;
         }
+    }
+
+    public void setLatLong(Double latitude, Double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }
 

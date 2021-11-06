@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Outcomes by similarity</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="common.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid"><a class="navbar-brand" href="/"><img src="logo.png" alt="" height="24"
+                    class="d-inline-block align-text-top mx-2"></a><button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" s
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link"
+                            aria-current="page" href="/">Home</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active"
+                            class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link"
+                            href="/level2LGA.html">By LGA</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link"
+                            href="/level2State.html">By State</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link"
+                            href="/level3Filter.html">Advanced Search</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link"
+                            href="/level3LGA.html">Similar LGA's</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Outcomes by similarity</h1>
+            </div>
+        </div>
+    </div>
+    <!-- adds radio and checkboxes for display data -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger" role="alert">
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-xl">
+                        <thead>
+                            <tr>
+                                <th scope="col">State</th>
+                                <th th:if="${outcome1}" scope="col">Outcome 1</th>
+                                <th th:if="${outcome5}" scope="col">Outcome 5</th>
+                                <th th:if="${outcome6}" scope="col">Outcome 6</th>
+                                <th th:if="${outcome8}" scope="col">Outcome 8</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- These two divs could be combined, with thymeleaf logic selecting the right raw/proportional based on a conditional -->
+                            <div th:if="${radio} == r">
+                                <!-- If raw is selected, render raw table-->
+                                <tr th:each="lga : ${tableData}">
+                                    <td th:text="${lga.areaName}"></td>
+                                    <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(lga.outcome1Raw,1,0)}">
+                                    </td>
+                                    <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(lga.outcome5Raw,1,0)}">
+                                    </td>
+                                    <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(lga.outcome6Raw,1,0)}">
+                                    </td>
+                                    <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(lga.outcome8Raw,1,0)}">
+                                    </td>
+                                </tr>
+                            </div>
+                            <div th:if="${radio} == p">
+                                <!-- If proportional is selected, render proportional table-->
+                                <tr th:each="lga : ${tableData}">
+                                    <td th:text="${lga.areaName}"></td>
+                                    <div th:if="${outcome1}" th:switch="${lga.outcome1Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
+                                    </div>
+                                    <div th:if="${outcome5}" th:switch="${lga.outcome5Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
+                                    </div>
+                                    <div th:if="${outcome6}" th:switch="${lga.outcome6Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
+                                    </div>
+                                    <div th:if="${outcome8}" th:switch="${lga.outcome8Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
+                                    </div>
+                                </tr>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-3">
+                <!-- Button trigger modal -->
+                <div>
+                    <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Show descriptions of Outcomes">
+                            Outcome legend
+                        </button>
+                    </span>
+                </div><br>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Outcome descriptions</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- add accordion for outcome legend -->
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseOne">
+                                                <p>
+                                                    <b>Outcome 1 </b> - Population over 65 years
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                            aria-labelledby="panelsStayOpen-headingOne">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander people enjoy long and
+                                                    healthy lives.</strong><br><br> The data for outcome 1 represents
+                                                the count of the indigenous population over 65 years of age per LGA.
+                                                The proportional value for this outcome represents the proportion of
+                                                population that indigenous
+                                                peoples make up in the age bracket of 65 years old and over.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                                <p>
+                                                    <b>Outcome 5 </b> - Attaining year 12 or equivalent
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingTwo">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander students achieve their
+                                                    full learning potential</strong><br><br> The raw data for outcome 5
+                                                represents the count of the indigenous population that have completed
+                                                year 12 equivalent study per LGA. The
+                                                proportional value for this outcome is the rate of completion of year 12
+                                                equivalent for
+                                                indigenous peoples per LGA.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <p>
+                                                    <b>Outcome 6</b> - Tertiary qualification (Cert III & above)
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander students reach their full
+                                                    potential through further education pathways.</strong><br><br> The
+                                                data for outcome 6 represents the count of the indigenous population
+                                                that have completed any tertiary qualification (Certificate III or
+                                                above) per LGA. The proportional value for this outcome is the
+                                                ratio of indigenous peoples who have completed a Certificate
+                                                III or above per LGA as compared to the indigenous population with a
+                                                non-school qualification in that LGA.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <p>
+                                                    <b>Outcome 8</b> - Count of all employment
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <strong>Strong economic participation and development of Aboriginal and
+                                                    Torres Strait Islander people and communities.</strong><br><br> The
+                                                raw count for this outcome is the population of employed indigenous
+                                                peoples per LGA.
+                                                the workforce per LGA. The proportionate data represents the
+                                                employment rate for Indigenous peoples per LGA.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action='/level3LGA.html' method='post'>
+                    <h5 class="text-muted">Display Data:</h5>
+                    <div class='form-check'>
+                        <input type="radio" id="customRadio2" name="radio" class="form-check-input" value="p"
+                            th:checked="${radio} == 'p'">
+                        <label class="form-check-label" for="radio"> Proportional</label>
+                    </div>
+                    <div class='form-check'>
+                        <input type="radio" id="customRadio1" name="radio" class="form-check-input" value="r"
+                            th:checked="${radio} == 'r'">
+                        <label class="form-check-label" for="radio"> Count</label>
+                    </div><br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="true"
+                            th:checked="${outcome1}">
+                        <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="true"
+                            th:checked="${outcome5}">
+                        <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="true"
+                            th:checked="${outcome6}">
+                        <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="true"
+                            th:checked="${outcome8}">
+                        <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
+                    </div><br>
+                    <a>Sort by outcome number:</a>
+                    <br>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <select class="form-select" name="outcomeSortSelect"
+                                aria-label="Options for selecting an outcome to sort by">
+                                <option value="null">Choose</option>
+                                <option th:selected="${sortSelect} == 1" value="1">1</option>
+                                <option th:selected="${sortSelect} == 5" value="5">5</option>
+                                <option th:selected="${sortSelect} == 6" value="6">6</option>
+                                <option th:selected="${sortSelect} == 8" value="8">8</option>5
+                            </select>
+                        </div>
+                        <select class="form-select" name="outcomeSortOrder"
+                            aria-label="Options to sort in ascending, or descending order">
+                            <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Ascending</option>
+                            <option th:selected="${outcomeSortOrder} == descending" value="descending">Descending
+                            </option>
+                        </select>
+                    </div>
+                    <a>Filtering LGAs</a>
+                    <input type="text" class="form-control" th:value="${inputLGA}" title="Supply an LGA name to find similar LGAs" name="inputLGA" placeholder="LGA name" >
+                    <div style="padding-top: 15px;">
+                        <input type="radio" class="form-check-input" name="LGAradio" value="similar" th:checked="${LGAradio} == 'similar'">
+                        <label class="form-check-label" for="LGAradio"> Similar LGAs</label>
+                    </div>
+                    <div style="padding-bottom: 15px;">
+                        <input type="radio" class="form-check-input" name="LGAradio" value="distance" th:checked="${LGAradio} == 'distance'">
+                        <label class="form-check-label" for="LGAradio"> Nearby LGAs</label>
+                    </div>
+                    <input type="text" class="form-control" th:value="${inputDistance}" title="Distance in kilometers for nearby LGAs" name="inputDistance" placeholder="Distance in kilometers" >
+                    <button type="submit" class="btn btn-primary my-2">Refresh Data</button>
+                </form>
+            </div>
+        </div>
+    </div><br>
+
+</body>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
+    integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p'
+    crossorigin='anonymous'></script>
+
+</html>

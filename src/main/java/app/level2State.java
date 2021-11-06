@@ -57,79 +57,21 @@ public class level2State implements Handler {
         String outcomeSortOrder = context.formParam("outcomeSortOrder");
         String inputQuery;
 
-        // If outcome 1 has been selected
-        if ((model.get("outcome1") != null)||(sortSelect.equals("1"))){
-            if(model.get("outcome1") == null){
-                model.put("outcome1", "true");
-                model.put("error", "Outcome 1 was chosen to sort, whilst not selected to display. The site has included outcome 1 in the results");
-            }
+        populateData(model, jdbc, level2State, sortSelect);
+        sorting(model, level2State, sortSelect, outcomeSortOrder);
 
-            // If the raw radio is selected
-            if (model.get("radio").equals("r")){
-                // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
-            }
-            else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON  every.lga_code16 = indig.lga_code16 JOIN State ON substr(indig.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
-            }
-            String outcomeNumAndType = "1";
-            outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
-        }
-        // if outcome 5 has been selected
-        if ((model.get("outcome5") != null)||(sortSelect.equals("5"))){
-            if(model.get("outcome5") == null){
-                model.put("outcome5", "true");
-                model.put("error", "Outcome 5 was chosen to sort, whilst not selected to display. The site has included outcome 5 in the results");
-            }
-            // If the raw radio is selected
-            if (model.get("radio").equals("r")){
-                // We ask the database to return a raw count
-                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
-            }
-            else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs)) * 100, 2) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = lga_code16 JOIN State ON substr(indig_finish_hs.lga_code16, 1, 1) = stateCode GROUP BY substr(Indig_Y12.Code, 1, 1)  ORDER BY Indig_Y12.Code;";
-            }
-            String outcomeNumAndType = "5";
-            outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
-        }
-        if ((model.get("outcome6") != null)||(sortSelect.equals("6"))){
-            if(model.get("outcome6") == null){
-                model.put("outcome6", "true");
-                model.put("error", "Outcome 6 was chosen to sort, whilst not selected to display. The site has included outcome 6 in the results");
-            }
-            // If the raw radio is selected
-            if (model.get("radio").equals("r")){
-                // We ask the database to return a raw count
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, SUM(certIII.certIII) AS value FROM indig_certIII AS certIII JOIN State ON substr(certIII.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
-            }
-            else{
-                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON  all_qual.lga_code16 = certIII.lga_code16 JOIN State ON substr(certIII.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
-            }
-            String outcomeNumAndType = "6";
-            outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
-        }
-        if ((model.get("outcome8")) != null||(sortSelect.equals("8"))){
-            if(model.get("outcome8") == null){
-                model.put("outcome8", "true");
-                model.put("error", "Outcome 8 was chosen to sort, whilst not selected to display. The site has included outcome 8 in the results");
-            }
-            // If the raw radio is selected
-            if (model.get("radio").equals("r")){
-                // We ask the database to return a raw count
-                inputQuery = "SELECT sum(employed_indig) as value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY stateName;";
-            }
-            else{
-                inputQuery = "SELECT ROUND(100 - (100.0 * unemployed_indig/employed_indig),1) AS value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM unemployed_indig NATURAL JOIN labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY areaName ORDER BY areaCode;";
-            }
-            String outcomeNumAndType = "8";
-            outcomeNumAndType += model.get("radio");
-            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
-        }
+        model.put("sortSelect", sortSelect);
+        model.put("outcomeSortOrder", outcomeSortOrder);
+        model.put("tableData", level2State);
+        model.put("currentPage", "level2State");
 
+        // DO NOT MODIFY THIS
+        // Makes Javalin render the webpage
+        context.render(TEMPLATE, model);
+    }
 
+    private void sorting(Map<String, Object> model, ArrayList<thymeleafOutcomes> level2State, String sortSelect,
+            String outcomeSortOrder) {
         // If there was a selection
         if ((sortSelect != null)&&(!sortSelect.equals("null"))){
 
@@ -217,18 +159,82 @@ public class level2State implements Handler {
                     break;                 
             }
         }
-        // If outcome 5 sort has been selected
-            // See if ascending or descending has been selected
-                // Sort data according to selection
+    }
 
-        model.put("sortSelect", sortSelect);
-        model.put("outcomeSortOrder", outcomeSortOrder);
-        model.put("tableData", level2State);
-        model.put("currentPage", "level2State");
+    private void populateData(Map<String, Object> model, JDBCConnection jdbc, ArrayList<thymeleafOutcomes> level2State,
+            String sortSelect) {
+        String inputQuery;
+        // If outcome 1 has been selected
+        if ((model.get("outcome1") != null)||(sortSelect.equals("1"))){
+            if(model.get("outcome1") == null){
+                model.put("outcome1", "true");
+                model.put("error", "Outcome 1 was chosen to sort, whilst not selected to display. The site has included outcome 1 in the results");
+            }
 
-        // DO NOT MODIFY THIS
-        // Makes Javalin render the webpage
-        context.render(TEMPLATE, model);
+            // If the raw radio is selected
+            if (model.get("radio").equals("r")){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, State.stateName AS areaName, SUM(p.count) AS value FROM PopulationStatistics AS p JOIN LGAs ON p.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode WHERE p.indigenous_status = 'indig' AND p.age = '_65_yrs_ov' GROUP BY substr(LGAs.lga_code16, 1, 1);";
+            }
+            else{
+                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(indig.over_65) * 1.0 / SUM(every.over_65) * 100.0, 2) AS value FROM all_over_65 AS every JOIN indig_over_65 AS indig ON  every.lga_code16 = indig.lga_code16 JOIN State ON substr(indig.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+            }
+            String outcomeNumAndType = "1";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+        // if outcome 5 has been selected
+        if ((model.get("outcome5") != null)||(sortSelect.equals("5"))){
+            if(model.get("outcome5") == null){
+                model.put("outcome5", "true");
+                model.put("error", "Outcome 5 was chosen to sort, whilst not selected to display. The site has included outcome 5 in the results");
+            }
+            // If the raw radio is selected
+            if (model.get("radio").equals("r")){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(Indig_Y12.total) as value, State.stateName as areaName FROM Indig_Y12 JOIN LGAs on Indig_Y12.Code = LGAs.lga_code16 JOIN State on substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            }
+            else{
+                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(Indig_Y12.Total) * 1.0 / (SUM(indig_finish_hs.finish_hs)) * 100, 2) AS value FROM Indig_Y12 JOIN indig_finish_hs ON Code = lga_code16 JOIN State ON substr(indig_finish_hs.lga_code16, 1, 1) = stateCode GROUP BY substr(Indig_Y12.Code, 1, 1)  ORDER BY Indig_Y12.Code;";
+            }
+            String outcomeNumAndType = "5";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+        if ((model.get("outcome6") != null)||(sortSelect.equals("6"))){
+            if(model.get("outcome6") == null){
+                model.put("outcome6", "true");
+                model.put("error", "Outcome 6 was chosen to sort, whilst not selected to display. The site has included outcome 6 in the results");
+            }
+            // If the raw radio is selected
+            if (model.get("radio").equals("r")){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT substr(LGAs.lga_code16, 1, 1) AS areaCode, SUM(certIII.certIII) AS value, State.stateName AS areaName FROM indig_certIII AS certIII JOIN LGAs ON certIII.lga_code16 = LGAs.lga_code16 JOIN State ON substr(LGAs.lga_code16, 1, 1) = stateCode GROUP BY substr(LGAs.lga_code16, 1, 1)";
+            }
+            else{
+                inputQuery = "SELECT State.stateCode AS areaCode, State.stateName AS areaName, ROUND(SUM(certIII.certIII) * 1.0 / SUM(all_qual.all_qual) * 100.0, 2) AS value FROM indig_all_qual AS all_qual JOIN indig_certIII AS certIII ON  all_qual.lga_code16 = certIII.lga_code16 JOIN State ON substr(certIII.lga_code16, 1, 1) = stateCode GROUP BY State.stateCode  ORDER BY State.stateCode;";
+            }
+            String outcomeNumAndType = "6";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
+        if ((model.get("outcome8")) != null||(sortSelect.equals("8"))){
+            if(model.get("outcome8") == null){
+                model.put("outcome8", "true");
+                model.put("error", "Outcome 8 was chosen to sort, whilst not selected to display. The site has included outcome 8 in the results");
+            }
+            // If the raw radio is selected
+            if (model.get("radio").equals("r")){
+                // We ask the database to return a raw count
+                inputQuery = "SELECT sum(employed_indig) as value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY stateName;";
+            }
+            else{
+                inputQuery = "SELECT ROUND(100 - (100.0 * unemployed_indig/employed_indig),1) AS value, substr(lga_code16, 1, 1) as areaCode, State.stateName as areaName FROM unemployed_indig NATURAL JOIN labour_force_indig JOIN State on substr(lga_code16, 1, 1) = stateCode GROUP BY areaName ORDER BY areaCode;";
+            }
+            String outcomeNumAndType = "8";
+            outcomeNumAndType += model.get("radio");
+            jdbc.thymeleafHookUp(level2State, inputQuery, outcomeNumAndType);
+        }
     }
 
 }
