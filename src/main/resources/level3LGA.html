@@ -29,7 +29,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="display-4">Outcomes by State</h1>
+                <h1 class="display-4">Outcomes by similarity</h1>
             </div>
         </div>
     </div>
@@ -66,19 +66,19 @@
                             <tr th:each="lga : ${tableData}">
                                 <td th:text="${lga.areaName}"></td>
                                 <div th:switch="${lga.outcome1Frac}">
-                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
                                     <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
                                 </div>
                                 <div th:switch="${lga.outcome5Frac}">
-                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
                                     <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
                                 </div>
                                 <div th:switch="${lga.outcome6Frac}">
-                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
                                     <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
                                 </div>
                                 <div th:switch="${lga.outcome8Frac}">
-                                    <td th:case="-42069.0" th:text="'no data'"></td>
+                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
                                     <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
                                 </div>
                             </tr>

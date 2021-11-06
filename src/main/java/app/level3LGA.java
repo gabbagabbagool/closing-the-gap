@@ -136,11 +136,6 @@ public class level3LGA implements Handler {
             jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
         }
 
-        for (thymeleafOutcomes obj : level3LGA) {
-            if(obj.outcome1Frac == null){
-                System.out.println(obj.areaCode);
-            }
-        }
         // If there was a selection
         if ((sortSelect != null)&&(!sortSelect.equals("null"))){
 
