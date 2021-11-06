@@ -58,19 +58,19 @@
                         <tbody  th:if="${dataType} == fracSelected">
                             <tr th:each="lga : ${tableData}">
                                 <td th:text="${lga.areaName}"></td>
-                                <div th:switch="${lga.outcome1Frac}">
+                                <div th:if="${checkboxOutcome1}" th:switch="${lga.outcome1Frac}">
                                     <td th:case="-42069" th:text="'no data'"></td>
                                     <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
                                 </div>
-                                <div th:switch="${lga.outcome5Frac}">
+                                <div th:if="${checkboxOutcome5}" th:switch="${lga.outcome5Frac}">
                                     <td th:case="-42069" th:text="'no data'"></td>
                                     <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
                                 </div>
-                                <div th:switch="${lga.outcome6Frac}">
+                                <div th:if="${checkboxOutcome6}" th:switch="${lga.outcome6Frac}">
                                     <td th:case="-42069" th:text="'no data'"></td>
                                     <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
                                 </div>
-                                <div th:switch="${lga.outcome8Frac}">
+                                <div th:if="${checkboxOutcome8}" th:switch="${lga.outcome8Frac}">
                                     <td th:case="-42069" th:text="'no data'"></td>
                                     <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
                                 </div>
