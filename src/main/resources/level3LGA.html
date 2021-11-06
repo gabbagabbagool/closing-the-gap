@@ -12,16 +12,22 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid"><a class="navbar-brand" href="/"><img src="logo.png" alt="" height="24"
                     class="d-inline-block align-text-top mx-2"></a><button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-               s aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" s
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link" aria-current="page" href="/">Home</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active" class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link" href="/level2LGA.html">By LGA</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link" href="/level2State.html">By State</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Advanced Search</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link" href="/level3LGA.html">Similar LGA's</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link"
+                            aria-current="page" href="/">Home</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active"
+                            class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link"
+                            href="/level2LGA.html">By LGA</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link"
+                            href="/level2State.html">By State</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link"
+                            href="/level3Filter.html">Advanced Search</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link"
+                            href="/level3LGA.html">Similar LGA's</a></li>
                 </ul>
             </div>
         </div>
@@ -37,54 +43,61 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                    <div th:if="${error != null}" th:text="${error}" class="alert alert-danger" role="alert">
-                    </div>
-                <table class="table table-bordered table-striped table-xl table-responsive">
-                    <thead>
-                        <tr>
-                            <th scope="col">State</th>
-                            <th th:if="${outcome1}" scope="col">Outcome 1</th>
-                            <th th:if="${outcome5}" scope="col">Outcome 5</th>
-                            <th th:if="${outcome6}" scope="col">Outcome 6</th>
-                            <th th:if="${outcome8}" scope="col">Outcome 8</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- These two divs could be combined, with thymeleaf logic selecting the right raw/proportional based on a conditional -->
-                        <div th:if="${radio} == r">
-                            <!-- If raw is selected, render raw table-->
-                            <tr th:each="lga : ${tableData}">
-                                <td th:text="${lga.areaName}"></td>
-                                <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(lga.outcome1Raw,1,0)}"></td>
-                                <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(lga.outcome5Raw,1,0)}"></td>
-                                <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(lga.outcome6Raw,1,0)}"></td>
-                                <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(lga.outcome8Raw,1,0)}"></td>
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger" role="alert">
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-xl">
+                        <thead>
+                            <tr>
+                                <th scope="col">State</th>
+                                <th th:if="${outcome1}" scope="col">Outcome 1</th>
+                                <th th:if="${outcome5}" scope="col">Outcome 5</th>
+                                <th th:if="${outcome6}" scope="col">Outcome 6</th>
+                                <th th:if="${outcome8}" scope="col">Outcome 8</th>
                             </tr>
-                        </div>
-                        <div th:if="${radio} == p">
-                            <!-- If proportional is selected, render proportional table-->
-                            <tr th:each="lga : ${tableData}">
-                                <td th:text="${lga.areaName}"></td>
-                                <div th:switch="${lga.outcome1Frac}">
-                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
-                                    <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
-                                </div>
-                                <div th:switch="${lga.outcome5Frac}">
-                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
-                                    <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
-                                </div>
-                                <div th:switch="${lga.outcome6Frac}">
-                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
-                                    <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
-                                </div>
-                                <div th:switch="${lga.outcome8Frac}">
-                                    <td th:case="-42069.0" th:text="'data unavailable'"></td>
-                                    <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
-                                </div>
-                            </tr>
-                        </div>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <!-- These two divs could be combined, with thymeleaf logic selecting the right raw/proportional based on a conditional -->
+                            <div th:if="${radio} == r">
+                                <!-- If raw is selected, render raw table-->
+                                <tr th:each="lga : ${tableData}">
+                                    <td th:text="${lga.areaName}"></td>
+                                    <td th:if="${outcome1}" th:text="${#numbers.formatDecimal(lga.outcome1Raw,1,0)}">
+                                    </td>
+                                    <td th:if="${outcome5}" th:text="${#numbers.formatDecimal(lga.outcome5Raw,1,0)}">
+                                    </td>
+                                    <td th:if="${outcome6}" th:text="${#numbers.formatDecimal(lga.outcome6Raw,1,0)}">
+                                    </td>
+                                    <td th:if="${outcome8}" th:text="${#numbers.formatDecimal(lga.outcome8Raw,1,0)}">
+                                    </td>
+                                </tr>
+                            </div>
+                            <div th:if="${radio} == p">
+                                <!-- If proportional is selected, render proportional table-->
+                                <tr th:each="lga : ${tableData}">
+                                    <td th:text="${lga.areaName}"></td>
+                                    <div th:switch="${lga.outcome1Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome1Frac} + '%'"></td>
+                                    </div>
+                                    <div th:switch="${lga.outcome5Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome5Frac} + '%'"></td>
+                                    </div>
+                                    <div th:switch="${lga.outcome6Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome6Frac} + '%'"></td>
+                                    </div>
+                                    <div th:switch="${lga.outcome8Frac}">
+                                        <td th:case="-42069.0" th:text="'data unavailable'"></td>
+                                        <td th:case="*" th:text="${lga.outcome8Frac} + '%'"></td>
+                                    </div>
+                                </tr>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
             <div class="col-3">
                 <!-- Button trigger modal -->
