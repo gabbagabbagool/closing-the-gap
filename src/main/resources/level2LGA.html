@@ -40,10 +40,10 @@
                         <thead>
                             <tr>
                                 <th scope="col" onclick="somefunction()">LGA</th>
-                                <th th:if="${checkboxOutcome1} != null" scope="col" onclick="sortTable(1)"> Outcome 1</th>
-                                <th th:if="${checkboxOutcome5} != null" scope="col" onclick="sortTable(2)"> Outcome 5</th>
-                                <th th:if="${checkboxOutcome6} != null" scope="col"> Outcome 6</th>
-                                <th th:if="${checkboxOutcome8} != null" scope="col"> Outcome 8</th>
+                                <th th:if="${checkboxOutcome1} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy"> Outcome 1</th>
+                                <th th:if="${checkboxOutcome5} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 5 - Schooling"> Outcome 5</th>
+                                <th th:if="${checkboxOutcome6} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 6 - Qualification"> Outcome 6</th>
+                                <th th:if="${checkboxOutcome8} != null" scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 8 - Employment"> Outcome 8</th>
                             </tr>
                         </thead>
                         <tbody  th:if="${dataType} != fracSelected">
