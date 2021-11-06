@@ -220,6 +220,7 @@ public class level3LGA implements Handler {
         }
 
         model.put("inputLGA", context.formParam("inputLGA"));
+        
 
 
         if (context.formParam("LGAradio") != null) {
@@ -229,14 +230,15 @@ public class level3LGA implements Handler {
         }
 
         // If input is not blank, nor null
-        if ((context.formParam("inputLGA") != "") && (context.formParam("inputLGA") != null)) {
+        if ((model.get("inputLGA") != "") && (model.get("inputLGA") != null)) {
             Integer inputLGACode = -42069;
             // query for the LGA code
 
             // Find the LGA with this name and store the code
             boolean found = false;
             for (thymeleafOutcomes obj : level3LGA) {
-                if (obj.areaName.equals(context.formParam("inputLGA"))) {
+                // A case insensitive search through the table data for a matching lga name
+                if (obj.areaName.toLowerCase().equals(model.get("inputLGA").toString().toLowerCase())) {
                     inputLGACode = obj.areaCode;
                     found = true;
                     break;
