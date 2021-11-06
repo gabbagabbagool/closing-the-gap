@@ -55,7 +55,6 @@ public class level2State implements Handler {
         // Store the form options that were selected for sorting
         String sortSelect = context.formParam("outcomeSortSelect");
         String outcomeSortOrder = context.formParam("outcomeSortOrder");
-        String inputQuery;
 
         populateData(model, jdbc, level2State, sortSelect);
         sorting(model, level2State, sortSelect, outcomeSortOrder);
