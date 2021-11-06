@@ -243,10 +243,12 @@ public class level3LGA implements Handler {
                 }
             }
             if (found == false) {
-                throw new Exception("Input LGA's name did not match any names");
+                String errorMessage = "An LGA with the name \"";
+                errorMessage += model.get("inputLGA");
+                errorMessage += "\" was not found";
+                model.put("error", errorMessage);
             }
-
-            if (context.formParam("LGAradio").equals("similar")) {
+            else if (context.formParam("LGAradio").equals("similar")) {
                 // Based on this LGA code, find population, sqkm and lga type
                 inputQuery = "SELECT LGAs.area_sqkm, LGAs.lga_type16, SUM(PopulationStatistics.count) as population FROM LGAs NATURAL JOIN PopulationStatistics WHERE LGAs.lga_code16 = ";
                 inputQuery += inputLGACode.toString();
@@ -287,12 +289,7 @@ public class level3LGA implements Handler {
                     itr.remove();
                   }
                 }
-                System.out.println("HERE");
-                // Arrays.asList(yourArray).contains(yourValue)
-                // Iterate over the total data, dropping any rows that do not match the code
-                // within our list
             }
-
         }
         model.put("sortSelect", sortSelect);
         model.put("outcomeSortOrder", outcomeSortOrder);
