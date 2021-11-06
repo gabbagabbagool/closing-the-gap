@@ -58,8 +58,26 @@ public class level3LGA implements Handler {
         // Store the form options that were selected for sorting
         String sortSelect = context.formParam("outcomeSortSelect");
         String outcomeSortOrder = context.formParam("outcomeSortOrder");
-        String inputQuery;
 
+        populateData(model, jdbc, level3LGA, sortSelect);
+
+        similarities(context, model, jdbc, level3LGA);
+
+        sorting(model, level3LGA, sortSelect, outcomeSortOrder);
+
+        model.put("sortSelect", sortSelect);
+        model.put("outcomeSortOrder", outcomeSortOrder);
+        model.put("tableData", level3LGA);
+        model.put("currentPage", "level3LGA");
+
+        // DO NOT MODIFY THIS
+        // Makes Javalin render the webpage
+        context.render(TEMPLATE, model);
+    }
+
+    private void populateData(Map<String, Object> model, JDBCConnection jdbc, ArrayList<thymeleafOutcomes> level3LGA,
+            String sortSelect) {
+        String inputQuery;
         // If outcome 1 has been selected
         if ((model.get("outcome1") != null) || (sortSelect.equals("1"))) {
             if (model.get("outcome1") == null) {
@@ -98,10 +116,7 @@ public class level3LGA implements Handler {
             try {
                 jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
             } catch (Exception e) {
-                String shitdog = "ss";
-                if (shitdog == "ss") {
-                    shitdog = "tt";
-                }
+                System.err.println("Error running thymeleafHookup");
             }
         }
         if ((model.get("outcome6") != null) || (sortSelect.equals("6"))) {
@@ -138,7 +153,10 @@ public class level3LGA implements Handler {
             outcomeNumAndType += model.get("radio");
             jdbc.thymeleafHookUp(level3LGA, inputQuery, outcomeNumAndType);
         }
+    }
 
+    private void sorting(Map<String, Object> model, ArrayList<thymeleafOutcomes> level3LGA, String sortSelect,
+            String outcomeSortOrder) {
         // If there was a selection
         if ((sortSelect != null) && (!sortSelect.equals("null"))) {
 
@@ -218,10 +236,12 @@ public class level3LGA implements Handler {
                 break;
             }
         }
+    }
 
+    private void similarities(Context context, Map<String, Object> model, JDBCConnection jdbc,
+             ArrayList<thymeleafOutcomes> level3LGA) {
+        String inputQuery;
         model.put("inputLGA", context.formParam("inputLGA"));
-        
-
 
         if (context.formParam("LGAradio") != null) {
             model.put("LGAradio", context.formParam("LGAradio"));
@@ -249,8 +269,7 @@ public class level3LGA implements Handler {
                 errorMessage += model.get("inputLGA");
                 errorMessage += "\" was not found";
                 model.put("error", errorMessage);
-            }
-            else if (context.formParam("LGAradio").equals("similar")) {
+            } else if (context.formParam("LGAradio").equals("similar")) {
                 // Based on this LGA code, find population, sqkm and lga type
                 inputQuery = "SELECT LGAs.area_sqkm, LGAs.lga_type16, SUM(PopulationStatistics.count) as population FROM LGAs NATURAL JOIN PopulationStatistics WHERE LGAs.lga_code16 = ";
                 inputQuery += inputLGACode.toString();
@@ -267,7 +286,8 @@ public class level3LGA implements Handler {
                 myValue = Double.parseDouble(LGAdetails.get("population")) * 1.50;
                 String populationUpperBound = myValue.toString();
 
-                // create a list of LGA codes where the LGAs have similar population, similar sqkm and the same type
+                // create a list of LGA codes where the LGAs have similar population, similar
+                // sqkm and the same type
                 inputQuery = "SELECT LGAs.lga_code16 as areaCode FROM LGAs NATURAL JOIN entire_population WHERE (LGAs.area_sqkm > ";
                 inputQuery += areaLowerBound;
                 inputQuery += ") AND  (LGAs.area_sqkm < ";
@@ -282,25 +302,23 @@ public class level3LGA implements Handler {
 
                 HashSet<Integer> similarLGAs = new HashSet<Integer>();
                 jdbc.level3LGAHashSet(similarLGAs, inputQuery);
-                
+
                 // This is to remove LGA's that do not match the similarity
                 Iterator<thymeleafOutcomes> itr = level3LGA.iterator();
                 while (itr.hasNext()) {
                     thymeleafOutcomes obj = itr.next();
-                  if (!similarLGAs.contains(Integer.valueOf(obj.areaCode))) {
-                    itr.remove();
-                  }
+                    if (!similarLGAs.contains(Integer.valueOf(obj.areaCode))) {
+                        itr.remove();
+                    }
                 }
+            } else if (context.formParam("LGAradio").equals("distance")) {
+                // Find input LGA's lat & long
+
+                // For each LGA
+                // See if the distance to iterated LGA is within the range specified
+                // ((inputs lat - iterated lat)**2 + (input long - iterated long)**2) ** 1/2
             }
         }
-        model.put("sortSelect", sortSelect);
-        model.put("outcomeSortOrder", outcomeSortOrder);
-        model.put("tableData", level3LGA);
-        model.put("currentPage", "level3LGA");
-
-        // DO NOT MODIFY THIS
-        // Makes Javalin render the webpage
-        context.render(TEMPLATE, model);
     }
 
 }
