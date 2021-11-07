@@ -237,7 +237,7 @@
                     <div class='form-check'>
                         <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
                         <label class="form-check-label" for="customRadio1"> Count</label>
-                    </div><br>
+                    </div><hr>
                     <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
                         <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
@@ -264,15 +264,15 @@
                                 </svg>
                             </button>
                         </span>
-                    </div><br>
+                    </div><hr>
                     
-                    <a>Sort by outcome:</a>
+                    <a>Sort by outcome number:</a>
                     <br>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
                                 aria-label="Options for selecting an outcome to sort by">
-                                <option value="null">...</option>
+                                <option value="null">Choose</option>
                                 <option th:selected="${sortSelect} == 1" value="1">1</option>
                                 <option th:selected="${sortSelect} == 5" value="5">5</option>
                                 <option th:selected="${sortSelect} == 6" value="6">6</option>
