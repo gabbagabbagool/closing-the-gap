@@ -228,7 +228,14 @@ public class level3LGA implements Handler {
                     }
                 }
             } else if (context.formParam("LGAradio").equals("distance")) {
-                Double inputDistance = Double.parseDouble(context.formParam("inputDistance"));
+                Double inputDistance = 0.0;
+                if(context.formParam("inputDistance") == ""){
+                    model.put("error", "No distance was supplied, a default value of 100 kilometers has been chosen.");
+                    inputDistance = 100.0;
+                }
+                else{
+                    inputDistance = Double.parseDouble(context.formParam("inputDistance"));
+                }
                 model.put("inputDistance", inputDistance);
                 HashMap<String,Double> inputDetails = new HashMap<>();
 
