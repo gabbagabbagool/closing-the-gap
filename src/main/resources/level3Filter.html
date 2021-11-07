@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 
     <title>Outcomes by LGA Advanced</title>
@@ -13,16 +14,22 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid"><a class="navbar-brand" href="/"><img src="logo.png" alt="" height="24"
                     class="d-inline-block align-text-top mx-2"></a><button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-               s aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" s
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link" aria-current="page" href="/">Home</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active" class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link" href="/level2LGA.html">By LGA</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link" href="/level2State.html">By State</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Advanced Search</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link" href="/level3LGA.html">Similar LGA's</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link"
+                            aria-current="page" href="/">Home</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active"
+                            class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link"
+                            href="/level2LGA.html">By LGA</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link"
+                            href="/level2State.html">By State</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link"
+                            href="/level3Filter.html">Advanced Search</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link"
+                            href="/level3LGA.html">Similar LGA's</a></li>
                 </ul>
             </div>
         </div>
@@ -30,12 +37,236 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="display-4">Comparing Indigenous and Non-Indigenous</h1>
+                <h1 class="display-4">Comparing Indigenous and Non-Indigenous<span class="d-md-none">&emsp;<a
+                            class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            Options
+                        </a></span></h1>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <!-- adds radio and checkboxes for display data -->
+                    <form action='/level3Filter.html' method='post'>
+                        <h5 class="text-muted">Display Data:</h5>
+                        <div class='form-check'>
+                            <input type="radio" id="customRadio2" name="customRadio" class="form-check-input"
+                                value="proportional" th:checked="${dataType} == fracSelected">
+                            <label class="form-check-label" for="customRadio2"> Proportional</label>
+                        </div>
+                        <div class='form-check'>
+                            <input type="radio" id="customRadio1" name="customRadio" class="form-check-input"
+                                value="raw" th:checked="${dataType} == rawSelected">
+                            <label class="form-check-label" for="customRadio1"> Count</label>
+                        </div>
+                        <hr>
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 1 - Life expectancy">
+                            <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked"
+                                th:checked="${checkboxOutcome1} == checked">
+                            <label class="form-check-label" for="inlineCheckbox2">
+                                Outcome 1</label>
+                        </div>
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 5 - Schooling">
+                            <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked"
+                                th:checked="${checkboxOutcome5} == checked">
+                            <label class="form-check-label" for="inlineCheckbox2">
+                                Outcome 5</label>
+                        </div>
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 6 - Qualification">
+                            <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked"
+                                th:checked="${checkboxOutcome6} == checked">
+                            <label class="form-check-label" for="inlineCheckbox3">
+                                Outcome 6</label>
+                        </div>
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 8 - Employment">
+                            <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked"
+                                th:checked="${checkboxOutcome8} == checked">
+                            <label class="form-check-label" for="inlineCheckbox4">
+                                Outcome 8</label>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <div>
+                            <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    title="Show descriptions of Outcomes">Outcomes
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-info-circle text-primary" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                    </svg>
+                                </button>
+                            </span>
+                        </div>
+                        <hr>
+                        <a>Sort by outcome number:</a>
+                        <br>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
+                                    aria-label="Options for selecting an outcome to sort by">
+                                    <option th:selected="${sortSelect} == Rank" value="Rank">Rank</option>
+                                    <option th:selected="${sortSelect} == 1" value="1">1</option>
+                                    <option th:selected="${sortSelect} == 5" value="5">5</option>
+                                    <option th:selected="${sortSelect} == 6" value="6">6</option>
+                                    <option th:selected="${sortSelect} == 8" value="8">8</option>
+
+                                </select>
+                            </div>
+                            <div class="input-group-prepend">
+                                <select class="custom-select my-1 mr-sm-2" name="outcomeSelectGroup"
+                                    aria-label="Options for selecting an outcome to sort by">
+                                    <option th:selected="${sortSelectGroup} == Indig" value="Indig">Indig</option>
+                                    <option th:selected="${sortSelectGroup} == Non" value="Non">Non</option>
+                                    <option th:selected="${sortSelectGroup} == Gap" value="Gap">Gap</option>
+                                </select>
+                            </div>
+                            <select class="custom-select my-1 mr-sm-2" name="outcomeSortOrder"
+                                aria-label="Options to sort in ascending, or descending order">
+                                <option th:selected="${outcomeSortOrder} == descending" value="descending">Desc</option>
+                                <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Asc</option>
+                            </select>
+                        </div><br>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">Refresh Data</button>
+                        </div><br>
+
+
+                        <!-- add filter display -->
+                        <h5 class="text-muted">Add Filters:</h5>
+                        <hr>
+                        <!-- Gender filter -->
+                        <div class="input-group">
+                            <span class="input-group-text">Gender = &nbsp;
+                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                    name="genderFilterValue">
+                                    <option value="all" th:selected="${genderFilterSelection} == null">All</option>
+                                    <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
+                                    <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
+                                </select>
+                            </span>
+                        </div>
+                        <hr>
+                        <!-- poulation filter -->
+                        <p>Population</p>
+                        <div class="input-group">
+                            <span class="input-group-text">Indigenous &nbsp;
+                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                    name="populationFilterIndig">
+                                    <option value="all" th:selected="${populationFilterSelectionIndig} == null">All
+                                    </option>
+                                    <option value="greater" th:selected="${populationFilterSelectionIndig} == greater">
+                                        &gt;
+                                    </option>
+                                    <option value="less" th:selected="${populationFilterSelectionIndig} == less">&lt;
+                                    </option>
+                                </select>&nbsp;
+                                <input class="form-control form-control-sm" type="text" placeholder=""
+                                    name="populationFilterValueIndig" th:value="${populationInputIndig}">
+                            </span>
+                        </div><br>
+
+                        <div class="input-group">
+                            <span class="input-group-text">Non-Indig &nbsp;
+                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                    name="populationFilterNon">
+                                    <option value="all" th:selected="${populationFilterSelectionNon} == null">All
+                                    </option>
+                                    <option value="greater" th:selected="${populationFilterSelectionNon} == greater">
+                                        &gt;
+                                    </option>
+                                    <option value="less" th:selected="${populationFilterSelectionNon} == less">&lt;
+                                    </option>
+                                </select>&nbsp;
+                                <input class="form-control form-control-sm" type="text" placeholder=""
+                                    name="populationFilterValueNon" th:value="${populationInputNon}">
+                            </span>
+                        </div>
+                        <hr>
+
+                        <!-- Proportion value filter -->
+                        <div class="input-group">
+                            <span class="input-group-text">Proportion Value &gt;
+                                <input class="form-control form-control-sm" type="text" placeholder=""
+                                    name="gapFilterValue" th:value="${gapFilterValue}">&nbsp;
+                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                    name="gapFilter">
+                                    <option value="none" th:selected="${gapFilter} == null">Choose</option>
+                                    <option value="Outcome 1" th:selected="${gapFilter} == 'Outcome 1'">Outcome 1
+                                    </option>
+                                    <option value="Outcome 5" th:selected="${gapFilter} == 'Outcome 5'">Outcome 5
+                                    </option>
+                                    <option value="Outcome 6" th:selected="${gapFilter} == 'Outcome 6'">Outcome 6
+                                    </option>
+                                    <option value="Outcome 8" th:selected="${gapFilter} == 'Outcome 8'">Outcome 8
+                                    </option>
+                                    <option value="All" th:selected="${gapFilter} == All">All</option>
+                                </select>
+                            </span>
+                        </div>
+
+                        <hr>
+
+                        <!-- add text to show what is being filtered -->
+                        <div
+                            th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
+                    or ${populationFilterSelectionNon} == greater or ${populationFilterSelectionNon} == less
+                    or ${populationFilterSelectionIndig} == greater or ${populationFilterSelectionIndig} == less
+                    or ${gapFilter} == 'Outcome 1' or ${gapFilter} == 'Outcome 5' or ${gapFilter} == 'Outcome 6' or ${gapFilter} == 'Outcome 8' or ${gapFilter} == All">
+                            <p>[[${tableDataIndig.size()}]] filtered results by:</p>
+                            <hr>
+
+                            <p th:if="${genderFilterSelection} == m">Gender = <b>Male</b></p>
+                            <p th:if="${genderFilterSelection} == f">Gender = <b>Female</b></p>
+                            <p th:if="${populationFilterSelectionIndig} == greater">Indiginous population &gt;
+                                <b>[[${populationInputIndig}]]</b>
+                            </p>
+                            <p th:if="${populationFilterSelectionIndig} == less">Indiginous population &lt;
+                                <b>[[${populationInputIndig}]]</b>
+                            </p>
+                            <p th:if="${populationFilterSelectionNon} == greater">Non-Indig population &gt;
+                                <b>[[${populationInputNon}]]</b>
+                            </p>
+                            <p th:if="${populationFilterSelectionNon} == less">Non-Indig population &lt;
+                                <b>[[${populationInputNon}]]</b>
+                            </p>
+                            <p th:if="${gapFilter} != none">Minimum Proportion of <b>[[${gapFilterValue}]]%</b> for
+                                [[${gapFilter}]]</p>
+
+                            <!-- button to clear all filters -->
+                            <div
+                                th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
+                        or ${populationFilterSelectionNon} == greater or ${populationFilterSelectionNon} == less
+                        or ${populationFilterSelectionIndig} == greater or ${populationFilterSelectionIndig} == less
+                        or ${gapFilter} == 'Outcome 1' or ${gapFilter} == 'Outcome 5' or ${gapFilter} == 'Outcome 6' or ${gapFilter} == 'Outcome 8' or ${gapFilter} == All">
+                                <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm"
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters"
+                                    value="clear">Clear Filters
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-x-circle text-danger" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                        </div><br>
+
+                    </form>
+                </div>
+                <br>
             </div>
         </div>
     </div>
     <!-- <div class="container"> -->
-        
+
     <!-- </div> -->
     <!-- adds table of data -->
     <div class="container">
@@ -46,56 +277,68 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col" >LGA</th>
-                                <th th:if="${checkboxOutcome1} != null" scope="col" colspan="3" 
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy"> Outcome 1</th>
-                                <th th:if="${checkboxOutcome5} != null" scope="col" colspan="3" 
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 5 - Schooling"> Outcome 5</th>
-                                <th th:if="${checkboxOutcome6} != null" scope="col" colspan="3" 
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 6 - Qualification"> Outcome 6</th>
-                                <th th:if="${checkboxOutcome8} != null" scope="col" colspan="3" 
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 8 - Employment"> Outcome 8</th>
-                                <th scope="col" colspan="1"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Overall LGA ranking">Rank</th>
+                                <th scope="col">LGA</th>
+                                <th th:if="${checkboxOutcome1} != null" scope="col" colspan="3" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" title="Outcome 1 - Life expectancy"> Outcome 1</th>
+                                <th th:if="${checkboxOutcome5} != null" scope="col" colspan="3" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" title="Outcome 5 - Schooling"> Outcome 5</th>
+                                <th th:if="${checkboxOutcome6} != null" scope="col" colspan="3" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" title="Outcome 6 - Qualification"> Outcome 6</th>
+                                <th th:if="${checkboxOutcome8} != null" scope="col" colspan="3" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" title="Outcome 8 - Employment"> Outcome 8</th>
+                                <th scope="col" colspan="1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    title="Overall LGA ranking">Rank</th>
                             </tr>
                             <tr>
-                                <td >&nbsp;</td>
-                                <td >&nbsp;</td>
-                                <td th:if="${checkboxOutcome1} != null" >Indig</td>
-                                <td th:if="${checkboxOutcome1} != null" >Non</td>
-                                <td th:if="${checkboxOutcome1} != null" >Gap</td>
-                                <td th:if="${checkboxOutcome5} != null" >Indig</td>
-                                <td th:if="${checkboxOutcome5} != null" >Non</td>
-                                <td th:if="${checkboxOutcome5} != null" >Gap</td>
-                                <td th:if="${checkboxOutcome6} != null" >Indig</td>
-                                <td th:if="${checkboxOutcome6} != null" >Non</td>
-                                <td th:if="${checkboxOutcome6} != null" >Gap</td>
-                                <td th:if="${checkboxOutcome8} != null" >Indig</td>
-                                <td th:if="${checkboxOutcome8} != null" >Non</td>
-                                <td th:if="${checkboxOutcome8} != null" >Gap</td>
-                                <td >&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td th:if="${checkboxOutcome1} != null">Indig</td>
+                                <td th:if="${checkboxOutcome1} != null">Non</td>
+                                <td th:if="${checkboxOutcome1} != null">Gap</td>
+                                <td th:if="${checkboxOutcome5} != null">Indig</td>
+                                <td th:if="${checkboxOutcome5} != null">Non</td>
+                                <td th:if="${checkboxOutcome5} != null">Gap</td>
+                                <td th:if="${checkboxOutcome6} != null">Indig</td>
+                                <td th:if="${checkboxOutcome6} != null">Non</td>
+                                <td th:if="${checkboxOutcome6} != null">Gap</td>
+                                <td th:if="${checkboxOutcome8} != null">Indig</td>
+                                <td th:if="${checkboxOutcome8} != null">Non</td>
+                                <td th:if="${checkboxOutcome8} != null">Gap</td>
+                                <td>&nbsp;</td>
                             </tr>
                         </thead>
-                        <tbody  th:if="${dataType} != fracSelected">
+                        <tbody th:if="${dataType} != fracSelected">
                             <tr th:each="lga,iter : ${tableDataIndig}">
                                 <th scope="row">[[${iter.count}]]</th>
                                 <td th:text="${lga.areaName}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1IndigRaw,1,0)}" ></td> 
-                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1NonRaw,1,0)}"></td>
-                                <td th:if="${checkboxOutcome1} != null" th:text="${#numbers.formatDecimal(lga.outcome1Gap,1,1)} + '%'"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5IndigRaw,1,0)}"></td>
-                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5NonRaw,1,0)}" ></td> 
-                                <td th:if="${checkboxOutcome5} != null" th:text="${#numbers.formatDecimal(lga.outcome5Gap,1,1)} + '%'"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6IndigRaw,1,0)}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6NonRaw,1,0)}"></td>
-                                <td th:if="${checkboxOutcome6} != null" th:text="${#numbers.formatDecimal(lga.outcome6Gap,1,1)} + '%'"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8IndigRaw,1,0)}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8NonRaw,1,0)}"></td>
-                                <td th:if="${checkboxOutcome8} != null" th:text="${#numbers.formatDecimal(lga.outcome8Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome1} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome1IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome1} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome1NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome1} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome1Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome5} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome5IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome5} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome5NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome5} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome5Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome6} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome6IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome6} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome6NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome6} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome6Gap,1,1)} + '%'"></td>
+                                <td th:if="${checkboxOutcome8} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome8IndigRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome8} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome8NonRaw,1,0)}"></td>
+                                <td th:if="${checkboxOutcome8} != null"
+                                    th:text="${#numbers.formatDecimal(lga.outcome8Gap,1,1)} + '%'"></td>
                                 <td th:text="${lga.lgaRank}"></td>
                             </tr>
                         </tbody>
-                        <tbody  th:if="${dataType} == fracSelected">
+                        <tbody th:if="${dataType} == fracSelected">
                             <tr th:each="lga,iter : ${tableDataIndig}">
                                 <th scope="row">[[${iter.count}]]</th>
                                 <td th:text="${lga.areaName}"></td>
@@ -119,111 +362,157 @@
             </div>
             <div class="col-md-3">
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Outcome descriptions</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- add accordion for outcome legend -->
-                            <div class="accordion" id="accordionPanelsStayOpenExample">
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                                      <p>
-                                        <b>Outcome 1 </b> - Population over 65 years
-                                      </p>
-                                    </button>
-                                  </h2>
-                                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body">
-                                      <strong>Aboriginal and Torres Strait Islander people enjoy long and healthy lives.</strong><br><br> The data for outcome 1 represents the count of the population over 65 years of age. The proportional value for this outcome compares the count of over 65 to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        <p>
-                                            <b>Outcome 5 </b> - Attaining year 12 or equivalent
-                                        </p>
-                                    </button>
-                                  </h2>
-                                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                                    <div class="accordion-body">
-                                      <strong>Aboriginal and Torres Strait Islander students achieve their full learning potential</strong><br><br> The data for outcome 5 represents the count of the population that have completed year 12. The proportional value for this outcome compares this count to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                            <p>
-                                                <b>Outcome 6</b> - Tertiary qualification (Cert III & above)
-                                            </p>
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                                        <div class="accordion-body">
-                                            <strong>Aboriginal and Torres Strait Islander students reach their full potential through further education pathways.</strong><br><br> The data for outcome 6 represents the count of the population that have completed any tertiary qualification (Certificate III and above). The proportional value for this outcome compares this count to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Outcome descriptions</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- add accordion for outcome legend -->
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseOne">
+                                                <p>
+                                                    <b>Outcome 1 </b> - Population over 65 years
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                            aria-labelledby="panelsStayOpen-headingOne">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander people enjoy long and
+                                                    healthy lives.</strong><br><br> The data for outcome 1 represents
+                                                the count of the population over 65 years of age. The proportional value
+                                                for this outcome compares the count of over 65 to the rest of the
+                                                relative Indigenous/ non-Indigenous population above 15 years old, for
+                                                that LGA.
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                            <p>
-                                                <b>Outcome 8</b> - Count of all employment
-                                            </p>
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                                        <div class="accordion-body">
-                                            <strong>Strong economic participation and development of Aboriginal and Torres Strait Islander people and communities.</strong><br><br> The data for outcome 8 represents the count of the population that are employed. The proportional value for this outcome compares this count to the rest of the relative Indigenous/ non-Indigenous population above 15 years old, for that LGA.
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                                <p>
+                                                    <b>Outcome 5 </b> - Attaining year 12 or equivalent
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingTwo">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander students achieve their
+                                                    full learning potential</strong><br><br> The data for outcome 5
+                                                represents the count of the population that have completed year 12. The
+                                                proportional value for this outcome compares this count to the rest of
+                                                the relative Indigenous/ non-Indigenous population above 15 years old,
+                                                for that LGA.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <p>
+                                                    <b>Outcome 6</b> - Tertiary qualification (Cert III & above)
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <strong>Aboriginal and Torres Strait Islander students reach their full
+                                                    potential through further education pathways.</strong><br><br> The
+                                                data for outcome 6 represents the count of the population that have
+                                                completed any tertiary qualification (Certificate III and above). The
+                                                proportional value for this outcome compares this count to the rest of
+                                                the relative Indigenous/ non-Indigenous population above 15 years old,
+                                                for that LGA.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                <p>
+                                                    <b>Outcome 8</b> - Count of all employment
+                                                </p>
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                                            aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <strong>Strong economic participation and development of Aboriginal and
+                                                    Torres Strait Islander people and communities.</strong><br><br> The
+                                                data for outcome 8 represents the count of the population that are
+                                                employed. The proportional value for this outcome compares this count to
+                                                the rest of the relative Indigenous/ non-Indigenous population above 15
+                                                years old, for that LGA.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                </div>
 
-                 <!-- adds radio and checkboxes for display data -->
-                <form action='/level3Filter.html' method='post'>
+                <!-- adds radio and checkboxes for display data -->
+                <form class="d-none d-md-block" action='/level3Filter.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
-                        <input type="radio" id="customRadio2" name="customRadio" class="form-check-input" value="proportional" th:checked="${dataType} == fracSelected">
+                        <input type="radio" id="customRadio2" name="customRadio" class="form-check-input"
+                            value="proportional" th:checked="${dataType} == fracSelected">
                         <label class="form-check-label" for="customRadio2"> Proportional</label>
                     </div>
                     <div class='form-check'>
-                        <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw" th:checked="${dataType} == rawSelected">
+                        <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" value="raw"
+                            th:checked="${dataType} == rawSelected">
                         <label class="form-check-label" for="customRadio1"> Count</label>
-                    </div><hr>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 1 - Life expectancy">
-                        <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked" th:checked="${checkboxOutcome1} == checked">
+                    </div>
+                    <hr>
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="Outcome 1 - Life expectancy">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="checked"
+                            th:checked="${checkboxOutcome1} == checked">
                         <label class="form-check-label" for="inlineCheckbox2">
-                        Outcome 1</label>
+                            Outcome 1</label>
                     </div>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 5 - Schooling">
-                        <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked" th:checked="${checkboxOutcome5} == checked">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="Outcome 5 - Schooling">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="checked"
+                            th:checked="${checkboxOutcome5} == checked">
                         <label class="form-check-label" for="inlineCheckbox2">
-                        Outcome 5</label>
+                            Outcome 5</label>
                     </div>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 6 - Qualification">
-                        <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked" th:checked="${checkboxOutcome6} == checked">
-                        <label class="form-check-label" for="inlineCheckbox3" >
-                        Outcome 6</label>
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="Outcome 6 - Qualification">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="checked"
+                            th:checked="${checkboxOutcome6} == checked">
+                        <label class="form-check-label" for="inlineCheckbox3">
+                            Outcome 6</label>
                     </div>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Outcome 8 - Employment">
-                        <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked" th:checked="${checkboxOutcome8} == checked">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="Outcome 8 - Employment">
+                        <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="checked"
+                            th:checked="${checkboxOutcome8} == checked">
                         <label class="form-check-label" for="inlineCheckbox4">
-                        Outcome 8</label>
+                            Outcome 8</label>
                     </div>
                     <!-- Button trigger modal -->
                     <div>
@@ -238,7 +527,8 @@
                                 </svg>
                             </button>
                         </span>
-                    </div><hr>
+                    </div>
+                    <hr>
                     <a>Sort by outcome number:</a>
                     <br>
                     <div class="input-group mb-3">
@@ -250,7 +540,7 @@
                                 <option th:selected="${sortSelect} == 5" value="5">5</option>
                                 <option th:selected="${sortSelect} == 6" value="6">6</option>
                                 <option th:selected="${sortSelect} == 8" value="8">8</option>
-                                
+
                             </select>
                         </div>
                         <div class="input-group-prepend">
@@ -267,22 +557,24 @@
                             <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Asc</option>
                         </select>
                     </div><br>
-                    
+
                     <div>
                         <button type="submit" class="btn btn-primary">Refresh Data</button>
                     </div><br>
-                        
+
 
                     <!-- add filter display -->
-                    <h5 class="text-muted">Add Filters:</h5><hr>
+                    <h5 class="text-muted">Add Filters:</h5>
+                    <hr>
                     <!-- Gender filter -->
                     <div class="input-group">
                         <span class="input-group-text">Gender = &nbsp;
-                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="genderFilterValue">
-                            <option value="all" th:selected="${genderFilterSelection} == null">All</option>
-                            <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
-                            <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
-                        </select>
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                name="genderFilterValue">
+                                <option value="all" th:selected="${genderFilterSelection} == null">All</option>
+                                <option value="f" th:selected="${genderFilterSelection} == f">Female</option>
+                                <option value="m" th:selected="${genderFilterSelection} == m">Male</option>
+                            </select>
                         </span>
                     </div>
                     <hr>
@@ -290,46 +582,55 @@
                     <p>Population</p>
                     <div class="input-group">
                         <span class="input-group-text">Indigenous &nbsp;
-                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="populationFilterIndig">
-                            <option value="all" th:selected="${populationFilterSelectionIndig} == null">All</option>
-                            <option value="greater" th:selected="${populationFilterSelectionIndig} == greater">&gt;</option>
-                            <option value="less" th:selected="${populationFilterSelectionIndig} == less">&lt;</option>
-                        </select>&nbsp;
-                        <input class="form-control form-control-sm" type="text" placeholder="" name="populationFilterValueIndig" th:value="${populationInputIndig}">
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                name="populationFilterIndig">
+                                <option value="all" th:selected="${populationFilterSelectionIndig} == null">All</option>
+                                <option value="greater" th:selected="${populationFilterSelectionIndig} == greater">&gt;
+                                </option>
+                                <option value="less" th:selected="${populationFilterSelectionIndig} == less">&lt;
+                                </option>
+                            </select>&nbsp;
+                            <input class="form-control form-control-sm" type="text" placeholder=""
+                                name="populationFilterValueIndig" th:value="${populationInputIndig}">
                         </span>
                     </div><br>
-                    
+
                     <div class="input-group">
                         <span class="input-group-text">Non-Indig &nbsp;
-                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="populationFilterNon">
-                            <option value="all" th:selected="${populationFilterSelectionNon} == null">All</option>
-                            <option value="greater" th:selected="${populationFilterSelectionNon} == greater">&gt;</option>
-                            <option value="less" th:selected="${populationFilterSelectionNon} == less">&lt;</option>
-                        </select>&nbsp;
-                        <input class="form-control form-control-sm" type="text" placeholder="" name="populationFilterValueNon" th:value="${populationInputNon}">
-                    </span>
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"
+                                name="populationFilterNon">
+                                <option value="all" th:selected="${populationFilterSelectionNon} == null">All</option>
+                                <option value="greater" th:selected="${populationFilterSelectionNon} == greater">&gt;
+                                </option>
+                                <option value="less" th:selected="${populationFilterSelectionNon} == less">&lt;</option>
+                            </select>&nbsp;
+                            <input class="form-control form-control-sm" type="text" placeholder=""
+                                name="populationFilterValueNon" th:value="${populationInputNon}">
+                        </span>
                     </div>
                     <hr>
 
                     <!-- Proportion value filter -->
                     <div class="input-group">
-                    <span class="input-group-text">Proportion Value &gt; 
-                    <input class="form-control form-control-sm" type="text" placeholder="" name="gapFilterValue" th:value="${gapFilterValue}">&nbsp;
-                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="gapFilter">
-                        <option value="none" th:selected="${gapFilter} == null">Choose</option>
-                        <option value="Outcome 1" th:selected="${gapFilter} == 'Outcome 1'">Outcome 1</option>
-                        <option value="Outcome 5" th:selected="${gapFilter} == 'Outcome 5'">Outcome 5</option>
-                        <option value="Outcome 6" th:selected="${gapFilter} == 'Outcome 6'">Outcome 6</option>
-                        <option value="Outcome 8" th:selected="${gapFilter} == 'Outcome 8'">Outcome 8</option>
-                        <option value="All" th:selected="${gapFilter} == All">All</option>
-                    </select>
-                    </span>
+                        <span class="input-group-text">Proportion Value &gt;
+                            <input class="form-control form-control-sm" type="text" placeholder="" name="gapFilterValue"
+                                th:value="${gapFilterValue}">&nbsp;
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="gapFilter">
+                                <option value="none" th:selected="${gapFilter} == null">Choose</option>
+                                <option value="Outcome 1" th:selected="${gapFilter} == 'Outcome 1'">Outcome 1</option>
+                                <option value="Outcome 5" th:selected="${gapFilter} == 'Outcome 5'">Outcome 5</option>
+                                <option value="Outcome 6" th:selected="${gapFilter} == 'Outcome 6'">Outcome 6</option>
+                                <option value="Outcome 8" th:selected="${gapFilter} == 'Outcome 8'">Outcome 8</option>
+                                <option value="All" th:selected="${gapFilter} == All">All</option>
+                            </select>
+                        </span>
                     </div>
-                    
+
                     <hr>
 
                     <!-- add text to show what is being filtered -->
-                    <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
+                    <div
+                        th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
                     or ${populationFilterSelectionNon} == greater or ${populationFilterSelectionNon} == less
                     or ${populationFilterSelectionIndig} == greater or ${populationFilterSelectionIndig} == less
                     or ${gapFilter} == 'Outcome 1' or ${gapFilter} == 'Outcome 5' or ${gapFilter} == 'Outcome 6' or ${gapFilter} == 'Outcome 8' or ${gapFilter} == All">
@@ -338,33 +639,48 @@
 
                         <p th:if="${genderFilterSelection} == m">Gender = <b>Male</b></p>
                         <p th:if="${genderFilterSelection} == f">Gender = <b>Female</b></p>
-                        <p th:if="${populationFilterSelectionIndig} == greater">Indiginous population &gt; <b>[[${populationInputIndig}]]</b></p>
-                        <p th:if="${populationFilterSelectionIndig} == less">Indiginous population &lt; <b>[[${populationInputIndig}]]</b></p>
-                        <p th:if="${populationFilterSelectionNon} == greater">Non-Indig population &gt; <b>[[${populationInputNon}]]</b></p>
-                        <p th:if="${populationFilterSelectionNon} == less">Non-Indig population &lt; <b>[[${populationInputNon}]]</b></p>
-                        <p th:if="${gapFilter} != none">Minimum Proportion of <b>[[${gapFilterValue}]]%</b> for [[${gapFilter}]]</p>
-                        
+                        <p th:if="${populationFilterSelectionIndig} == greater">Indiginous population &gt;
+                            <b>[[${populationInputIndig}]]</b>
+                        </p>
+                        <p th:if="${populationFilterSelectionIndig} == less">Indiginous population &lt;
+                            <b>[[${populationInputIndig}]]</b>
+                        </p>
+                        <p th:if="${populationFilterSelectionNon} == greater">Non-Indig population &gt;
+                            <b>[[${populationInputNon}]]</b>
+                        </p>
+                        <p th:if="${populationFilterSelectionNon} == less">Non-Indig population &lt;
+                            <b>[[${populationInputNon}]]</b>
+                        </p>
+                        <p th:if="${gapFilter} != none">Minimum Proportion of <b>[[${gapFilterValue}]]%</b> for
+                            [[${gapFilter}]]</p>
+
                         <!-- button to clear all filters -->
-                        <div th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
+                        <div
+                            th:if="${genderFilterSelection} == f or ${genderFilterSelection} == m 
                         or ${populationFilterSelectionNon} == greater or ${populationFilterSelectionNon} == less
                         or ${populationFilterSelectionIndig} == greater or ${populationFilterSelectionIndig} == less
                         or ${gapFilter} == 'Outcome 1' or ${gapFilter} == 'Outcome 5' or ${gapFilter} == 'Outcome 6' or ${gapFilter} == 'Outcome 8' or ${gapFilter} == All">
-                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters" value="clear">Clear Filters
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle text-danger" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                  </svg>
+                            <button type="submit" name="buttonClearFilter" class="btn btn-outline-danger btn-sm"
+                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear all filters"
+                                value="clear">Clear Filters
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-circle text-danger" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
                             </button>
                         </div>
-                        
+
                     </div><br>
-                    
+
                 </form>
             </div>
-        </div>   
+        </div>
     </div>
 </body>
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
     integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p'
     crossorigin='anonymous'></script>
+
 </html>
