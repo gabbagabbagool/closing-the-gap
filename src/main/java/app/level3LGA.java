@@ -155,7 +155,7 @@ public class level3LGA implements Handler {
     }
 
     private void similarities(Context context, Map<String, Object> model, JDBCConnection jdbc,
-             ArrayList<thymeleafOutcomes> level3LGA) {
+            ArrayList<thymeleafOutcomes> level3LGA) {
         String inputQuery;
         model.put("inputLGA", context.formParam("inputLGA"));
 
@@ -229,23 +229,24 @@ public class level3LGA implements Handler {
                 }
             } else if (context.formParam("LGAradio").equals("distance")) {
                 Double inputDistance = 0.0;
-                if(context.formParam("inputDistance") == ""){
+                if ((context.formParam("inputDistance") == "")||(context.formParam("inputDistance") == null)) {
                     model.put("error", "No distance was supplied, a default value of 100 kilometers has been chosen.");
                     inputDistance = 100.0;
-                }
-                else{
+                } else {
                     inputDistance = Double.parseDouble(context.formParam("inputDistance"));
                 }
                 model.put("inputDistance", inputDistance);
-                HashMap<String,Double> inputDetails = new HashMap<>();
+                HashMap<String, Double> inputDetails = new HashMap<>();
 
                 jdbc.level3LGALocationTool(level3LGA, inputDetails, inputLGACode);
-                
+
                 Iterator<thymeleafOutcomes> itr = level3LGA.iterator();
                 while (itr.hasNext()) {
                     thymeleafOutcomes obj = itr.next();
-                    // Uses pythagoras theorem to calculate distance between two points in units of latitude, then multiplies by 111 for units in kilometers
-                    double distance = (Math.pow((Math.pow((inputDetails.get("latitude") - obj.latitude),2) + Math.pow((inputDetails.get("longitude") - obj.longitude),2)), .5)) * 111;
+                    // Uses pythagoras theorem to calculate distance between two points in units of
+                    // latitude, then multiplies by 111 for units in kilometers
+                    double distance = (Math.pow((Math.pow((inputDetails.get("latitude") - obj.latitude), 2)
+                            + Math.pow((inputDetails.get("longitude") - obj.longitude), 2)), .5)) * 111;
                     if (distance > inputDistance) {
                         itr.remove();
                     }
