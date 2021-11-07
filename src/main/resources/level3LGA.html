@@ -56,22 +56,26 @@
                             <label class="form-check-label" for="radio"> Count</label>
                         </div>
                         <hr>
-                        <div class="form-check">
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 1 - Life expectancy">
                             <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="true"
                                 th:checked="${outcome1}">
                             <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 5 - Schooling">
                             <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="true"
                                 th:checked="${outcome5}">
                             <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 6 - Qualification">
                             <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="true"
                                 th:checked="${outcome6}">
                             <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Outcome 8 - Employment">
                             <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="true"
                                 th:checked="${outcome8}">
                             <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
@@ -147,11 +151,15 @@
                     <table class="table table-bordered table-striped table-xl">
                         <thead>
                             <tr>
-                                <th scope="col">State</th>
-                                <th th:if="${outcome1}" scope="col">Outcome 1</th>
-                                <th th:if="${outcome5}" scope="col">Outcome 5</th>
-                                <th th:if="${outcome6}" scope="col">Outcome 6</th>
-                                <th th:if="${outcome8}" scope="col">Outcome 8</th>
+                                <th scope="col">LGA</th>
+                                <th th:if="${outcome1}" scope="col" data-bs-toggle="tooltip"
+                                data-bs-placement="bottom" title="Outcome 1 - Life expectancy">Outcome 1</th>
+                                <th th:if="${outcome5}" scope="col" data-bs-toggle="tooltip"
+                                data-bs-placement="bottom" title="Outcome 5 - Schooling">Outcome 5</th>
+                                <th th:if="${outcome6}" scope="col" data-bs-toggle="tooltip"
+                                data-bs-placement="bottom" title="Outcome 6 - Qualification">Outcome 6</th>
+                                <th th:if="${outcome8}" scope="col" data-bs-toggle="tooltip"
+                                data-bs-placement="bottom" title="Outcome 8 - Employment">Outcome 8</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -324,22 +332,26 @@
                         <label class="form-check-label" for="radio"> Count</label>
                     </div>
                     <hr>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Outcome 1 - Life expectancy">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="true"
                             th:checked="${outcome1}">
                         <label class="form-check-label" for="inlineCheckbox2">Outcome 1</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Outcome 5 - Schooling">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome5" value="true"
                             th:checked="${outcome5}">
                         <label class="form-check-label" for="inlineCheckbox2">Outcome 5</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Outcome 6 - Qualification">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome6" value="true"
                             th:checked="${outcome6}">
                         <label class="form-check-label" for="inlineCheckbox3">Outcome 6</label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Outcome 8 - Employment">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="true"
                             th:checked="${outcome8}">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
