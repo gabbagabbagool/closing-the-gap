@@ -159,19 +159,19 @@ public class level3Filter implements Handler {
         // set the gap filter value to update SQL query
         if (gapFilter != null) {
             gapFilterQuery = " HAVING proportion > " + gapValue + " ";
-            if ("outcome1".equals(gapFilter)) {
+            if ("Outcome 1".equals(gapFilter)) {
                 gapFilterQuery1 = gapFilterQuery; 
 
-            } else if ("outcome5".equals(gapFilter)) {
+            } else if ("Outcome 5".equals(gapFilter)) {
                 gapFilterQuery5 = gapFilterQuery;
             
-            } else if ("outcome6".equals(gapFilter)) {
+            } else if ("Outcome 6".equals(gapFilter)) {
                 gapFilterQuery6 = gapFilterQuery;
             
-            } else if ("outcome8".equals(gapFilter)) {
+            } else if ("Outcome 8".equals(gapFilter)) {
                 gapFilterQuery8 = gapFilterQuery;
             
-            } else if ("all".equals(gapFilter)) {
+            } else if ("All".equals(gapFilter)) {
                 gapFilterQuery1 = gapFilterQuery;
                 gapFilterQuery5 = gapFilterQuery;
                 gapFilterQuery6 = gapFilterQuery;
