@@ -12,16 +12,22 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid"><a class="navbar-brand" href="/"><img src="logo.png" alt="" height="24"
                     class="d-inline-block align-text-top mx-2"></a><button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-               s aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" s
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link" aria-current="page" href="/">Home</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active" class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link" href="/level2LGA.html">By LGA</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link" href="/level2State.html">By State</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Advanced Search</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link" href="/level3LGA.html">Similar LGA's</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'index'}?active" class="nav-link"
+                            aria-current="page" href="/">Home</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active"
+                            class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link"
+                            href="/level2LGA.html">By LGA</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link"
+                            href="/level2State.html">By State</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link"
+                            href="/level3Filter.html">Advanced Search</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link"
+                            href="/level3LGA.html">Similar LGA's</a></li>
                 </ul>
             </div>
         </div>
@@ -37,8 +43,8 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                    <div th:if="${error != null}" th:text="${error}" class="alert alert-danger" role="alert">
-                    </div>
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger" role="alert">
+                </div>
                 <table class="table table-bordered table-striped table-xl">
                     <thead>
                         <tr>
@@ -75,16 +81,7 @@
                 </table>
             </div>
             <div class="col-3">
-                <!-- Button trigger modal -->
-                <div>
-                    <span data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"
-                            data-bs-placement="bottom" title="Show descriptions of Outcomes">
-                            Outcome legend
-                        </button>
-                    </span>
-                </div><br>
-
+                <!-- Button trigger for modal under checkboxes-->
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -113,7 +110,7 @@
                                             <div class="accordion-body">
                                                 <strong>Aboriginal and Torres Strait Islander people enjoy long and
                                                     healthy lives.</strong><br><br> The data for outcome 1 represents
-                                                the count of the indigenous population over 65 years of age per state.
+                                                the count of the indigenous population over 65 years of age per LGA.
                                                 The proportional value for this outcome represents the proportion of
                                                 population that indigenous
                                                 peoples make up in the age bracket of 65 years old and over.
@@ -136,10 +133,10 @@
                                                 <strong>Aboriginal and Torres Strait Islander students achieve their
                                                     full learning potential</strong><br><br> The raw data for outcome 5
                                                 represents the count of the indigenous population that have completed
-                                                year 12 equivalent study per state. The
+                                                year 12 equivalent study per LGA. The
                                                 proportional value for this outcome is the rate of completion of year 12
                                                 equivalent for
-                                                indigenous peoples per state.
+                                                indigenous peoples per LGA.
                                             </div>
                                         </div>
                                     </div>
@@ -160,10 +157,10 @@
                                                     potential through further education pathways.</strong><br><br> The
                                                 data for outcome 6 represents the count of the indigenous population
                                                 that have completed any tertiary qualification (Certificate III or
-                                                above) per state. The proportional value for this outcome is the
+                                                above) per LGA. The proportional value for this outcome is the
                                                 ratio of indigenous peoples who have completed a Certificate
-                                                III or above per state as compared to the indigenous population with a
-                                                non-school qualification in that state.
+                                                III or above per LGA as compared to the indigenous population with a
+                                                non-school qualification in that LGA.
                                             </div>
                                         </div>
                                     </div>
@@ -183,9 +180,9 @@
                                                 <strong>Strong economic participation and development of Aboriginal and
                                                     Torres Strait Islander people and communities.</strong><br><br> The
                                                 raw count for this outcome is the population of employed indigenous
-                                                peoples per state.
-                                                the workforce per state. The proportionate data represents the
-                                                employment rate for Indigenous peoples per state.
+                                                peoples per LGA.
+                                                the workforce per LGA. The proportionate data represents the
+                                                employment rate for Indigenous peoples per LGA.
                                             </div>
                                         </div>
                                     </div>
@@ -197,6 +194,7 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <form action='/level2State.html' method='post'>
                     <h5 class="text-muted">Display Data:</h5>
                     <div class='form-check'>
@@ -228,10 +226,23 @@
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome8" value="true"
                             th:checked="${outcome8}">
                         <label class="form-check-label" for="inlineCheckbox4">Outcome 8</label>
+                    </div> <!-- Button trigger modal -->
+                    <div>
+                        <span data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="Show descriptions of Outcomes">Outcomes
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-info-circle text-primary" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                </svg>
+                            </button>
+                        </span>
                     </div><br>
                     <a>Sort by outcome number:</a>
                     <br>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-1">
                         <div class="input-group-prepend">
                             <select class="form-select" name="outcomeSortSelect"
                                 aria-label="Options for selecting an outcome to sort by">
