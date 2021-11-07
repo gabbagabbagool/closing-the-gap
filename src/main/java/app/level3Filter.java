@@ -169,9 +169,7 @@ public class level3Filter implements Handler {
 
             }
         }
-        System.out.println();
-        System.out.println(populationFilterIndig);
-        System.out.println(populationValueIndig);
+        
         // set the gap filter value to update SQL query
         if (gapFilter != null) {
             gapFilterQuery = " HAVING proportion > " + gapValue + " ";
@@ -317,7 +315,7 @@ public class level3Filter implements Handler {
                 removedCounter ++;
                 i --;
             } else if (page6Indig.get(i).outcome1NonRaw == null) {
-                // System.out.println("To remove by Non: " + page6Indig.get(i).areaName);
+                
                 page6Indig.remove(i);
                 removedCounter ++;
                 i --;
