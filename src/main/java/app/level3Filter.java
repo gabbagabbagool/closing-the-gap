@@ -79,7 +79,7 @@ public class level3Filter implements Handler {
         String populationValueIndig;
         String populationValueNon;
         String gapFilter = "";
-        String gapValue = "";
+        String gapValue;
 
         // add the strings that will add to the SQL queries
         String filterSex1r = " ";
@@ -103,12 +103,26 @@ public class level3Filter implements Handler {
         gapFilter = context.formParam("gapFilter");
         gapValue = context.formParam("gapFilterValue"); 
         
+        // defualt values to 0 if nothing selected
+        if ((populationFilterIndig != null) && (populationValueIndig == "")) {
+            populationValueIndig = "0";
+        }
+        if ((populationFilterNon != null) && (populationValueNon == "")) {
+            populationValueNon = "0";
+        }
+        if ((gapFilter != null) && (gapValue == "")) {
+            gapValue = "0";
+        }
+
         // if clear button hit - clear this filter
         if (context.formParam("buttonClearFilter") != null) {
             genderFilter = null;
             populationFilterIndig = null;
             populationFilterNon = null;
             gapFilter = null;
+            populationValueIndig = "0";
+            populationValueNon = "0";
+            gapValue = "0";
         }
         
         model.put("genderFilterSelection", genderFilter);
@@ -155,7 +169,9 @@ public class level3Filter implements Handler {
 
             }
         }
-        System.out.println(gapFilter);
+        System.out.println();
+        System.out.println(populationFilterIndig);
+        System.out.println(populationValueIndig);
         // set the gap filter value to update SQL query
         if (gapFilter != null) {
             gapFilterQuery = " HAVING proportion > " + gapValue + " ";
@@ -178,8 +194,6 @@ public class level3Filter implements Handler {
                 gapFilterQuery8 = gapFilterQuery;
             }
         }
-        System.out.println(gapFilterQuery);
-        System.out.println(gapFilterQuery1);
 
         // add SQL queries
         String inputQuery = "";
@@ -243,7 +257,7 @@ public class level3Filter implements Handler {
         "GROUP BY s.lga_code16 " + gapFilterQuery5 + " ;";
         outcomeNumAndType = "5Indig";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
-        System.out.println(inputQuery);
+        
         // Outcome 5 % select Non-indig proportion that have completed year 12 compaired to all Non-indig above 15 years per LGA
         inputQuery = "SELECT s.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(s.count) AS value, pop.pValue AS pValue, round(CAST (SUM(s.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM SchoolStatistics AS s JOIN LGAs ON s.lga_code16 = LGAs.lga_code16 JOIN " +
@@ -254,7 +268,7 @@ public class level3Filter implements Handler {
         "GROUP BY s.lga_code16 " + gapFilterQuery5 + " ;";
         outcomeNumAndType = "5Non";
         jdbc.filterHookUp(page6Indig, inputQuery, outcomeNumAndType);
-        System.out.println(inputQuery);
+        
         // Outcome 6 % select indig proportion that have any qualification compared to indig population above 15 years per LGA.
         inputQuery = "SELECT q.lga_code16 AS areaCode, LGAs.lga_name16 AS areaName, SUM(q.count) AS value, pop.pValue AS pValue, round(CAST (SUM(q.count) AS FLOAT)/pop.pValue * 100 , 1) AS 'proportion' " +
         "FROM QualificationStatistics AS q JOIN LGAs ON q.lga_code16 = LGAs.lga_code16 " +
@@ -309,8 +323,6 @@ public class level3Filter implements Handler {
                 i --;
             }
         } 
-        // System.out.println("Removed no: " + removedCounter);
-        System.out.println("List size end: " + page6Indig.size());
 
         for (int i = 0; i < page6Indig.size(); i++) {
             page6Indig.get(i).setRanking(checkboxOutcome1, checkboxOutcome5, checkboxOutcome6, checkboxOutcome8);
