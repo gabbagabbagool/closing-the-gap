@@ -224,7 +224,8 @@
                         <input type="radio" id="customRadio1" name="radio" class="form-check-input" value="r"
                             th:checked="${radio} == 'r'">
                         <label class="form-check-label" for="radio"> Count</label>
-                    </div><br>
+                    </div>
+                    <hr>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="checkboxOutcome1" value="true"
                             th:checked="${outcome1}">
@@ -258,7 +259,7 @@
                             </button>
                         </span>
                     </div>
-                    <br>
+                    <hr>
                     <a>Sort by outcome number:</a>
                     <br>
                     <div class="input-group mb-3">
@@ -279,6 +280,7 @@
                             </option>
                         </select>
                     </div>
+                    <hr>
                     <a>Filtering LGAs</a>
                     <input type="text" class="form-control" th:value="${inputLGA}"
                         title="Supply an LGA name to find similar LGAs" name="inputLGA" placeholder="LGA name">
