@@ -103,7 +103,7 @@
                         <br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
+                                <select class="form-select" name="outcomeSortSelect"
                                     aria-label="Options for selecting an outcome to sort by">
                                     <option value="null">Choose</option>
                                     <option th:selected="${sortSelect} == 1" value="1">1</option>
@@ -112,12 +112,12 @@
                                     <option th:selected="${sortSelect} == 8" value="8">8</option>
                                 </select>
                             </div>
-                            <select class="custom-select my-1 mr-sm-2" name="outcomeSortOrder"
+                            <select class="form-select" name="outcomeSortOrder"
                                 aria-label="Options to sort in ascending, or descending order">
                                 <option th:selected="${outcomeSortOrder} == descending" value="descending">Desc</option>
                                 <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Asc</option>
                             </select>
-                        </div><br>
+                        </div>
                         <button type="submit" class="btn btn-primary">Refresh Data</button>
                     </form>
                 </div>
@@ -132,7 +132,7 @@
                     <table class="table table-bordered table-striped table-sm" id="leve2LgaTable">
                         <thead>
                             <tr>
-                                <th scope="col" onclick="somefunction()">LGA</th>
+                                <th scope="col">LGA</th>
                                 <th th:if="${checkboxOutcome1} != null" scope="col" data-bs-toggle="tooltip"
                                     data-bs-placement="bottom" title="Outcome 1 - Life expectancy"> Outcome 1</th>
                                 <th th:if="${checkboxOutcome5} != null" scope="col" data-bs-toggle="tooltip"
@@ -355,7 +355,7 @@
                     <br>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <select class="custom-select my-1 mr-sm-2" name="outcomeSortSelect"
+                            <select class="form-select" name="outcomeSortSelect"
                                 aria-label="Options for selecting an outcome to sort by">
                                 <option value="null">Choose</option>
                                 <option th:selected="${sortSelect} == 1" value="1">1</option>
@@ -364,18 +364,19 @@
                                 <option th:selected="${sortSelect} == 8" value="8">8</option>
                             </select>
                         </div>
-                        <select class="custom-select my-1 mr-sm-2" name="outcomeSortOrder"
+                        <select class="form-select" name="outcomeSortOrder"
                             aria-label="Options to sort in ascending, or descending order">
                             <option th:selected="${outcomeSortOrder} == descending" value="descending">Desc</option>
                             <option th:selected="${outcomeSortOrder} == ascending" value="ascending">Asc</option>
                         </select>
-                    </div><br>
+                    </div>
                     <button type="submit" class="btn btn-primary">Refresh Data</button>
+                    <div>
+                        <p></p>
+                        <a>For filter options</a><br>
+                        <a href='level3Filter.html' class='btn btn-warning' role='button'>Advanced Search</a>
+                    </div>
                 </form><br>
-                <div>
-                    <a>For filter options</a><br>
-                    <a href='level3Filter.html' class='btn btn-warning' role='button'>Advanced Search</a>
-                </div>
             </div>
         </div>
     </div>
