@@ -329,6 +329,17 @@ public class level3Filter implements Handler {
           
             // Switch case to find the outcome to sort
             switch(sortSelectOutcome){
+                case "Rank":
+                    // Ascending/Descending branching
+                    if (outcomeSortOrder.equals("ascending")){
+                        // Ascending 
+                        Collections.sort(page6Indig, new sortOutcomeRankAscending());
+                        break;
+                    }
+                     // Descending branch
+                     Collections.sort(page6Indig, new sortOutcomeRankDescending());
+                    break;
+
                 // For outcome 1
                 case "1":
                     // Ascending/Descending branching

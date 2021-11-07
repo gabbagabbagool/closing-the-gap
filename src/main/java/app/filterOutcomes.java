@@ -124,8 +124,21 @@ public class filterOutcomes {
     }
 }
 
-// outcome 1
+// sort rank Ascending
+class sortOutcomeRankAscending implements Comparator<filterOutcomes> {
+    public int compare(filterOutcomes obj1,filterOutcomes obj2){
+        return  obj1.lgaRank.compareTo(obj2.lgaRank); 
+    }
+}
 
+// sort rank Descending
+class sortOutcomeRankDescending implements Comparator<filterOutcomes> {
+    public int compare(filterOutcomes obj1,filterOutcomes obj2){
+        return  obj2.lgaRank.compareTo(obj1.lgaRank); 
+    }
+}
+
+// sort outcome 1
 class sortOutcome1GapAscending implements Comparator<filterOutcomes> {
     public int compare(filterOutcomes obj1,filterOutcomes obj2){
         return  obj1.outcome1Gap.compareTo(obj2.outcome1Gap); 
