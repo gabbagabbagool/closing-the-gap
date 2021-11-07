@@ -18,7 +18,7 @@
                     <li class="nav-item"><a th:classappend="${currentPage == 'missionStatement'}?active" class="nav-link" href="/missionStatement.html">Mission Statement</a></li>
                     <li class="nav-item"><a th:classappend="${currentPage == 'level2LGA'}?active" class="nav-link" href="/level2LGA.html">By LGA</a></li>
                     <li class="nav-item"><a th:classappend="${currentPage == 'level2State'}?active" class="nav-link" href="/level2State.html">By State</a></li>
-                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Advanced Search</a></li>
+                    <li class="nav-item"><a th:classappend="${currentPage == 'level3Filter'}?active" class="nav-link" href="/level3Filter.html">Filter LGA's</a></li>
                     <li class="nav-item"><a th:classappend="${currentPage == 'level3LGA'}?active" class="nav-link" href="/level3LGA.html">Similar LGAs</a></li>
                 </ul>
             </div>
@@ -67,20 +67,41 @@
         <div class="row">
             <div class="col">
                 <p>Next, see our Mission Statement here:
-                    <a href='/missionStatement.html' class='btn btn-outline-primary' role='button'>Mission Statement</a>
+                    
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <p>Skip straight to the data search:
-                    <a href='/level2LGA.html' class='btn btn-outline-primary btn-sm' role='button'>Search By LGA</a>
-                    <a href='/level2State.html' class='btn btn-outline-primary btn-sm' role='button'>Search By State</a>
-                    <a href='level3Filter.html' class='btn btn-outline-primary btn-sm' role='button'>Advanced Search</a>
+                <a href='/missionStatement.html' class='btn btn-outline-primary' role='button'>Mission Statement</a>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col">
+                <p>Skip straight to a simple data search:
+                    
                 </p>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col">
+                <a href='/level2LGA.html' class='btn btn-outline-primary btn-sm' role='button'>Search By LGA</a>
+                <a href='/level2State.html' class='btn btn-outline-primary btn-sm' role='button'>Search By State</a>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col">
+                <p>For more advanced options to explore LGA's:
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href='level3LGA.html' class='btn btn-outline-primary btn-sm' role='button'>Similar LGA's</a>
+                <a href='level3Filter.html' class='btn btn-outline-primary btn-sm' role='button'>Filter LGA's</a>
+            </div>
+        </div>
+    </div><br>
 </body>
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'
     integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p'
