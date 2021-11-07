@@ -394,7 +394,7 @@
                             th:checked="${LGAradio} == 'distance'">
                         <label class="form-check-label" for="LGAradio"> Nearby LGAs</label>
                     </div>
-                    <input type="text" class="form-control" th:value="${inputDistance}"
+                    <input type="number" class="form-control" th:value="${inputDistance}"
                         title="Distance in kilometers for nearby LGAs" name="inputDistance"
                         placeholder="Distance in kilometers">
                     <button type="submit" class="btn btn-primary my-2">Refresh Data</button>
